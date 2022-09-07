@@ -20,12 +20,6 @@ export const GeneratePassword = async (password, salt) => {
 export const CheckPassword = async (password, confirmPassword) => {
   if (password === confirmPassword) {
     return password === confirmPassword;
-  } else {
-    throw new APIError(
-      "API Error",
-      STATUS_CODES.BAD_REQUEST,
-      "password does not match"
-    );
   }
 };
 export const ValidatePassword = async (
@@ -42,8 +36,6 @@ export const GenerateSignature = async (payload) => {
 
 export const ValidateSignature = async (req) => {
   const signature = req.get("Authorization");
-
-  // console.log(signature);
 
   if (signature) {
     const payload = await jwt.verify(signature.split(" ")[1], APP_SECRET);

@@ -41,4 +41,55 @@ export const client = (app) => {
       next(err);
     }
   });
+
+  app.post("/login", async (req, res, next) => {
+    try {
+      const { email, password } = req.body;
+
+      const { data } = await service.SignIn({ email, password });
+
+      return res.json(data);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.post("/forgotpassword", async (req, res, next) => {
+    try {
+      const { email } = req.body;
+
+      const { data } = await service.ForgotPassword({ email });
+
+      return res.json(data);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.get("/checklink/:token", async (req, res, next) => {
+    try {
+      const tokenstring = req.params.token;
+
+      const { data } = await service.CheckResetLink({ tokenstring });
+
+      return res.json(data);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.put("/resetpassword", async (req, res, next) => {
+    try {
+      const { id, password, confirmPassword } = req.body;
+      const { data } = await service.ResetPassword({
+        id,
+        password,
+        confirmPassword,
+      });
+
+      return res.json(data);
+    } catch (err) {
+      next(err);
+    }
+  });
 };

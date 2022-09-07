@@ -10,3 +10,10 @@
 {"level":"error","message":"Sun Sep 04 2022 16:41:15 GMT+0100 (West Africa Standard Time)-{\"name\":\"Data Not found\",\"statusCode\":{},\"isOperational\":true}","private":true}
 {"level":"error","message":"Sun Sep 04 2022 16:42:17 GMT+0100 (West Africa Standard Time)-{\"name\":\"Data Not found\",\"statusCode\":{\"name\":\"NOT FOUND\",\"statusCode\":400,\"isOperational\":true,\"errorStack\":false,\"logError\":400},\"isOperational\":true}","private":true}
 {"level":"error","message":"Sun Sep 04 2022 16:44:30 GMT+0100 (West Africa Standard Time)-{\"name\":\"Data Not found\",\"statusCode\":{},\"isOperational\":true}","private":true}
+{"level":"error","message":"Wed Sep 07 2022 13:27:24 GMT+0100 (West Africa Standard Time)-{\"name\":\"Data Not found\",\"statusCode\":500,\"isOperational\":true}","private":true}
+{"level":"error","message":"Wed Sep 07 2022 13:29:48 GMT+0100 (West Africa Standard Time)-{\"name\":\"Data Not found\",\"statusCode\":{\"name\":\"BAD REQUEST\",\"statusCode\":400,\"isOperational\":true,\"errorStack\":400},\"isOperational\":true}","private":true}
+{"level":"error","message":"Wed Sep 07 2022 13:54:19 GMT+0100 (West Africa Standard Time)-{\"name\":\"Data Not found\",\"statusCode\":500,\"isOperational\":true}","private":true}
+{"level":"error","message":"Wed Sep 07 2022 14:06:09 GMT+0100 (West Africa Standard Time)-{\"name\":\"Data Not found\",\"statusCode\":500,\"isOperational\":true}","private":true}
+{"level":"error","message":"Wed Sep 07 2022 14:06:52 GMT+0100 (West Africa Standard Time)-{\"name\":\"Data Not found\",\"statusCode\":500,\"isOperational\":true}","private":true}
+{"level":"error","message":"Wed Sep 07 2022 14:09:17 GMT+0100 (West Africa Standard Time)-{\"name\":\"Data Not found\",\"statusCode\":500,\"isOperational\":true}","private":true}
+{"level":"error","message":"Wed Sep 07 2022 14:11:46 GMT+0100 (West Africa Standard Time)-{\"name\":\"Data Not found\",\"statusCode\":500,\"isOperational\":true}","private":true}
