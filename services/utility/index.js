@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const StartServer = async () => {
-  const PORT = "8002";
+  const PORT = "8003";
   const app = express();
   await connect_db();
   await expressApp(app);
