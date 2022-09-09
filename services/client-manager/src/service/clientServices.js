@@ -171,6 +171,21 @@ class ClientService {
     }
   }
 
+  async GetAllClients({ id }) {
+    try {
+      const clients = await this.repository.GetClients();
+      return FormatData({
+        clients,
+      });
+    } catch (err) {
+      throw new APIError(
+        err.name ? err.name : "Data Not found",
+        err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
+        err.message
+      );
+    }
+  }
+
   async CheckResetLink({ tokenstring }) {
     try {
       const token = await this.repository.FindTokenByUserTokenString({

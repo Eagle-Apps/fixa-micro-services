@@ -73,6 +73,16 @@ export const client = (app) => {
     }
   });
 
+  app.get("/fetchclients", async (req, res, next) => {
+    try {
+      const { data } = await service.GetAllClients();
+
+      return res.json(data);
+    } catch (err) {
+      next(err);
+    }
+  });
+
   app.get("/checklink/:token", async (req, res, next) => {
     try {
       const tokenstring = req.params.token;

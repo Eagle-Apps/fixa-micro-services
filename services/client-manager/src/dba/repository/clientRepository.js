@@ -170,6 +170,20 @@ class ClientRepository {
     }
   }
 
+  async GetClients() {
+    try {
+      const clients = await clientModel.find().populate({
+        path: "serviceRequests",
+        model: "request",
+        select: { _id: 0 },
+      });
+
+      return clients;
+    } catch (err) {
+      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
+    }
+  }
+
   async GetTransactionId() {
     try {
       let id;
