@@ -61,6 +61,18 @@ export const client = (app) => {
     }
   });
 
+  app.get("/fetchclient/:id", async (req, res, next) => {
+    try {
+      const id = req.params.id;
+
+      const { data } = await service.GetProfile({ id });
+
+      return res.json(data);
+    } catch (err) {
+      next(err);
+    }
+  });
+
   app.get("/checklink/:token", async (req, res, next) => {
     try {
       const tokenstring = req.params.token;
@@ -87,8 +99,6 @@ export const client = (app) => {
       next(err);
     }
   });
-
-  //localhost:5000/client-services/searchtechnician/
 
   app.get("/fetchtechnicians", async (req, res, next) => {
     const { category, location } = req.query;

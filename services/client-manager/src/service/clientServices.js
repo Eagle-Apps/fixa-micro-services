@@ -153,6 +153,24 @@ class ClientService {
     }
   }
 
+  async GetProfile({ id }) {
+    try {
+      const profile = await this.repository.GetClientProfile({
+        id,
+      });
+
+      return FormatData({
+        profile,
+      });
+    } catch (err) {
+      throw new APIError(
+        err.name ? err.name : "Data Not found",
+        err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
+        err.message
+      );
+    }
+  }
+
   async CheckResetLink({ tokenstring }) {
     try {
       const token = await this.repository.FindTokenByUserTokenString({

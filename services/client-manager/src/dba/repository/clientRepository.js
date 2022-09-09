@@ -156,6 +156,20 @@ class ClientRepository {
     }
   }
 
+  async GetClientProfile({ id }) {
+    try {
+      const profile = await clientModel.findById({ _id: id }).populate({
+        path: "serviceRequests",
+        model: "request",
+        select: { _id: 0 },
+      });
+
+      return profile;
+    } catch (err) {
+      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
+    }
+  }
+
   async GetTransactionId() {
     try {
       let id;

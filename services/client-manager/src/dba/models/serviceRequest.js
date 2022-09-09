@@ -7,6 +7,24 @@ const requestSchema = mongoose.Schema(
     schedule: { type: String },
     technicianId: { type: String },
     technicianName: { type: String },
+    category: {
+      type: String,
+      enum: [
+        "Single Home",
+        "Single Office",
+        "Estate Manager",
+        "Corporate",
+        "Government",
+      ],
+    },
+    payment: {
+      amount: Number,
+      status: {
+        type: String,
+        enum: ["Pending", "Paid"],
+        default: "Pending",
+      },
+    },
     status: {
       type: String,
       enum: ["Pending", "Active", "Closed"],

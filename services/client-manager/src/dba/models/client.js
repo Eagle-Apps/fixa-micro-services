@@ -13,6 +13,11 @@ const clientSchema = mongoose.Schema(
     zipCode: { type: String, required: true },
     salt: String,
     serviceRequests: [{ type: Schema.Types.ObjectId, ref: "request" }],
+    status: {
+      type: String,
+      enum: ["Active, Inactive"],
+      default: "Active",
+    },
   },
   {
     toJSON: {
