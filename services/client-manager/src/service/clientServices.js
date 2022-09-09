@@ -1,11 +1,12 @@
 import ClientRepository from "../dba/repository/clientRepository.js";
-import { FormatData } from "../utils/index.js";
 import {
+  FormatData,
   CheckPassword,
   GeneratePassword,
   GenerateSalt,
   GenerateSignature,
   ValidatePassword,
+  generateRequestId,
 } from "../utils/index.js";
 import {
   APIError,
@@ -204,6 +205,39 @@ class ClientService {
           );
         }
       }
+    } catch (err) {
+      throw new APIError(
+        err.name ? err.name : "Data Not found",
+        err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
+        err.message
+      );
+    }
+  }
+
+  async AddServiceRequest({
+    userId,
+    technicianName,
+    technicianId,
+    description,
+    schedule,
+  }) {
+    try {
+      const id = await this.repository.GetTransactionId;
+
+      const requestId = await generateRequestId(id);
+
+      const newRequest = await this.repository.AddServiceRequest({
+        userId,
+        technicianName,
+        technicianId,
+        description,
+        schedule,
+        requestId,
+      });
+
+      return FormatData({
+        newRequest,
+      });
     } catch (err) {
       throw new APIError(
         err.name ? err.name : "Data Not found",
