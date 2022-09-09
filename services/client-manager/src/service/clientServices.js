@@ -120,6 +120,40 @@ class ClientService {
     }
   }
 
+  async UpdateClientProfile(userInputs) {
+    const {
+      firstName,
+      lastName,
+      email,
+      phone,
+      address,
+      city,
+      state,
+      zipCode,
+      userId,
+    } = userInputs;
+
+    try {
+      const updatedProfile = await this.repository.UpdateClientProfile({
+        name: `${lastName} ${firstName}`,
+        email,
+        phone,
+        address,
+        city,
+        state,
+        zipCode,
+        userId,
+      });
+
+      return FormatData({ updatedProfile, message: "update successful" });
+    } catch (err) {
+      throw new APIError(
+        err.name ? err.name : "Data Not found",
+        err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
+        err.message
+      );
+    }
+  }
   async ForgotPassword(userInputs) {
     const { email } = userInputs;
 

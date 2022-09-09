@@ -88,6 +88,43 @@ class ClientRepository {
     }
   }
 
+  async UpdateClientProfile({
+    userId,
+    name,
+    email,
+    phone,
+    address,
+    city,
+    state,
+    zipCode,
+    salt,
+  }) {
+    try {
+      const filter = { _id: userId };
+      const update = {
+        name,
+        email,
+        phone,
+        address,
+        city,
+        state,
+        zipCode,
+        salt,
+      };
+      const profile = clientModel.findByIdAndUpdate(filter, update, {
+        new: true,
+      });
+
+      return profile;
+    } catch (err) {
+      throw new APIError(
+        "API Error",
+        STATUS_CODES.INTERNAL_ERROR,
+        `Unable to Create Client ${err.message}`
+      );
+    }
+  }
+
   async FindTokenByUserTokenString({ tokenstring }) {
     try {
       let token;

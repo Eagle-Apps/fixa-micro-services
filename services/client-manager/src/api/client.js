@@ -37,6 +37,37 @@ export const client = (app) => {
     }
   });
 
+  app.post("/editprofile", async (req, res, next) => {
+    try {
+      const {
+        firstName,
+        lastName,
+        email,
+        password,
+        confirmPassword,
+        phone,
+        address,
+        city,
+        state,
+        zipCode,
+      } = req.body;
+
+      const { data } = await service.UpdateClientProfile({
+        firstName,
+        lastName,
+        email,
+        phone,
+        address,
+        city,
+        state,
+        zipCode,
+      });
+      return res.json(data);
+    } catch (err) {
+      next(err);
+    }
+  });
+
   app.post("/login", async (req, res, next) => {
     try {
       const { email, password } = req.body;
