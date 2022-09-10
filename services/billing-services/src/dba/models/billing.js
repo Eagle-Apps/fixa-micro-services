@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const billingSchema = mongoose.Schema({
-  invoceid: { type: String, required: true },
+  invoiceid: { type: String, required: true },
   item1particulars: { type: String, required: true },
   item1amount: { type: String, required: true },
 

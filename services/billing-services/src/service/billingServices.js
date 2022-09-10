@@ -1,12 +1,5 @@
-import billingRepository from "../dba/repository/billingRepository.js";
-import { FormatData } from "../utils/index.js";
-import {
-  CheckPassword,
-  GeneratePassword,
-  GenerateSalt,
-  GenerateSignature,
-  ValidatePassword,
-} from "../utils/index.js";
+import BillingRepository from "../dba/repository/billingRepository.js";
+
 import {
   APIError,
   BadRequestError,
@@ -18,104 +11,145 @@ import {
 // All Business logic will be here
 class billingService {
   constructor() {
-    this.repository = new billingRepository();
+    this.repository = new BillingRepository();
   }
 
-  async SignUp(userInputs) {
+
+  async addticket(userInputs){
     const {
-      firstName,
-      lastName,
-      email,
-      password,
-      confirmPassword,
-      phone,
-      address,
-      city,
-      state,
-      zipCode,
-    } = userInputs;
-
-    try {
-      //check if user is already registered
-      await this.repository.FindExistingbilling({
-        email,
-      });
-
-      await CheckPassword(password, confirmPassword);
-      let salt = await GenerateSalt();
-
-      let hashedPassword = await GeneratePassword(password, salt);
-
-      let createdbilling;
-
-      createdbilling = await this.repository.Createbilling({
-        name: `${lastName} ${firstName}`,
-        email,
-        password: hashedPassword,
-        phone,
-        address,
-        city,
-        state,
-        zipCode,
-      });
-
-      const token = await GenerateSignature({
-        email: email,
-        _id: createdbilling._id,
-      });
-
-      return FormatData({ id: createdbilling._id, token });
-    } catch (err) {
-      console.log("here is the fool", err);
-      throw new APIError(
-        "Data Not found",
-        STATUS_CODES.INTERNAL_ERROR,
-        err.message
-      );
+      invoiceid,
+      item1particulars,
+      item1amount,
+      item2particulars,
+      item2amount,
+      item3particulars,
+      item3amount,
+      item4particulars,
+      item4amount,
+      item5particulars,
+      item5amount,
+      discount,
+      vat,
+      amount,
+      finalamount, 
+      option,
+      status } = userInputs;
+      try{
+        const addticket = await this.repository.addticket({
+          invoiceid,
+          item1particulars,
+          item1amount,
+          item2particulars,
+          item2amount,
+          item3particulars,
+          item3amount,
+          item4particulars,
+          item4amount,
+          item5particulars,
+          item5amount,
+          discount,
+          vat,
+          amount,
+          finalamount, 
+          option,
+          status });
+      }
+      catch(err){
+      }
     }
-  }
-
-  async SignIn(userInputs) {
-    const { email, password } = userInputs;
-
-    try {
-      const existingCustomer = await this.repository.FindCustomer({ email });
-
-      if (existingCustomer) {
-        const validPassword = await ValidatePassword(
-          password,
-          existingCustomer.password,
-          existingCustomer.salt
-        );
-
-        if (validPassword) {
-          const token = await GenerateSignature({
-            email: existingCustomer.email,
-            _id: existingCustomer._id,
-          });
-          return FormatData({ id: existingCustomer._id, token });
+    async Updateticket(userInputs){
+      const {
+        invoiceid,
+        item1particulars,
+        item1amount,
+        item2particulars,
+        item2amount,
+        item3particulars,
+        item3amount,
+        item4particulars,
+        item4amount,
+        item5particulars,
+        item5amount,
+        discount,
+        vat,
+        amount,
+        finalamount, 
+        option,
+        status} = userInputs;  
+        try{
+          const Updateticket = await this.repository.Updateticket({
+            invoiceid,
+            item1particulars,
+            item1amount,
+            item2particulars,
+            item2amount,
+            item3particulars,
+            item3amount,
+            item4particulars,
+            item4amount,
+            item5particulars,
+            item5amount,
+            discount,
+            vat,
+            amount,
+            finalamount, 
+            option,
+            status  });  
+        }
+        catch(err){  
         }
       }
-
-      return FormatData(null);
-    } catch (err) {
-      throw new APIError("Data Not found", err);
-    }
-  }
-
-  async SubscribeEvents(payload) {
-    const { event, data } = payload;
-
-    const { order } = data;
-
-    switch (event) {
-      case "CREATE_ORDER":
-        this.ManageOrder(userId, order);
-        break;
-      default:
-        break;
-    }
-  }
+    async Getticket(){  
+        try{
+          const Getticket = await this.repository.Getticket()  
+        }
+        catch(err){
+        }
+      }
+      
+    // async Productfind(userInputs){
+    //   const {
+    //       brand,
+    //       source,
+    //       time_of_production,
+    //       operating_conditions,
+    //       state,
+    //       min_lifespan,
+    //       max_lifespan,
+    //       average_lifespan,
+    //       popular_use_regions,
+    //       min_cost,
+    //       max_cost,
+    //       avg_cost,
+    //       user_feedback,
+    //       common_faults} = userInputs;
+    
+    
+    //     try{
+    //       const Productfind = await this.repository.Productfind({
+    //         brand,
+    //       source,
+    //       time_of_production,
+    //       operating_conditions,
+    //       state,
+    //       min_lifespan,
+    //       max_lifespan,
+    //       average_lifespan,
+    //       popular_use_regions,
+    //       min_cost,
+    //       max_cost,
+    //       avg_cost,
+    //       user_feedback,
+    //       common_faults
+    //       });
+    
+    //     }
+    //     catch(err){
+    
+    //     }
+    //   }
+  
+  
 }
 
 export default billingService;
