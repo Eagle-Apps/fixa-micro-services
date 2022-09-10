@@ -1,4 +1,4 @@
-import ClientService from "../service/clientServices.js";
+import ClientService from "../service/TechnicianServices.js";
 
 export const appEvents = (app) => {
   const service = new ClientService();
@@ -13,4 +13,6 @@ export const appEvents = (app) => {
     );
     return res.status(200).json(payload);
   });
+
+  
 };
