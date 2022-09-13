@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
 const clientSchema = mongoose.Schema(
   {
@@ -11,6 +12,7 @@ const clientSchema = mongoose.Schema(
     state: { type: String, required: true },
     zipCode: { type: String, required: true },
     salt: String,
+    serviceRequests: [{ type: Schema.Types.ObjectId, ref: "request" }],
   },
   {
     toJSON: {

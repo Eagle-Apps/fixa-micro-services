@@ -1,12 +1,8 @@
 import ClientService from "../service/clientServices.js";
+import { PublishTechnicianEvent } from "../utils/index.js";
 
 export const client = (app) => {
   const service = new ClientService();
-
-  app.post("/signin", async (req, res, next) => {
-    try {
-    } catch (err) {}
-  });
 
   app.post("/register", async (req, res, next) => {
     try {
@@ -37,7 +33,6 @@ export const client = (app) => {
       });
       return res.json(data);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   });
@@ -86,6 +81,56 @@ export const client = (app) => {
         password,
         confirmPassword,
       });
+
+      return res.json(data);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  //localhost:5000/client-services/searchtechnician/
+
+  app.get("/fetchtechnicians", async (req, res, next) => {
+    const { category, location } = req.query;
+
+    try {
+      const jobTitle = new RegExp(category, "i");
+
+      const payload = {
+        event: "FETCH_TECHNICIANS",
+        data: { jobTitle, location },
+      };
+
+      // fetch request from technician micro services
+      const data = await PublishTechnicianEvent(payload);
+
+      return res.json(data);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.post("/choosetechnician", async (req, res, next) => {
+    const { technicianName, technicianId, description, schedule } = req.body;
+
+    const { userId } = req.user;
+
+    try {
+      const { data } = await service.AddServiceRequest({
+        userId,
+        technicianName,
+        technicianId,
+        description,
+        schedule,
+      });
+
+      const payload = {
+        event: "CHOOSE_TECHNICIAN",
+        data: { data },
+      };
+
+      // fetch request from tecnician micro services
+      PublishTechnicianEvent(payload);
 
       return res.json(data);
     } catch (err) {

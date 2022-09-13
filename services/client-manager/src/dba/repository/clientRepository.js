@@ -7,6 +7,8 @@ import {
   BadRequestError,
   STATUS_CODES,
 } from "../../utils/app-errors.js";
+import { transactionIdModel } from "../models/transactionId.js";
+import { requestModel } from "../models/serviceRequest.js";
 
 //Dealing with database operations
 class ClientRepository {
@@ -116,6 +118,52 @@ class ClientRepository {
         resetPasswordToken: crypto.randomBytes(20).toString("hex"),
       }).save();
       return token;
+    } catch (err) {
+      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
+    }
+  }
+
+  async AddServiceRequest({
+    userId,
+    technicianName,
+    technicianId,
+    description,
+    schedule,
+    requestId,
+  }) {
+    try {
+      let user = await clientModel.findOne({ _id: userId });
+
+      const service = {
+        technicianName,
+        technicianId,
+        description,
+        schedule,
+        requestId,
+      };
+
+      const newRequest = new requestModel(service);
+
+      let request = user.serviceRequests;
+
+      //add the requested service to user model
+      request.push(newRequest._id);
+      user.serviceRequests = request;
+      await user.save();
+      return newRequest;
+    } catch (err) {
+      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
+    }
+  }
+
+  async GetTransactionId() {
+    try {
+      let id;
+      id = transactionIdModel.find();
+      if (!id) {
+        id = await new transactionIdModel({}).save();
+      }
+      return id;
     } catch (err) {
       throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
     }
