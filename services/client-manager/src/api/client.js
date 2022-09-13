@@ -37,6 +37,37 @@ export const client = (app) => {
     }
   });
 
+  app.post("/editprofile", async (req, res, next) => {
+    try {
+      const {
+        firstName,
+        lastName,
+        email,
+        password,
+        confirmPassword,
+        phone,
+        address,
+        city,
+        state,
+        zipCode,
+      } = req.body;
+
+      const { data } = await service.UpdateClientProfile({
+        firstName,
+        lastName,
+        email,
+        phone,
+        address,
+        city,
+        state,
+        zipCode,
+      });
+      return res.json(data);
+    } catch (err) {
+      next(err);
+    }
+  });
+
   app.post("/login", async (req, res, next) => {
     try {
       const { email, password } = req.body;
@@ -54,6 +85,28 @@ export const client = (app) => {
       const { email } = req.body;
 
       const { data } = await service.ForgotPassword({ email });
+
+      return res.json(data);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.get("/fetchclient/:id", async (req, res, next) => {
+    try {
+      const id = req.params.id;
+
+      const { data } = await service.GetProfile({ id });
+
+      return res.json(data);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.get("/fetchclients", async (req, res, next) => {
+    try {
+      const { data } = await service.GetAllClients();
 
       return res.json(data);
     } catch (err) {
@@ -87,8 +140,6 @@ export const client = (app) => {
       next(err);
     }
   });
-
-  //localhost:5000/client-services/searchtechnician/
 
   app.get("/fetchtechnicians", async (req, res, next) => {
     const { category, location } = req.query;

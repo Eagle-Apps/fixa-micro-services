@@ -88,6 +88,43 @@ class ClientRepository {
     }
   }
 
+  async UpdateClientProfile({
+    userId,
+    name,
+    email,
+    phone,
+    address,
+    city,
+    state,
+    zipCode,
+    salt,
+  }) {
+    try {
+      const filter = { _id: userId };
+      const update = {
+        name,
+        email,
+        phone,
+        address,
+        city,
+        state,
+        zipCode,
+        salt,
+      };
+      const profile = clientModel.findByIdAndUpdate(filter, update, {
+        new: true,
+      });
+
+      return profile;
+    } catch (err) {
+      throw new APIError(
+        "API Error",
+        STATUS_CODES.INTERNAL_ERROR,
+        `Unable to Create Client ${err.message}`
+      );
+    }
+  }
+
   async FindTokenByUserTokenString({ tokenstring }) {
     try {
       let token;
@@ -151,6 +188,34 @@ class ClientRepository {
       user.serviceRequests = request;
       await user.save();
       return newRequest;
+    } catch (err) {
+      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
+    }
+  }
+
+  async GetClientProfile({ id }) {
+    try {
+      const profile = await clientModel.findById({ _id: id }).populate({
+        path: "serviceRequests",
+        model: "request",
+        select: { _id: 0 },
+      });
+
+      return profile;
+    } catch (err) {
+      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
+    }
+  }
+
+  async GetClients() {
+    try {
+      const clients = await clientModel.find().populate({
+        path: "serviceRequests",
+        model: "request",
+        select: { _id: 0 },
+      });
+
+      return clients;
     } catch (err) {
       throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
     }
