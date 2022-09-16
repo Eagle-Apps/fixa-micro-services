@@ -20,4 +20,4 @@ const products = new Schema({
   common_faults: { type: String, required: true },
 });
 
-export const productModel = mongoose.model("Product", products);
+export const Product = mongoose.model("Product", products);
