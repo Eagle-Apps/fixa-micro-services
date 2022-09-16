@@ -9,6 +9,7 @@ app.use(cors({ origin: "*" }));
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/client-services", proxy("http://localhost:8001"));
+app.use("/unit-management", proxy("http://localhost:8007"));
 
 const port = process.env.PORT || 5000;
 
