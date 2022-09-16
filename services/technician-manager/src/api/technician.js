@@ -104,7 +104,7 @@ app.post("/service", async (req, res, next) => {
 //displaying of fetching
 app.get("/servicehistory", async (req, res, next) => {
   try {
-    const {data} =servicehistory.Getservicehistory()
+    const {data} =service.Getservicehistory()
  return res.status(201).json(data);
 
   } catch (err) {
@@ -119,7 +119,7 @@ app.post("/servicehistory", async (req, res, next) => {
    rating,
    date,
    status} = req.body
-    const {data} =servicehistory.addservicehistory()
+    const {data} =service.addservicehistory()
     return res.status(201).json(data);
 } catch (err) {
     next(err);
@@ -135,7 +135,7 @@ app.post("/servicehistory", async (req, res, next) => {
         date,
         status
       } = req.body;
-      const { data } = await servicehistory.Updateservicehistory({
+      const { data } = await service.Updateservicehistory({
         technicianid,
         serviceid,
         rating,
@@ -154,7 +154,7 @@ app.post("/servicehistory", async (req, res, next) => {
 //displaying of fetching
 app.get("/staffedtechnicians", async (req, res, next) => {
   try {
-    const {data} =staffedtechnicians.Getstaffedtechnicians()
+    const {data} =service.Getstaffedtechnicians()
  return res.status(201).json(data);
 
   } catch (err) {
@@ -170,7 +170,7 @@ app.post("/staffedtechnicians", async (req, res, next) => {
     staffid,
     deparment
        } = req.body
-    const {data} =staffedtechnicians.addstaffedtechnicians()
+    const {data} =service.addstaffedtechnicians()
     return res.status(201).json(data);
 } catch (err) {
     next(err);
@@ -185,7 +185,7 @@ app.post("/staffedtechnicians", async (req, res, next) => {
         staffid,
         deparment
                } = req.body;
-      const { data } = await staffedtechnicians.Updatestaffedtecnicians({
+      const { data } = await service.Updatestaffedtecnicians({
         organisationid,
         jobcategory,
         staffid,
@@ -202,7 +202,7 @@ app.post("/staffedtechnicians", async (req, res, next) => {
 //displaying of fetching
 app.get("/technicians", async (req, res, next) => {
   try {
-    const {data} =technicians.Gettechnicians()
+    const {data} =service.Gettechnicians()
  return res.status(201).json(data);
 
   } catch (err) {
@@ -213,12 +213,43 @@ app.get("/technicians", async (req, res, next) => {
 app.post("/technicians", async (req, res, next) => {
   try {
    const {  
-    organisationid,
-    jobcategory,
-    staffid,
-    deparment
+    name,
+        phone,
+        email,
+        password,
+        address,
+        city,
+        stat,
+        zipCode,
+        salt,
+        
+        technicianid,
+        technciantype,
+        credentialtype,
+        credentialfile,
+        status,
+        
        } = req.body
-    const {data} =technicians.addtechnicians()
+    const {data} =service.addtechnicians(
+      {
+        name,
+        phone,
+        email,
+        password,
+        address,
+        city,
+        stat,
+        zipCode,
+        salt,
+        
+        technicianid,
+        technciantype,
+        credentialtype,
+        credentialfile,
+        status,
+        
+      }
+    )
     return res.status(201).json(data);
 } catch (err) {
     next(err);
@@ -228,16 +259,39 @@ app.post("/technicians", async (req, res, next) => {
   app.put("technicians", async (req, res, next) => {
     try {
       const {
-        organisationid,
-        jobcategory,
-        staffid,
-        deparment
+        name,
+        phone,
+        email,
+        password,
+        address,
+        city,
+        stat,
+        zipCode,
+        salt,
+        
+        technicianid,
+        technciantype,
+        credentialtype,
+        credentialfile,
+        status,
+        
                } = req.body;
-      const { data } = await technicians.Updatetechnicians({
-        organisationid,
-        jobcategory,
-        staffid,
-        deparment 
+      const { data } = await service.Updatetechnicians({
+        name,
+        phone,
+        email,
+        password,
+        address,
+        city,
+        stat,
+        zipCode,
+        salt,
+        
+        technicianid,
+        technciantype,
+        credentialtype,
+        credentialfile,
+        status,
       });
       return res.json(data);
     } catch (err) {
@@ -250,7 +304,7 @@ app.post("/technicians", async (req, res, next) => {
 //displaying of fetching
 app.get("/training", async (req, res, next) => {
   try {
-    const {data} =training.Gettraining()
+    const {data} =service.Gettraining()
  return res.status(201).json(data);
 
   } catch (err) {
@@ -266,7 +320,7 @@ app.post("/training", async (req, res, next) => {
     staffid,
     deparment
        } = req.body
-    const {data} =training.addtraining()
+    const {data} =service.addtraining()
     return res.status(201).json(data);
 } catch (err) {
     next(err);
@@ -281,7 +335,7 @@ app.post("/training", async (req, res, next) => {
         staffid,
         deparment
                } = req.body;
-      const { data } = await training.Updatetraining({
+      const { data } = await service.Updatetraining({
         organisationid,
         jobcategory,
         staffid,
@@ -330,7 +384,7 @@ app.post("/paymenthistory", async (req, res, next) => {
         staffid,
         deparment
                } = req.body;
-      const { data } = await paymenthistory.Updatepaymenthistory({
+      const { data } = await service.Updatepaymenthistory({
         organisationid,
         jobcategory,
         staffid,

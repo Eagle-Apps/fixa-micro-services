@@ -300,7 +300,7 @@ async addstaffedtechnicians(userInputs){
     }
   async Getstaffedtechnicians(){  
       try{
-        const Getstaffedtechnicians = await this.repository.Getservicehistory()  
+        const Getstaffedtechnicians = await this.repository.Getstaffedtechnicians()  
       }
       catch(err){
       }
@@ -353,17 +353,39 @@ async addstaffedtechnicians(userInputs){
 
 async addtechnicians(userInputs){
   const {
-    organisationid,
-    jobcategory,
-    staffid,
-    deparment
+    name,
+    phone,
+    email,
+    password,
+    address,
+    city,
+    stat,
+    zipCode,
+    salt,
+    
+    technicianid,
+    technciantype,
+    credentialtype,
+    credentialfile,
+    status,
      } = userInputs;
     try{
       const addtechnicians = await this.repository.addtechnicians({
-        organisationid,
-    jobcategory,
-    staffid,
-    deparment
+        name,
+        phone,
+        email,
+        password,
+        address,
+        city,
+        stat,
+        zipCode,
+        salt,
+        
+        technicianid,
+        technciantype,
+        credentialtype,
+        credentialfile,
+        status,
       });
     }
     catch(err){
@@ -371,26 +393,49 @@ async addtechnicians(userInputs){
   }
   async Updatetechnicians(userInputs){
     const {
-      organisationid,
-      jobcategory,
-      staffid,
-      deparment} = userInputs;  
+      name,
+        phone,
+        email,
+        password,
+        address,
+        city,
+        stat,
+        zipCode,
+        salt,
+        
+        technicianid,
+        technciantype,
+        credentialtype,
+        credentialfile,
+        status} = userInputs;  
       try{
         const Updatetechnicians = await this.repository.Updatetechnicians({
-          organisationid,
-    jobcategory,
-    staffid,
-    deparment
+          name,
+        phone,
+        email,
+        password,
+        address,
+        city,
+        stat,
+        zipCode,
+        salt,
+        
+        technicianid,
+        technciantype,
+        credentialtype,
+        credentialfile,
+        status
         });  
       }
-      catch(err){  
+      catch(err){ 
+        return err;
       }
     }
   async Gettechnicians(){  
       try{
         const Gettechnicians = await this.repository.Gettechnicians()  
       }
-      catch(err){
+      catch(err){   return err;
       }
     }
     

@@ -301,7 +301,7 @@ STATUS_CODES.INTERNAL_ERROR,
 async addstaffedtechnicians({ data }) {
    
   try {
-    const staffedtechnicians = new staffedtechnicians(data);
+    const staffedtechnicians = new staffedtechnicians({data});
 
     staffedtechnicians.save();
     return res.status(201).json(staffedtechnicians);
