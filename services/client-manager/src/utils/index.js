@@ -10,15 +10,6 @@ const { APP_SECRET } = configs;
 
 //Utility functions
 
-export const generateRequestId = async (lastid) => {
-  let num = parseInt(lastid) + 1;
-  let sequence = num + "";
-  while (sequence.length < 6) sequence = "0" + sequence;
-
-  let id = sequence;
-
-  return id;
-};
 export const GenerateSalt = async () => {
   return await bcrypt.genSalt();
 };
@@ -68,6 +59,17 @@ export const FormatData = (data) => {
 
 export const PublishTechnicianEvent = async (payload) => {
   axios.post("http://localhost:8002/technician/app-events", {
+    payload,
+  });
+};
+
+export const PublishFaultManagementEvent = async (payload) => {
+  axios.post("http://localhost:8003/fault/app-events", {
+    payload,
+  });
+};
+export const PublishNotificationEvent = async (payload) => {
+  axios.post("http://localhost:8005/notification/app-events", {
     payload,
   });
 };
