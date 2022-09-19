@@ -10,10 +10,12 @@ import { requestModel } from "../models/serviceRequest.js";
 
 //Dealing with database operations
 class ClientRepository {
-  async FindExistingClient({ email }) {
+  async AddVerificationString(token, id) {
     try {
-      const existingClient = await clientModel.findOne({ email });
-      return existingClient;
+      const user = this.FindExistingClient(id, "id");
+
+      user.verificationString = token;
+      await user.save();
     } catch (err) {
       throw new APIError(
         "API Error",
@@ -23,9 +25,34 @@ class ClientRepository {
     }
   }
 
-  async FindExistingClientById({ id }) {
+  async VerifyEmail({ token }) {
     try {
-      const existingClient = await clientModel.findOne({ _id: id });
+      const user = this.FindExistingClient(token, "verification_code");
+
+      user.emailStatus = "Verified";
+      user.verificationString = undefined;
+      await user.save();
+    } catch (err) {
+      throw new APIError(
+        "API Error",
+        STATUS_CODES.INTERNAL_ERROR,
+        `something went wrong  ${err.message}`
+      );
+    }
+  }
+
+  async FindExistingClient({ id, type }) {
+    try {
+      let existingClient;
+      if (type === "id")
+        existingClient = await clientModel.findOne({ _id: id });
+
+      if (type === "email")
+        existingClient = await clientModel.findOne({ email: id });
+
+      if (type === "verification_code")
+        existingClient = await clientModel.findOne({ verificationString: id });
+
       return existingClient;
     } catch (err) {
       throw new APIError(
@@ -38,12 +65,11 @@ class ClientRepository {
 
   async UpdatePassword({ id, password }) {
     try {
-      let client = await clientModel.findOne({ _id: id });
+      let client = await this.FindExistingClient(id, "id");
       client.password = password;
       await client.save();
       return;
     } catch (err) {
-      console.log("---repository----,", err);
       throw new APIError(
         "API Error",
         STATUS_CODES.INTERNAL_ERROR,
