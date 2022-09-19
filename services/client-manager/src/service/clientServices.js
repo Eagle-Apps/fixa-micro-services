@@ -2,7 +2,7 @@ import ClientRepository from "../dba/repository/clientRepository.js";
 import {
   FormatData,
   CheckPassword,
-  GeneratePassword,
+  HashPassword,
   GenerateSalt,
   GenerateSignature,
   ValidatePassword,
@@ -13,6 +13,8 @@ import {
   STATUS_CODES,
   ValidationError,
 } from "../utils/app-errors.js";
+import { configs } from "../config/index.js";
+const { SITE_DOMAIN } = configs;
 
 // All Business logic will be here
 class ClientService {
@@ -20,32 +22,32 @@ class ClientService {
     this.repository = new ClientRepository();
   }
 
-  async SignUp(userInputs) {
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      confirmPassword,
-      phone,
-      address,
-      city,
-      state,
-      zipCode,
-    } = userInputs;
-
+  async SignUp({
+    firstName,
+    lastName,
+    email,
+    password,
+    confirmPassword,
+    phone,
+    address,
+    city,
+    state,
+    zipCode,
+  }) {
     try {
       //check if user is already registered
       const existingClient = await this.repository.FindExistingClient({
         email,
+        type: "email",
       });
 
       const passwordMatch = await CheckPassword(password, confirmPassword);
+
       if (!existingClient) {
         if (passwordMatch) {
           let salt = await GenerateSalt();
 
-          let hashedPassword = await GeneratePassword(password, salt);
+          let hashedPassword = await HashPassword(password, salt);
 
           const createdClient = await this.repository.CreateClient({
             name: `${lastName} ${firstName}`,
@@ -64,7 +66,16 @@ class ClientService {
             _id: createdClient._id,
           });
 
-          return FormatData({ id: createdClient._id, token });
+          this.repository.AddVerificationString(token, createdClient._id);
+
+          const link = `${SITE_DOMAIN}/verifyemail/?token=${existingClient.verificationString}`;
+
+          return FormatData({
+            id: createdClient._id,
+            email: createdClient.email,
+            token,
+            link,
+          });
         } else {
           throw new BadRequestError("passwords does not match", true);
         }
@@ -80,12 +91,51 @@ class ClientService {
     }
   }
 
+  async SendEmailVerifcation({ id }) {
+    try {
+      const existingClient = await this.repository.FindExistingClient(id, "id");
+
+      const link = `${SITE_DOMAIN}/verifyemail/?token=${existingClient.verificationString}`;
+
+      return FormatData({ email: existingClient.email, link });
+    } catch (err) {
+      throw new APIError(
+        err.name ? err.name : "Data Not found",
+        err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
+        err.message
+      );
+    }
+  }
+
+  async VerifyEmail({ token }) {
+    try {
+      const tokenExist = await this.repository.FindExistingClient(
+        token,
+        "verification_code"
+      );
+      if (tokenExist) {
+        await this.VerifyEmail(token);
+      } else {
+        throw new BadRequestError("invalid token", true);
+      }
+
+      return FormatData({ email: token.email });
+    } catch (err) {
+      throw new APIError(
+        err.name ? err.name : "Data Not found",
+        err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
+        err.message
+      );
+    }
+  }
+
   async SignIn(userInputs) {
     const { email, password } = userInputs;
 
     try {
       const existingClient = await this.repository.FindExistingClient({
         email,
+        type: "email",
       });
 
       if (existingClient) {
@@ -156,6 +206,7 @@ class ClientService {
     try {
       const existingClient = await this.repository.FindExistingClient({
         email,
+        type: "email",
       });
 
       if (existingClient) {
@@ -163,7 +214,7 @@ class ClientService {
           user: existingClient,
         });
 
-        const link = `https://fixa.com.ng/passwordreset/?token=${token.resetPasswordToken}&id=${existingClient._id}&email=${email}`;
+        const link = `${SITE_DOMAIN}/passwordreset/?token=${token.resetPasswordToken}&id=${existingClient._id}&email=${email}`;
 
         const data = { link, email };
 
@@ -240,8 +291,9 @@ class ClientService {
 
   async ResetPassword({ id, password, confirmPassword }) {
     try {
-      const existingClient = await this.repository.FindExistingClientById({
+      const existingClient = await this.repository.FindExistingClient({
         id,
+        type: "id",
       });
       const passwordMatch = await CheckPassword(password, confirmPassword);
 
