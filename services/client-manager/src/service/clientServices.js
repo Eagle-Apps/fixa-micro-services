@@ -6,7 +6,6 @@ import {
   GenerateSalt,
   GenerateSignature,
   ValidatePassword,
-  generateRequestId,
 } from "../utils/index.js";
 import {
   APIError,
@@ -14,7 +13,6 @@ import {
   STATUS_CODES,
   ValidationError,
 } from "../utils/app-errors.js";
-import { verifyemail, forgotPassword, signupSuccess } from "../mail/mailgun.js";
 
 // All Business logic will be here
 class ClientService {
@@ -65,8 +63,6 @@ class ClientService {
             email: email,
             _id: createdClient._id,
           });
-
-          signupSuccess(createdClient.name, email, password);
 
           return FormatData({ id: createdClient._id, token });
         } else {
@@ -169,11 +165,11 @@ class ClientService {
 
         const link = `https://fixa.com.ng/passwordreset/?token=${token.resetPasswordToken}&id=${existingClient._id}&email=${email}`;
 
-        forgotPassword(existingClient.email, link);
+        const data = { link, email };
 
         return FormatData({
           message: `a link has been sent to your email -${email}`,
-          link,
+          data,
         });
       } else {
         throw new BadRequestError("user with the email does not exist", true);
@@ -272,39 +268,6 @@ class ClientService {
           );
         }
       }
-    } catch (err) {
-      throw new APIError(
-        err.name ? err.name : "Data Not found",
-        err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
-        err.message
-      );
-    }
-  }
-
-  async AddServiceRequest({
-    userId,
-    technicianName,
-    technicianId,
-    description,
-    schedule,
-  }) {
-    try {
-      const id = await this.repository.GetTransactionId;
-
-      const requestId = await generateRequestId(id);
-
-      const newRequest = await this.repository.AddServiceRequest({
-        userId,
-        technicianName,
-        technicianId,
-        description,
-        schedule,
-        requestId,
-      });
-
-      return FormatData({
-        newRequest,
-      });
     } catch (err) {
       throw new APIError(
         err.name ? err.name : "Data Not found",

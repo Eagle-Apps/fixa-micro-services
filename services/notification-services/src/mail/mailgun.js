@@ -44,6 +44,19 @@ export const forgotPassword = (email, link) => {
   sendmessage(data);
 };
 
+export const requestService = (email, info) => {
+  const data = {
+    from: "Fixa  <info@mg.fixa.com.ng>",
+    to: email,
+    subject: "service request",
+    template: "forgot-password",
+    "h:X-Mailgun-Variables": JSON.stringify({ link, info }),
+    "h:Reply-To": "reply-to@example.com",
+  };
+
+  sendmessage(data);
+};
+
 const sendmessage = (data) => {
   mg.messages
     .create(mailgunConfig.domain, data)

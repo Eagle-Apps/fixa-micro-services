@@ -3,22 +3,23 @@ import mongoose from "mongoose";
 const requestSchema = mongoose.Schema(
   {
     requestId: String,
-    faultDescription: { type: String },
+    faultDescription: { text: String, imageUrl: String },
     schedule: { type: String },
-    technician: { name: String, id: String, email: String },
-    clientId: { type: String },
-
-    category: {
-      type: String,
-      enum: [
-        "Single Home",
-        "Single Office",
-        "Estate Manager",
-        "Corporate",
-        "Government",
-      ],
+    technician: { name: String, id: String, email: String, phone: String },
+    client: {
+      id: String,
+      name: String,
+      email: String,
+      phone: String,
+      category: String,
     },
-    payment: {
+    requestLocation: {
+      latitude: String,
+      longitude: String,
+      text: String,
+    },
+    serviceType: { type: String, enum: ["Standard", "Premium"] },
+    billing: {
       amount: Number,
       status: {
         type: String,
@@ -26,7 +27,7 @@ const requestSchema = mongoose.Schema(
         default: "Pending",
       },
     },
-    status: {
+    requestStatus: {
       type: String,
       enum: ["Pending", "Active", "Closed"],
       default: "Pending",

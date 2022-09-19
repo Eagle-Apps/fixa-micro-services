@@ -12,7 +12,17 @@ const clientSchema = mongoose.Schema(
     state: { type: String, required: true },
     zipCode: { type: String, required: true },
     salt: String,
-    serviceRequests: [{ type: Schema.Types.ObjectId, ref: "request" }],
+    serviceRequests: [{ type: String }],
+    clientCategory: {
+      type: String,
+      enum: [
+        "Single Home",
+        "Single Office",
+        "Estate Manager",
+        "Corporate",
+        "Government",
+      ],
+    },
     status: {
       type: String,
       enum: ["Active, Inactive"],

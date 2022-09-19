@@ -1,13 +1,11 @@
-import { clientModel } from "../models/client.js";
-import { TokenModel } from "../models/token.js";
 import crypto from "crypto";
-
 import {
   APIError,
   BadRequestError,
   STATUS_CODES,
 } from "../../utils/app-errors.js";
-import { transactionIdModel } from "../models/transactionId.js";
+import { clientModel } from "../models/client.js";
+import { TokenModel } from "../models/token.js";
 import { requestModel } from "../models/serviceRequest.js";
 
 //Dealing with database operations
@@ -216,19 +214,6 @@ class ClientRepository {
       });
 
       return clients;
-    } catch (err) {
-      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
-    }
-  }
-
-  async GetTransactionId() {
-    try {
-      let id;
-      id = transactionIdModel.find();
-      if (!id) {
-        id = await new transactionIdModel({}).save();
-      }
-      return id;
     } catch (err) {
       throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
     }

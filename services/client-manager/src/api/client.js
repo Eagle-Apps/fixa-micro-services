@@ -1,5 +1,8 @@
 import ClientService from "../service/clientServices.js";
-import { PublishTechnicianEvent } from "../utils/index.js";
+import {
+  PublishFaultManagementEvent,
+  PublishNotificationEvent,
+} from "../utils/index.js";
 
 export const client = (app) => {
   const service = new ClientService();
@@ -31,6 +34,14 @@ export const client = (app) => {
         state,
         zipCode,
       });
+
+      payload = {
+        event: "SIGN_UP",
+        data,
+      };
+
+      PublishNotificationEvent(payload);
+
       return res.json(data);
     } catch (err) {
       next(err);
@@ -43,8 +54,6 @@ export const client = (app) => {
         firstName,
         lastName,
         email,
-        password,
-        confirmPassword,
         phone,
         address,
         city,
@@ -86,6 +95,12 @@ export const client = (app) => {
 
       const { data } = await service.ForgotPassword({ email });
 
+      const payload = {
+        event: "FORGOT_PASSWORD",
+        data,
+      };
+
+      PublishNotificationEvent(payload);
       return res.json(data);
     } catch (err) {
       next(err);
@@ -107,7 +122,6 @@ export const client = (app) => {
   app.get("/fetchclients", async (req, res, next) => {
     try {
       const { data } = await service.GetAllClients();
-
       return res.json(data);
     } catch (err) {
       next(err);
@@ -141,49 +155,43 @@ export const client = (app) => {
     }
   });
 
-  app.get("/fetchtechnicians", async (req, res, next) => {
-    const { category, location } = req.query;
-
-    try {
-      const jobTitle = new RegExp(category, "i");
-
-      const payload = {
-        event: "FETCH_TECHNICIANS",
-        data: { jobTitle, location },
-      };
-
-      // fetch request from technician micro services
-      const data = await PublishTechnicianEvent(payload);
-
-      return res.json(data);
-    } catch (err) {
-      next(err);
-    }
-  });
-
-  app.post("/choosetechnician", async (req, res, next) => {
-    const { technicianName, technicianId, description, schedule } = req.body;
+  app.post("/request-service", async (req, res, next) => {
+    const { description, schedule, serviceCategory } = req.body;
 
     const { userId } = req.user;
 
     try {
-      const { data } = await service.AddServiceRequest({
-        userId,
-        technicianName,
-        technicianId,
-        description,
-        schedule,
-      });
+      const { data } = await service.GetProfile({ userId });
 
       const payload = {
-        event: "CHOOSE_TECHNICIAN",
-        data: { data },
+        event: "REQUEST_SERVICE",
+        data: {
+          requestInfo: { description, schedule, serviceCategory },
+          userInfo: {
+            clientId: data._id,
+            clientName: data.name,
+            clientEmail: data.email,
+            clientPhone: data.phone,
+            clientCategory: data.category,
+          },
+        },
       };
 
-      // fetch request from tecnician micro services
-      PublishTechnicianEvent(payload);
+      PublishFaultManagementEvent(payload);
 
-      return res.json(data);
+      const messagePayload = {
+        event: "REQUEST_SERVICE",
+        data: {
+          email: data.email,
+          clientName: data.name,
+          clientPhone: data.phone,
+        },
+      };
+      PublishNotificationEvent(messagePayload);
+
+      return res.json({
+        message: "request dispatched",
+      });
     } catch (err) {
       next(err);
     }
