@@ -14,17 +14,17 @@ const clientSchema = mongoose.Schema(
     bvn: { type: String, require: true },
     emailStatus: {
       type: String,
-      enum: ["Pending, Verified"],
+      enum: ["Pending", "Verified"],
       default: "Pending",
     },
     phoneStatus: {
       type: String,
-      enum: ["Pending, Verified"],
+      enum: ["Pending", "Verified"],
       default: "Pending",
     },
     bvnVerification: {
       type: String,
-      enum: ["Pending, Verified"],
+      enum: ["Pending", "Verified"],
       default: "Pending",
     },
 
@@ -41,7 +41,7 @@ const clientSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Active, Inactive"],
+      enum: ["Active", "Inactive"],
       default: "Active",
     },
     salt: String,

@@ -10,21 +10,6 @@ import { requestModel } from "../models/serviceRequest.js";
 
 //Dealing with database operations
 class ClientRepository {
-  async AddVerificationString(token, id) {
-    try {
-      const user = this.FindExistingClient(id, "id");
-
-      user.verificationString = token;
-      await user.save();
-    } catch (err) {
-      throw new APIError(
-        "API Error",
-        STATUS_CODES.INTERNAL_ERROR,
-        `something went wrong  ${err.message}`
-      );
-    }
-  }
-
   async VerifyEmail({ token }) {
     try {
       const user = this.FindExistingClient(token, "verification_code");
@@ -41,17 +26,19 @@ class ClientRepository {
     }
   }
 
-  async FindExistingClient({ id, type }) {
+  async FindExistingClient(query, queryType) {
     try {
       let existingClient;
-      if (type === "id")
-        existingClient = await clientModel.findOne({ _id: id });
+      if (queryType === "id")
+        existingClient = await clientModel.findOne({ _id: query });
 
-      if (type === "email")
-        existingClient = await clientModel.findOne({ email: id });
+      if (queryType === "email")
+        existingClient = await clientModel.findOne({ email: query });
 
-      if (type === "verification_code")
-        existingClient = await clientModel.findOne({ verificationString: id });
+      if (queryType === "verification_code")
+        existingClient = await clientModel.findOne({
+          verificationString: query,
+        });
 
       return existingClient;
     } catch (err) {
@@ -88,6 +75,7 @@ class ClientRepository {
     state,
     zipCode,
     salt,
+    verificationString,
   }) {
     try {
       const client = new clientModel({
@@ -100,6 +88,7 @@ class ClientRepository {
         state,
         zipCode,
         salt,
+        verificationString,
       });
       const clientResult = await client.save();
       return clientResult;

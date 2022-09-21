@@ -48,6 +48,19 @@ class NotificationService {
     }
   }
 
+  async VerifyEmailsuccess({ email, link }) {
+    try {
+      //email notification
+      verifyemail(email, link);
+    } catch (err) {
+      throw new APIError(
+        err.name ? err.name : "Data Not found",
+        err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
+        err.message
+      );
+    }
+  }
+
   async ForgetPasswordNotifcation({ email, link }) {
     try {
       //email notification
@@ -83,6 +96,10 @@ class NotificationService {
         break;
       case "VERIFY_EMAIL":
         this.VerifyEmailAccount(data);
+        break;
+
+      case "EMAIL_VERIFICATION_SUCCESS":
+        this.VerifyEmailsuccess(data);
         break;
       case "PASSWORD_RESET":
         this.ForgetPasswordNotifcation(data);

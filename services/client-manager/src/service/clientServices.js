@@ -6,6 +6,7 @@ import {
   GenerateSalt,
   GenerateSignature,
   ValidatePassword,
+  CreateVerificationString,
 } from "../utils/index.js";
 import {
   APIError,
@@ -36,10 +37,10 @@ class ClientService {
   }) {
     try {
       //check if user is already registered
-      const existingClient = await this.repository.FindExistingClient({
+      const existingClient = await this.repository.FindExistingClient(
         email,
-        type: "email",
-      });
+        "email"
+      );
 
       const passwordMatch = await CheckPassword(password, confirmPassword);
 
@@ -48,6 +49,7 @@ class ClientService {
           let salt = await GenerateSalt();
 
           let hashedPassword = await HashPassword(password, salt);
+          let verificationString = await CreateVerificationString();
 
           const createdClient = await this.repository.CreateClient({
             name: `${lastName} ${firstName}`,
@@ -59,6 +61,7 @@ class ClientService {
             state,
             zipCode,
             salt,
+            verificationString,
           });
 
           const token = await GenerateSignature({
@@ -66,9 +69,7 @@ class ClientService {
             _id: createdClient._id,
           });
 
-          this.repository.AddVerificationString(token, createdClient._id);
-
-          const link = `${SITE_DOMAIN}/verifyemail/?token=${existingClient.verificationString}`;
+          const link = `${SITE_DOMAIN}/verifyemail/?token=${createdClient.verificationString}`;
 
           return FormatData({
             id: createdClient._id,
@@ -133,10 +134,10 @@ class ClientService {
     const { email, password } = userInputs;
 
     try {
-      const existingClient = await this.repository.FindExistingClient({
+      const existingClient = await this.repository.FindExistingClient(
         email,
-        type: "email",
-      });
+        "email"
+      );
 
       if (existingClient) {
         const validPassword = await ValidatePassword(
@@ -204,10 +205,10 @@ class ClientService {
     const { email } = userInputs;
 
     try {
-      const existingClient = await this.repository.FindExistingClient({
+      const existingClient = await this.repository.FindExistingClient(
         email,
-        type: "email",
-      });
+        "email"
+      );
 
       if (existingClient) {
         const token = await this.repository.FindTokenByUserId({
@@ -291,10 +292,7 @@ class ClientService {
 
   async ResetPassword({ id, password, confirmPassword }) {
     try {
-      const existingClient = await this.repository.FindExistingClient({
-        id,
-        type: "id",
-      });
+      const existingClient = await this.repository.FindExistingClient(id, "id");
       const passwordMatch = await CheckPassword(password, confirmPassword);
 
       if (existingClient) {
