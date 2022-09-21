@@ -35,7 +35,7 @@ export const client = (app) => {
         zipCode,
       });
 
-      payload = {
+      const payload = {
         event: "SIGN_UP",
         data,
       };
@@ -95,7 +95,7 @@ export const client = (app) => {
     try {
       const { data } = await service.SendEmailVerifcation({ userId });
 
-      payload = {
+      const payload = {
         event: "EMAIL_VERIFICATION",
         data,
       };

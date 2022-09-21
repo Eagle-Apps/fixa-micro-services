@@ -50,7 +50,7 @@ const ErrorHandler = async (err, req, res, next) => {
   //   // console.log(err.description, '-------> DESCRIPTION')
   //   // console.log(err.message, '-------> MESSAGE')
   //   // console.log(err.name, '-------> NAME')
-  console.log("----------in error handler---------", err);
+
   if (err instanceof AppError) {
     // await errorLogger.logError(err);
     // if (errorLogger.isTrustError(err)) {
