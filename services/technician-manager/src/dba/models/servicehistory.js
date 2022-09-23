@@ -5,7 +5,11 @@ technicianid:  { type: String },
   serviceid: { type: String },
   rating: { type: String },
   date: { type: String  },
-  status: { type: String }
+  status: {
+    type: String,
+    enum: ["inprogress", "done", "declined"],
+    default: "inprogess",
+  },
 });
 
 
