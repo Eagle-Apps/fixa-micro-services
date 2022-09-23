@@ -25,6 +25,39 @@ class FaultServiceRepository {
     }
   }
 
+  async UpdateRequest(requestInfo, statusType) {
+    const query = { _id: requestInfo._id };
+    const update = {
+      ...requestInfo,
+      status: statusType,
+    };
+    try {
+      const request = await requestModel.findOneAndUpdate(query, update, {
+        new: true,
+      });
+
+      return request;
+    } catch (err) {
+      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
+    }
+  }
+  async FindAllRequests() {
+    try {
+      const requests = await requestModel.find();
+      return requests;
+    } catch (err) {
+      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
+    }
+  }
+  async FindRequest(id) {
+    try {
+      const request = await requestModel.findOne({ requestId: id });
+      return request;
+    } catch (err) {
+      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
+    }
+  }
+
   async GetTransactionId() {
     try {
       let id;

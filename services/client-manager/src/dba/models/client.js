@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-const Schema = mongoose.Schema;
 
 const clientSchema = mongoose.Schema(
   {
@@ -11,8 +10,32 @@ const clientSchema = mongoose.Schema(
     city: { type: String, required: true },
     state: { type: String, required: true },
     zipCode: { type: String, required: true },
+<<<<<<< Updated upstream
     salt: String,
     serviceRequests: [{ type: String }],
+=======
+    bvn: { type: String, require: true },
+    emailStatus: {
+      type: String,
+      enum: ["Pending", "Verified"],
+      default: "Pending",
+    },
+    phoneStatus: {
+      type: String,
+      enum: ["Pending", "Verified"],
+      default: "Pending",
+    },
+    bvnVerification: {
+      type: String,
+      enum: ["Pending", "Verified"],
+      default: "Pending",
+    },
+    location: {
+      coordinates: [],
+      type: { type: String },
+      name: { type: String },
+    },
+>>>>>>> Stashed changes
     clientCategory: {
       type: String,
       enum: [
@@ -40,5 +63,7 @@ const clientSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+
+clientSchema.index({ location: "2dsphere" });
 
 export const clientModel = mongoose.model("Client", clientSchema);
