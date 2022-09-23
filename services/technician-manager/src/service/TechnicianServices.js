@@ -694,11 +694,10 @@ async addpaymenthistory(userInputs){
 
     async requestTechnicians(Id, service ,serviceClass, location){
     const {long, lat}= location;
-    const service= service;
-    const serviceClass= serviceClass;
-    const Id= Id;
+    
+   
        try{
-        const technician = await this.repository.findtechnician(service, serviceClass, long, lat);
+        const technician = await this.repository.findtechnician(Id, service, serviceClass, long, lat);
         // const serviceClass = await this.repository.serviceClass(serviceClass);
         
 

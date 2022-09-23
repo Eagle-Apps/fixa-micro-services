@@ -34,8 +34,11 @@ const techniciansSchema =new mongoose.Schema({
   credentialtype: { type: String  },
   credentialfile: { type: String },
   
-  services:{ type:Schema.Types.ObjectId,
-    ref:"service",
+  services:{ 
+    jobytype:  { type: String },
+  jobcategory: { type: String },
+  pricerange: { type: String },
+  
  
  },
   
