@@ -461,10 +461,10 @@ STATUS_CODES.INTERNAL_ERROR,
   // findtechnician
   async findtechnician(service, serviceClass, long, lat) {
     try {
-      const requestTechnicians  = await Products.find({
+      const requestTechnicians  = await technicians.find({
         $or: [
           { status: { $regex: "Inactive", $options: "i" } },
-          { serviceName: { $regex: service, $options: "i" } },
+          { jobcategory: { $regex: service, $options: "i" } },
           { technicianCategory: { $regex: serviceClass, $options: "i" } },
         ],
       });

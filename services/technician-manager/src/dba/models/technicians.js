@@ -35,7 +35,8 @@ const techniciansSchema =new mongoose.Schema({
   credentialfile: { type: String },
   
   services:{ 
-    jobytype:  { type: String },
+    type: String,
+    jobtype:  { type: String },
   jobcategory: { type: String },
   pricerange: { type: String },
   
