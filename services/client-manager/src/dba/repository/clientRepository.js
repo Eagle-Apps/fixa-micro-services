@@ -10,10 +10,13 @@ import { requestModel } from "../models/serviceRequest.js";
 
 //Dealing with database operations
 class ClientRepository {
-  async FindExistingClient({ email }) {
+  async VerifyEmail({ token }) {
     try {
-      const existingClient = await clientModel.findOne({ email });
-      return existingClient;
+      const user = this.FindExistingClient(token, "verification_code");
+
+      user.emailStatus = "Verified";
+      user.verificationString = undefined;
+      await user.save();
     } catch (err) {
       throw new APIError(
         "API Error",
@@ -23,9 +26,20 @@ class ClientRepository {
     }
   }
 
-  async FindExistingClientById({ id }) {
+  async FindExistingClient(query, queryType) {
     try {
-      const existingClient = await clientModel.findOne({ _id: id });
+      let existingClient;
+      if (queryType === "id")
+        existingClient = await clientModel.findOne({ _id: query });
+
+      if (queryType === "email")
+        existingClient = await clientModel.findOne({ email: query });
+
+      if (queryType === "verification_code")
+        existingClient = await clientModel.findOne({
+          verificationString: query,
+        });
+
       return existingClient;
     } catch (err) {
       throw new APIError(
@@ -38,12 +52,11 @@ class ClientRepository {
 
   async UpdatePassword({ id, password }) {
     try {
-      let client = await clientModel.findOne({ _id: id });
+      let client = await this.FindExistingClient(id, "id");
       client.password = password;
       await client.save();
       return;
     } catch (err) {
-      console.log("---repository----,", err);
       throw new APIError(
         "API Error",
         STATUS_CODES.INTERNAL_ERROR,
@@ -62,6 +75,7 @@ class ClientRepository {
     state,
     zipCode,
     salt,
+    verificationString,
   }) {
     try {
       const client = new clientModel({
@@ -74,6 +88,7 @@ class ClientRepository {
         state,
         zipCode,
         salt,
+        verificationString,
       });
       const clientResult = await client.save();
       return clientResult;

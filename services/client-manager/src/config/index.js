@@ -13,4 +13,5 @@ export const configs = {
   PORT: process.env.PORT,
   DB_URL: process.env.MONGODB_URI,
   APP_SECRET: process.env.APP_SECRET,
+  SITE_DOMAIN: process.env.SITE_DOMAIN,
 };

@@ -35,7 +35,7 @@ export const client = (app) => {
         zipCode,
       });
 
-      payload = {
+      const payload = {
         event: "SIGN_UP",
         data,
       };
@@ -84,6 +84,45 @@ export const client = (app) => {
       const { data } = await service.SignIn({ email, password });
 
       return res.json(data);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.put("/getverificationemail", async (req, res, next) => {
+    const { userId } = req.user;
+
+    try {
+      const { data } = await service.SendEmailVerifcation({ userId });
+
+      const payload = {
+        event: "EMAIL_VERIFICATION",
+        data,
+      };
+
+      PublishNotificationEvent(payload);
+
+      return res.json({ message: "email have been sent" });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.put("/verifyemail", async (req, res, next) => {
+    const { userId } = req.user;
+    const { token } = req.body;
+
+    try {
+      const { data } = await service.VerifyEmail({ userId, token });
+
+      payload = {
+        event: "EMAIL_VERIFICATION_SUCCESS",
+        data,
+      };
+
+      PublishNotificationEvent(payload);
+
+      return res.json({ message: "email have been sent" });
     } catch (err) {
       next(err);
     }

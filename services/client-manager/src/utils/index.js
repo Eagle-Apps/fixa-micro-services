@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import {
   APIError,
   BadRequestError,
@@ -9,12 +10,15 @@ import { configs } from "../config/index.js";
 const { APP_SECRET } = configs;
 
 //Utility functions
+export const CreateVerificationString = async () => {
+  return crypto.randomBytes(20).toString("hex");
+};
 
 export const GenerateSalt = async () => {
   return await bcrypt.genSalt();
 };
 
-export const GeneratePassword = async (password, salt) => {
+export const HashPassword = async (password, salt) => {
   return await bcrypt.hash(password, salt);
 };
 
@@ -28,11 +32,11 @@ export const ValidatePassword = async (
   savedPassword,
   salt
 ) => {
-  return (await GeneratePassword(enteredPassword, salt)) === savedPassword;
+  return await bcrypt.compare(enteredPassword, savedPassword);
 };
 
 export const GenerateSignature = async (payload) => {
-  return await jwt.sign(payload, APP_SECRET, { expiresIn: "1d" });
+  return jwt.sign(payload, APP_SECRET, { expiresIn: "1d" });
 };
 
 export const ValidateSignature = async (req) => {
@@ -48,6 +52,7 @@ export const ValidateSignature = async (req) => {
 };
 
 export const FormatData = (data) => {
+  console.log("-----here_---", data);
   if (data) {
     return { data };
   } else {

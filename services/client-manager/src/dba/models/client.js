@@ -10,10 +10,26 @@ const clientSchema = mongoose.Schema(
     city: { type: String, required: true },
     state: { type: String, required: true },
     zipCode: { type: String, required: true },
-<<<<<<< Updated upstream
     salt: String,
+    bvn: { type: String, require: true },
+    emailStatus: {
+      type: String,
+      enum: ["Pending", "Verified"],
+      default: "Pending",
+    },
+    phoneStatus: {
+      type: String,
+      enum: ["Pending", "Verified"],
+      default: "Pending",
+    },
+    bvnVerification: {
+      type: String,
+      enum: ["Pending", "Verified"],
+      default: "Pending",
+    },
+
     serviceRequests: [{ type: String }],
-=======
+
     bvn: { type: String, require: true },
     emailStatus: {
       type: String,
@@ -35,7 +51,6 @@ const clientSchema = mongoose.Schema(
       type: { type: String },
       name: { type: String },
     },
->>>>>>> Stashed changes
     clientCategory: {
       type: String,
       enum: [
@@ -48,9 +63,11 @@ const clientSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Active, Inactive"],
+      enum: ["Active", "Inactive"],
       default: "Active",
     },
+    salt: String,
+    verificationString: String,
   },
   {
     toJSON: {
