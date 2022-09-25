@@ -3,20 +3,19 @@ import mongoose from "mongoose";
 const requestSchema = mongoose.Schema(
   {
     requestId: String,
+    service: { type: String },
     faultDescription: { type: String },
     schedule: { type: String },
-    technician: { name: String, id: String, email: String },
+    technician: { type: String },
     clientId: { type: String },
-
-    category: {
+    location: {
+      name: String,
+      long: String,
+      lat: String,
+    },
+    serviceClass: {
       type: String,
-      enum: [
-        "Single Home",
-        "Single Office",
-        "Estate Manager",
-        "Corporate",
-        "Government",
-      ],
+      enum: ["premium", "classic", "basic"],
     },
     payment: {
       amount: Number,
@@ -26,9 +25,11 @@ const requestSchema = mongoose.Schema(
         default: "Pending",
       },
     },
+
+    billing: { type: String },
     status: {
       type: String,
-      enum: ["Pending", "Active", "Closed"],
+      enum: ["Pending", "Active", "Cancelled", "Completed"],
       default: "Pending",
     },
   },

@@ -195,7 +195,7 @@ export const client = (app) => {
   });
 
   app.post("/request-service", async (req, res, next) => {
-    const { description, schedule, serviceCategory } = req.body;
+    const { description, schedule, serviceCategory, location } = req.body;
 
     const { userId } = req.user;
 
@@ -212,6 +212,7 @@ export const client = (app) => {
             clientEmail: data.email,
             clientPhone: data.phone,
             clientCategory: data.category,
+            location,
           },
         },
       };

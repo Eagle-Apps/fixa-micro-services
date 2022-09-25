@@ -107,6 +107,9 @@ class NotificationService {
       case "REQUEST_SERVICE":
         this.ServiceRequestNotification(data);
         break;
+      case "NOTIFY_TECHNICIAN":
+        this.ServicenNotifyTechnician(data);
+        break;
 
       default:
         break;
