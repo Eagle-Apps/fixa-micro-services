@@ -3,6 +3,45 @@ import BillingService from "../service/billingServices.js";
 export const billing = (app) => {
   const service = new BillingService();
 
+  app.post("/fixed", async (req, res, next) => {
+    try{
+      const{
+        category,
+        serviceName,
+        standardPrice,
+      }=req.body
+        
+      const data = await service.fixed({category,
+        category,
+        serviceName,
+        standardPrice,});
+    }catch (err) {
+      console.log(err);
+      next(err);
+    }
+  });
+
+  app.post("/addfixed", async (req, res, next) => {
+    
+    try{
+      const{category,
+        serviceName,
+        standardPrice,
+        classicPrice,
+        premuimPrice,
+        date}=req.body
+      const data = await service.addfixed(category,
+        serviceName,
+        standardPrice,
+        classicPrice,
+        premuimPrice,
+        date);
+    }catch (err) {
+      console.log(err);
+      next(err);
+    }
+  });
+  
  
   app.post("/ticket", async (req, res, next) => {
     try {const {

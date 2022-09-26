@@ -15,6 +15,46 @@ class billingService {
   }
 
 
+  
+  async fixed(userInputs){
+    const {
+      category,
+      serviceName,
+      serviceClass} = userInputs;
+      try{
+        
+        const addticket = await this.repository.fixed({
+          category,
+      serviceName,
+      serviceClass});
+      }
+      catch(err){
+      }
+    }
+  
+
+  async addfixed(userInputs){
+    const {
+      category,
+      serviceName,
+      standardPrice,
+      classicPrice,
+      premuimPrice,
+      date} = userInputs;
+      try{
+        const addticket = await this.repository.addfixed({
+          category,
+        serviceName,
+        standardPrice,
+        classicPrice,
+        premuimPrice,
+        date });
+      }
+      catch(err){
+      }
+    }
+  
+
   async addticket(userInputs){
     const {
       invoiceid,

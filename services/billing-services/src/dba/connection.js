@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import configs from "../config/index.js";
 
 export const connect_db = async () => {
-  const DB_URL  = configs;
+  const {DB_URL}  = configs;
 
   try {
     mongoose.connect(DB_URL, {

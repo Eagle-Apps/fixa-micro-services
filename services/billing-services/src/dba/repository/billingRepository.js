@@ -1,4 +1,6 @@
-import { clientModel } from "../models/client.js";
+import { billingModel } from "../models/billing.js";
+import { fixedModel } from "../models/fixed.js";
+
 import {
   APIError,
   BadRequestError,
@@ -7,6 +9,95 @@ import {
 
 //Dealing with database operations
 class BillingRepository {
+
+
+
+   async fixed({category,
+    serviceName,
+    sClass,sName}){
+
+    try{
+      if (serviceClass== "standard"){
+        const requestfixedbill  = await fixedModel.find({
+          $or: [
+            { category: { $regex: category, $options: "i" } },
+            { standardPrice: { $regex: sClass, $options: "i" } },
+            { serviceName: { $regex: serviceName, $options: "i" } },
+          ],
+        });
+       }
+       if (serviceClass== "clasic"){
+        const requestfixedbill  = await fixedModel.find({
+          $or: [
+            { category: { $regex: category, $options: "i" } },
+            { classicPrice: { $regex: sClass, $options: "i" } },
+            { serviceName: { $regex: serviceName, $options: "i" } },
+          ],
+        });
+        }
+        if (serviceClass== "premuim"){
+          const requestfixedbill  = await fixedModel.find({
+            $or: [
+              { category: { $regex: category, $options: "i" } },
+              { premuimPrice: { $regex: sClass, $options: "i" } },
+              { serviceName: { $regex: serviceName, $options: "i" } },
+            ],
+          });
+        }
+        if (serviceClass== "all"){
+          const requestfixedbill  = await fixedModel.find({
+            $or: [
+              { category: { $regex: category, $options: "i" } },
+              { premuimPrice: { $regex: sClass, $options: "i" } },
+              { serviceName: { $regex: serviceName, $options: "i" } },
+            ],
+          });
+        }
+        
+      
+
+      return requestfixedbill;
+
+    } catch (err) {
+      throw new APIError(
+        "API Error",
+        STATUS_CODES.INTERNAL_ERROR,
+        "Unable to find price list"
+      );
+    }
+  }
+
+
+   //add fixed prices
+   async addfixed({
+    category,
+    serviceName,
+    standardPrice,
+    classicPrice,
+    premuimPrice,
+    date}=req.body) {
+    try {
+      const billing = new fixedModel({
+        category,
+        serviceName,
+        standardPrice,
+        classicPrice,
+        premuimPrice,
+        date
+      });
+      const Result = await fixedModel.save();
+      return Result;
+    } catch (err) {
+      throw new APIError(
+        "API Error",
+        STATUS_CODES.INTERNAL_ERROR,
+        "Unable to Create Client"
+      );
+    }
+  }
+
+
+
  //add ticket
   async addticket({
     invoiceid,
