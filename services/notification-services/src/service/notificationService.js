@@ -1,6 +1,6 @@
 // import NotificationServiceRepository from "../dba/repository/notificationServiceRepository.js";
-import { verifyemail } from "../../../client-manager/src/mail/mailgun.js";
 import {
+  verifyemail,
   forgotPassword,
   requestService,
   signupSuccess,
