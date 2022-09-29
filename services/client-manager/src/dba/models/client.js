@@ -10,10 +10,6 @@ const clientSchema = mongoose.Schema(
     city: { type: String, required: true },
     state: { type: String, required: true },
     zipCode: { type: String, required: true },
-<<<<<<< Updated upstream
-    salt: String,
-    serviceRequests: [{ type: String }],
-=======
     bvn: { type: String, require: true },
     emailStatus: {
       type: String,
@@ -35,7 +31,6 @@ const clientSchema = mongoose.Schema(
       type: { type: String },
       name: { type: String },
     },
->>>>>>> Stashed changes
     clientCategory: {
       type: String,
       enum: [
