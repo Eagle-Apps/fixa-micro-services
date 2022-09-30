@@ -34,6 +34,21 @@ class UnitService {
     }
   }
 
+  async GetUnit(id) {
+    try {
+      const unit = await this.repository.FetchUnit(id);
+      return FormatData({
+        unit,
+      });
+    } catch (err) {
+      throw new APIError(
+        err.name ? err.name : "Data Not found",
+        err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
+        err.message
+      );
+    }
+  }
+
   async CreatePayload(event, data, clientId) {
     try {
       let payload;

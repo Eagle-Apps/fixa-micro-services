@@ -21,6 +21,15 @@ class UnitServiceRepository {
       throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
     }
   }
+
+  async FetchUnit(id) {
+    try {
+      const unit = unitModel.findOne(id);
+      return unit;
+    } catch (err) {
+      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
+    }
+  }
 }
 
 export default UnitServiceRepository;

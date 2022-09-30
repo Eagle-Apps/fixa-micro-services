@@ -22,4 +22,15 @@ export const unit = (app) => {
       next(err);
     }
   });
+
+  app.get("/getunit/:id", async (req, res, next) => {
+    const unitid = req.params.id;
+
+    try {
+      const { data } = await service.GetUnit(unitid);
+      return res.json({ message: "unit created", data });
+    } catch (err) {
+      next(err);
+    }
+  });
 };
