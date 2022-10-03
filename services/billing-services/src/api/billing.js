@@ -64,8 +64,7 @@ export const billing = (app) => {
       status
     } = req.body;
 
-    const { data } = await service.addticket({
-      invoiceid,
+    const { data } = await service.addticket({invoiceid,
       item1particulars,
       item1amount,
       item2particulars,
@@ -82,6 +81,7 @@ export const billing = (app) => {
       finalamount, 
       option,
       status
+      
     });
     return res.json(data);
   } catch (err) {

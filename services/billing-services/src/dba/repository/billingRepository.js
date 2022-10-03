@@ -59,10 +59,11 @@ class BillingRepository {
       return requestfixedbill;
 
     } catch (err) {
+     
       throw new APIError(
         "API Error",
         STATUS_CODES.INTERNAL_ERROR,
-        "Unable to find price list"
+        `something went wrong  ${err.message}`
       );
     }
   }
@@ -99,8 +100,7 @@ class BillingRepository {
 
 
  //add ticket
-  async addticket({
-    invoiceid,
+  async addticket({ invoiceid,
       item1particulars,
       item1amount,
       item2particulars,
@@ -137,13 +137,13 @@ class BillingRepository {
         option,
         status 
       });
-      const clientResult = await client.save();
-      return clientResult;
+      const Result = await billing.save();
+      return Result;
     } catch (err) {
       throw new APIError(
         "API Error",
         STATUS_CODES.INTERNAL_ERROR,
-        "Unable to Create Client"
+        `something went wrong  ${err.message}`
       );
     }
   }

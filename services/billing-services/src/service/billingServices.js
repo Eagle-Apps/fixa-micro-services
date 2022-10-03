@@ -55,9 +55,8 @@ class billingService {
     }
   
 
-  async addticket(userInputs){
-    const {
-      invoiceid,
+  async addticket({userInputs}){
+  const   {invoiceid,
       item1particulars,
       item1amount,
       item2particulars,
@@ -77,22 +76,22 @@ class billingService {
       try{
         const addticket = await this.repository.addticket({
           invoiceid,
-          item1particulars,
-          item1amount,
-          item2particulars,
-          item2amount,
-          item3particulars,
-          item3amount,
-          item4particulars,
-          item4amount,
-          item5particulars,
-          item5amount,
-          discount,
-          vat,
-          amount,
-          finalamount, 
-          option,
-          status });
+      item1particulars,
+      item1amount,
+      item2particulars,
+      item2amount,
+      item3particulars,
+      item3amount,
+      item4particulars,
+      item4amount,
+      item5particulars,
+      item5amount,
+      discount,
+      vat,
+      amount,
+      finalamount, 
+      option,
+      status  });
       }
       catch(err){
       }
