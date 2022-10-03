@@ -1,32 +1,32 @@
 import mongoose from "mongoose";
 
 const billingSchema = mongoose.Schema({
-  invoceid: { type: String, required: true },
-  item1particulars: { type: String, required: true },
-  item1amount: { type: String, required: true },
+  invoiceid: { type: String},
+  item1particulars: { type: String},
+  item1amount: { type: String},
 
-  item2particulars: { type: String, required: true },
-  item2amount: { type: String, required: true },
+  item2particulars: { type: String},
+  item2amount: { type: String},
 
-  item3particulars: { type: String, required: true },
-  item3amount: { type: String, required: true },
+  item3particulars: { type: String},
+  item3amount: { type: String},
 
-  item4particulars: { type: String, required: true },
-  item4amount: { type: String, required: true },
+  item4particulars: { type: String},
+  item4amount: { type: String},
  
-  item5particulars: { type: String, required: true },
-  item5amount: { type: String, required: true },
+  item5particulars: { type: String},
+  item5amount: { type: String},
   
   
-  discount: { type: String, required: true },
-  vat: { type: String, required: true },
+  discount: { type: String},
+  vat: { type: String},
 
-  amount: { type: String, required: true },
-  finalamount: { type: String, required: true },
+  amount: { type: String},
+  finalamount: { type: String},
 
   
-  option: { type: String, required: true },
-  status: { type: String, required: true }
+  option: { type: String},
+  status: { type: String}
 });
 
 export const billingModel = mongoose.model("billing", billingSchema);

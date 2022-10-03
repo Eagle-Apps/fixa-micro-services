@@ -38,10 +38,6 @@ class APIError extends AppError {
   }
 }
 
-const createAPIError = (name, statusCode, description, isOperational) => {
-  return new APIError(name, statusCode, description, isOperational);
-};
-
 //400
 class BadRequestError extends AppError {
   constructor(description = "Bad request", logingErrorResponse) {
@@ -56,15 +52,6 @@ class BadRequestError extends AppError {
   }
 }
 
-const createBadRequestError = (
-  name,
-  statusCode,
-  description,
-  isOperational
-) => {
-  return new BadRequestError(name, statusCode, description);
-};
-
 //400
 class ValidationError extends AppError {
   constructor(description = "Validation Error", errorStack) {
@@ -78,12 +65,4 @@ class ValidationError extends AppError {
   }
 }
 
-export {
-  AppError,
-  APIError,
-  BadRequestError,
-  ValidationError,
-  createBadRequestError,
-  createAPIError,
-  STATUS_CODES,
-};
+export { AppError, APIError, BadRequestError, ValidationError, STATUS_CODES };
