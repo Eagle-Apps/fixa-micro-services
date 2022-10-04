@@ -34,6 +34,28 @@ class UnitService {
     }
   }
 
+  async UpdateUnit({ _id, unitName, category, model, modelNum }) {
+    try {
+      const unit = await this.repository.UpdateUnit({
+        _id,
+        unitName,
+        category,
+        model,
+        modelNum,
+      });
+
+      return FormatData({
+        unit,
+      });
+    } catch (err) {
+      throw new APIError(
+        err.name ? err.name : "Data Not found",
+        err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
+        err.message
+      );
+    }
+  }
+
   async GetUnit(id) {
     try {
       const unit = await this.repository.FetchUnit(id);

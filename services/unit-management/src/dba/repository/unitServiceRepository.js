@@ -22,6 +22,24 @@ class UnitServiceRepository {
     }
   }
 
+  async UpdateUnit({ _id, unitName, category, model, modelNum }) {
+    try {
+      const filter = { _id };
+      const update = {
+        unitName,
+        category,
+        model,
+        modelNum,
+      };
+      const updatedUnit = await unitModel.findByIdAndUpdate(filter, update, {
+        new: true,
+      });
+      return updatedUnit;
+    } catch (err) {
+      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
+    }
+  }
+
   async FetchUnit(id) {
     try {
       const unit = unitModel.findOne(id);
