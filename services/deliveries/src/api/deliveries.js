@@ -1,16 +1,16 @@
-import TechnicianService from "../service/TechnicianServices.js";
+import DeliveriesServices from "../service/DeliveriesServices.js";
 import {
   PublishFaultManagementEvent,
   PublishNotificationEvent,
 } from "../utils/index.js";
 
-export const technician = (app) => {
-  const service = new TechnicianService(); 
+export const deliveries = (app) => {
+  const service = new DeliveriesServices(); 
 
 
 //rating
 //displaying of fetching
-app.get("/rating", async (req, res, next) => {
+app.get("/deliveries", async (req, res, next) => {
   try {
     const {data} =service.Getrating()
  return res.status(201).json(data);
@@ -20,7 +20,7 @@ app.get("/rating", async (req, res, next) => {
   }
 });
 //creating or adding
-app.post("/rating", async (req, res, next) => {
+app.post("/deliveries", async (req, res, next) => {
   try {
    const { ratingid,
     quality,
@@ -34,7 +34,7 @@ app.post("/rating", async (req, res, next) => {
   }
 });
 //updating any of the properties 
-  app.put("rating", async (req, res, next) => {
+  app.put("deliveries", async (req, res, next) => {
     try {
       const {
         ratingid,

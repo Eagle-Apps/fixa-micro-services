@@ -1,10 +1,12 @@
-import rating from "../models/rating.js";
-import service from "../models/service.js";
-import servicehistory from "../models/servicehistory.js";
-import technicians from "../models/dispatchers.js";
+// import rating from "../models/rating.js";
+// import service from "../models/service.js";
+// import servicehistory from "../models/servicehistory.js";
+// import training from "../models/training.js";
+// import paymenthistory from "../models/paymenthistory.js";
 
-import training from "../models/training.js";
-import paymenthistory from "../models/paymenthistory.js";
+
+import deliveries from "../models/deliveries.js";
+
 
 //technicians
 import crypto from "crypto";
@@ -19,7 +21,7 @@ import {
   } from "../../utils/app-errors.js";
 
  
-  class TechnicianRepository {
+  class DeliveriesRepository {
     
 
 //service
@@ -746,4 +748,4 @@ STATUS_CODES.INTERNAL_ERROR,
 
 
 
-    export default TechnicianRepository;
+    export default DeliveriesRepository;
