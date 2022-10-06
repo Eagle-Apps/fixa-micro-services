@@ -1,5 +1,5 @@
 import rating from "../models/rating.js";
-// import technicians from "../models/dispatchers.js";
+// import dispactchers from "../models/dispatchers.js";
 
 import training from "../models/training.js";
 import paymenthistory from "../models/paymenthistory.js";
@@ -17,7 +17,7 @@ import {
   } from "../../utils/app-errors.js";
 
  
-  class TechnicianRepository {
+  class dispatchersRepository {
     
 
 //service
@@ -744,4 +744,4 @@ STATUS_CODES.INTERNAL_ERROR,
 
 
 
-    export default TechnicianRepository;
+    export default dispatchersRepository;

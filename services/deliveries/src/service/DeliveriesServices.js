@@ -88,41 +88,6 @@ async addDeliveries(userInputs){
 
   
 
-async SubscribeEvents(payload) {
-  const { event, data } = payload;
-
-  const { order } = data;
-
-  switch (event) {
-    case "CREATE_ORDER":
-      this.ManageOrder(userId, order);
-      break;
-
-    default:
-      break;
-  }
-}
-
-    async SubscribeEvents(payload) {
-      const { event, data } = payload;
-  
-      const {Id, service ,serviceClass, location } = data;
-
-
-  
-      switch (event) {
-        case "fetchTechnicians":
-          this.requestTechnicians(Id, service ,serviceClass, location);
-
-          
-          break;
-  
-        default:
-          break;
-      }
-    }
-
-
 }
 
 

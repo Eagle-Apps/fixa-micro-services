@@ -12,6 +12,7 @@ app.use("/client-services", proxy("http://localhost:8001"));
 app.use("/utility-services", proxy("http://localhost:8003"));
 app.use("/technician-services", proxy("http://localhost:8004"));
 app.use("/billing-services", proxy("http://localhost:8005"));
+app.use("/deliveries-services", proxy("http://localhost:8007"));
 
 const port = process.env.PORT || 5000;
 
