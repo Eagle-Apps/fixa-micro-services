@@ -12,19 +12,7 @@ export const deliveries = (app) => {
 //displaying of fetching
 app.get("/deliveries", async (req, res, next) => {
   try {
-    const  { description,
-      payer,
-      price,
-      dispatcher,
-      time,
-      location,
-             } = req.body;
-    const { data } =service.getDeliveries( { description,
-      payer,
-      price,
-      dispatcher,
-      time,
-      location,})
+    const { data } =service.getDeliveries();
  return res.status(201).json({data});
 
   } catch (err) {
@@ -47,7 +35,7 @@ app.post("/deliveries", async (req, res, next) => {
       price,
       dispatcher,
       time,
-      location})
+      location});
     return res.status(201).json(data);
 } catch (err) {
     next(err);

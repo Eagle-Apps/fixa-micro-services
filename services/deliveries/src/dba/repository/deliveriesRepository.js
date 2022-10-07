@@ -22,7 +22,7 @@ async addDeliveries({
   price,
   dispatcher,
   time,
-  location, }) {
+  location}) {
    
   try {
     const Deliveries = new deliveries({ description,
@@ -30,8 +30,8 @@ async addDeliveries({
       price,
       dispatcher,
       time,
-      location, });
-      const clientResult = await deliveries.save();
+      location});
+      const clientResult = await Deliveries.save();
       return clientResult;
     
    
@@ -71,25 +71,15 @@ STATUS_CODES.INTERNAL_ERROR,
 
 //to display 
 
-async getDeliveries({ description,
-  payer,
-  price,
-  dispatcher,
-  time,
-  location, }) {
+async getDeliveries() {
 try{
-deliveries.find({ description,
-  payer,
-  price,
-  dispatcher,
-  time,
-  location, }, (err, deliveries) => {
+const request = deliveries.find( (err, request) => {
 if (err) {
 return res.send(err);
 }
-return res.json(deliveries);
+return request;
 });
-
+ 
 }catch (err) {
 throw new APIError(
 "API Error",

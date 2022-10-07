@@ -29,17 +29,15 @@ class DeliveriesServices {
 
   
 
-async addDeliveries(userInputs){
-  const {
-    description,
-    payer,
-    price,
-    dispatcher,
-    time,
-    location,
-     } = userInputs;
+async addDeliveries({ description,
+  payer,
+  price,
+  dispatcher,
+  time,
+  location}){
+ 
     try{
-      const addDeliveries = await this.repository.addDeliveries({
+      const {data} = await this.repository.addDeliveries({
         description,
     payer,
     price,
@@ -47,6 +45,8 @@ async addDeliveries(userInputs){
     time,
     location,
       });
+      return res.status(201).json({data});  
+        
     }
     catch(err){
     }
@@ -78,7 +78,8 @@ async addDeliveries(userInputs){
 
   async getDeliveries(){  
       try{
-        const getDeliveries = await this.repository.getDeliveries()  
+        const {data} = await this.repository.getDeliveries() ;
+        return res.status(201).json({data}); 
       }
       catch(err){  
          return err;
