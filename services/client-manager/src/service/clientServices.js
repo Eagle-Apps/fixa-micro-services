@@ -2,10 +2,11 @@ import ClientRepository from "../dba/repository/clientRepository.js";
 import {
   FormatData,
   CheckPassword,
-  GeneratePassword,
+  HashPassword,
   GenerateSalt,
   GenerateSignature,
   ValidatePassword,
+  CreateVerificationString,
 } from "../utils/index.js";
 import {
   APIError,
@@ -13,6 +14,8 @@ import {
   STATUS_CODES,
   ValidationError,
 } from "../utils/app-errors.js";
+import { configs } from "../config/index.js";
+const { SITE_DOMAIN } = configs;
 
 // All Business logic will be here
 class ClientService {
@@ -20,32 +23,33 @@ class ClientService {
     this.repository = new ClientRepository();
   }
 
-  async SignUp(userInputs) {
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      confirmPassword,
-      phone,
-      address,
-      city,
-      state,
-      zipCode,
-    } = userInputs;
-
+  async SignUp({
+    firstName,
+    lastName,
+    email,
+    password,
+    confirmPassword,
+    phone,
+    address,
+    city,
+    state,
+    zipCode,
+  }) {
     try {
       //check if user is already registered
-      const existingClient = await this.repository.FindExistingClient({
+      const existingClient = await this.repository.FindExistingClient(
         email,
-      });
+        "email"
+      );
 
       const passwordMatch = await CheckPassword(password, confirmPassword);
+
       if (!existingClient) {
         if (passwordMatch) {
           let salt = await GenerateSalt();
 
-          let hashedPassword = await GeneratePassword(password, salt);
+          let hashedPassword = await HashPassword(password, salt);
+          let verificationString = await CreateVerificationString();
 
           const createdClient = await this.repository.CreateClient({
             name: `${lastName} ${firstName}`,
@@ -57,6 +61,7 @@ class ClientService {
             state,
             zipCode,
             salt,
+            verificationString,
           });
 
           const token = await GenerateSignature({
@@ -64,7 +69,14 @@ class ClientService {
             _id: createdClient._id,
           });
 
-          return FormatData({ id: createdClient._id, token });
+          const link = `${SITE_DOMAIN}/verifyemail/?token=${createdClient.verificationString}`;
+
+          return FormatData({
+            id: createdClient._id,
+            email: createdClient.email,
+            token,
+            link,
+          });
         } else {
           throw new BadRequestError("passwords does not match", true);
         }
@@ -80,13 +92,52 @@ class ClientService {
     }
   }
 
+  async SendEmailVerifcation({ id }) {
+    try {
+      const existingClient = await this.repository.FindExistingClient(id, "id");
+
+      const link = `${SITE_DOMAIN}/verifyemail/?token=${existingClient.verificationString}`;
+
+      return FormatData({ email: existingClient.email, link });
+    } catch (err) {
+      throw new APIError(
+        err.name ? err.name : "Data Not found",
+        err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
+        err.message
+      );
+    }
+  }
+
+  async VerifyEmail({ token }) {
+    try {
+      const tokenExist = await this.repository.FindExistingClient(
+        token,
+        "verification_code"
+      );
+      if (tokenExist) {
+        await this.VerifyEmail(token);
+      } else {
+        throw new BadRequestError("invalid token", true);
+      }
+
+      return FormatData({ email: token.email });
+    } catch (err) {
+      throw new APIError(
+        err.name ? err.name : "Data Not found",
+        err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
+        err.message
+      );
+    }
+  }
+
   async SignIn(userInputs) {
     const { email, password } = userInputs;
 
     try {
-      const existingClient = await this.repository.FindExistingClient({
+      const existingClient = await this.repository.FindExistingClient(
         email,
-      });
+        "email"
+      );
 
       if (existingClient) {
         const validPassword = await ValidatePassword(
@@ -154,16 +205,17 @@ class ClientService {
     const { email } = userInputs;
 
     try {
-      const existingClient = await this.repository.FindExistingClient({
+      const existingClient = await this.repository.FindExistingClient(
         email,
-      });
+        "email"
+      );
 
       if (existingClient) {
         const token = await this.repository.FindTokenByUserId({
           user: existingClient,
         });
 
-        const link = `https://fixa.com.ng/passwordreset/?token=${token.resetPasswordToken}&id=${existingClient._id}&email=${email}`;
+        const link = `${SITE_DOMAIN}/passwordreset/?token=${token.resetPasswordToken}&id=${existingClient._id}&email=${email}`;
 
         const data = { link, email };
 
@@ -240,9 +292,7 @@ class ClientService {
 
   async ResetPassword({ id, password, confirmPassword }) {
     try {
-      const existingClient = await this.repository.FindExistingClientById({
-        id,
-      });
+      const existingClient = await this.repository.FindExistingClient(id, "id");
       const passwordMatch = await CheckPassword(password, confirmPassword);
 
       if (existingClient) {
