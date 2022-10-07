@@ -15,6 +15,9 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 - [ ] fault-service-management - http://localhost:8003
 - [ ] notification-service - http://localhost:8006
+
+- [ ] recylcing-service - http://localhost:8007
+- [ ] billing-service-http://localhost:8001
 - [ ] billing-service-http://localhost:8005
 
 - [ ] payment-service-http://localhost:8001
