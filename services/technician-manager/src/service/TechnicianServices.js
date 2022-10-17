@@ -27,6 +27,27 @@ class TechnicianService {
   }
 
  
+  
+
+  async Uploadclass(){
+    
+    const fileuploader = asyncWrapper(uploader.single("file"), async (req, res) => {
+  try {
+  
+    const upload = await cloudinary.v2.uploader.upload(req.file.path);
+    return res.json({
+      success: true,
+      file: upload.secure_url,
+    });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Something went wrong", error: err.message });
+  }
+});
+}
+  
+
   async Updaterating(userInputs){
     const {
       id,
