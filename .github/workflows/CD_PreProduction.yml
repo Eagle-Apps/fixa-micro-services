@@ -1,1 +1,137 @@
 
+name: build and deploy to pre-prod
+
+# Controls when the action will run.
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+ build and push to digital_ocean:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # build docker image and push to docker hub
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Create client Env file
+        working-directory: ./services/client-manager
+        run: |
+          touch .env
+          echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
+          echo MONGODB_URI=${{ secrets.CLIENT_MONGO_URI }} >> .env
+          cat .env
+      - name: Create technician Env file
+        working-directory: ./services/technician-manager
+        run: |
+          touch .env
+          echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
+          echo MONGODB_URI=${{ secrets.TECHNICIAN_MONGO_URI }} >> .env
+          cat .env
+      - name: Create billing Env file
+        working-directory: ./services/billing-services
+        run: |
+          touch .env
+          echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
+          echo MONGODB_URI=${{ secrets.BILLING_MONGO_URI }} >> .env
+          cat .env
+      - name: Create deliveries Env file
+        working-directory: ./services/deliveries
+        run: |
+          touch .env
+          echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
+          echo MONGODB_URI=${{ secrets.DELIVERIES_MONGO_URI }} >> .env
+          cat .env 
+      - name: Create fault Env file
+        working-directory: ./services/fault-service-management
+        run: |
+          touch .env
+          echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
+          echo MONGODB_URI=${{ secrets.FAULT_MONGO_URI }} >> .env
+          cat .env 
+      - name: Create recycling management Env file
+        working-directory: ./services/recycling-management
+        run: |
+          touch .env
+          echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
+          echo MONGODB_URI=${{ secrets.RECYCLING_MONGO_URI }} >> .env
+          cat .env 
+      - name: Create unit management Env file
+        working-directory: ./services/unit-management
+        run: |
+          touch .env
+          echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
+          echo MONGODB_URI=${{ secrets.UNIT_MONGO_URI }} >> .env
+          cat .env 
+      - name: Create utility management Env file
+        working-directory: ./services/utility
+        run: |
+          touch .env
+          echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
+          echo MONGODB_URI=${{ secrets.UNIT_MONGO_URI }} >> .env
+          cat .env
+      - name: Create notification management Env file
+        working-directory: ./services/notification_services
+        run: |
+          touch .env
+          echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
+          echo MAILGUN_API_KEY=${{ secrets.MAILGUN_API_KEY }} >> .env
+          echo URL=${{ secrets.MAILGUN_URL }} >> .env
+          echo SITE_DOMAIN=${{ secrets.MAILGUN_SITE_DOMAIN }} >> .env
+          cat .env
+      - name: Build image
+        run: docker-compose up -d
+
+        - name: Test
+        run: docker run
+
+      - name: Install doctl                 # install the doctl on the runner
+        uses: digitalocean/action-doctl@v2
+        with:
+            token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: push image to digitalocean
+        run: |
+          doctl registry login
+          docker-compose push
+
+
+    # steps:
+    #   - name: checkout repo
+    #     uses: actions/checkout@v2
+
+    #   - name: Set up QEMU
+    #     uses: docker/setup-qemu-action@v1
+
+    #   - name: Set up Docker Buildx
+    #     uses: docker/setup-buildx-action@v1
+
+    #   - name: Login to DockerHub
+    #     uses: docker/login-action@v1
+    #     with:
+    #       username: ${{ secrets.DOCKERHUB_USERNAME }}
+    #       password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    #   - name: Build and push
+    #     uses: docker/build-push-action@v2
+    #     with:
+    #       context: ./
+    #       # file: ./Dockerfile
+    #       file: ./docker-compose
+    #       push: true
+    #       tags: ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-demo:latest
+
+    #   - name: Run the image in a container
+    #     uses: addnab/docker-run-action@v3
+    #     with:
+    #       image: ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-demo:latest
+    #       run: |
+    #         echo "runing the docker image"
+    #         echo "Testing the nodejs  app endpoints"
+    #         echo ${{ steps.docker_build.outputs.digest }}
