@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
- build and push to digital_ocean:
+  build and push to digital_ocean:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     # build docker image and push to docker hub
@@ -45,28 +45,28 @@ jobs:
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.DELIVERIES_MONGO_URI }} >> .env
-          cat .env 
+          cat .env
       - name: Create fault Env file
         working-directory: ./services/fault-service-management
         run: |
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.FAULT_MONGO_URI }} >> .env
-          cat .env 
+          cat .env
       - name: Create recycling management Env file
         working-directory: ./services/recycling-management
         run: |
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.RECYCLING_MONGO_URI }} >> .env
-          cat .env 
+          cat .env
       - name: Create unit management Env file
         working-directory: ./services/unit-management
         run: |
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.UNIT_MONGO_URI }} >> .env
-          cat .env 
+          cat .env
       - name: Create utility management Env file
         working-directory: ./services/utility
         run: |
@@ -85,20 +85,18 @@ jobs:
           cat .env
       - name: Build image
         run: docker-compose up -d
-
-        - name: Test
+      - name: Test
         run: docker run
 
-      - name: Install doctl                 # install the doctl on the runner
+      - name: Install doctl # install the doctl on the runner
         uses: digitalocean/action-doctl@v2
         with:
-            token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
       - name: push image to digitalocean
         run: |
           doctl registry login
           docker-compose push
-
 
     # steps:
     #   - name: checkout repo
