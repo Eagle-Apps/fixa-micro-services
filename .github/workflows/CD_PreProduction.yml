@@ -75,7 +75,7 @@ jobs:
           echo MONGODB_URI=${{ secrets.UNIT_MONGO_URI }} >> .env
           cat .env
       - name: Create notification management Env file
-        working-directory: ./services/notification_services
+        working-directory: ./services/notification-services
         run: |
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
