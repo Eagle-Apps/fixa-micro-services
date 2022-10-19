@@ -93,7 +93,7 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: push image to digitalocean
+      - name: Push image to digitalocean
         run: |
           doctl registry login
           docker-compose push
