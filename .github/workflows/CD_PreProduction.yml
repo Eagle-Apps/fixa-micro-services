@@ -85,9 +85,6 @@ jobs:
           cat .env
       - name: Build image
         run: docker-compose up -d
-      - name: Test
-        run: docker run
-
       - name: Install doctl # install the doctl on the runner
         uses: digitalocean/action-doctl@v2
         with:
