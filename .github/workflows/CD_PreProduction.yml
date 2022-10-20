@@ -82,7 +82,7 @@ jobs:
           echo SITE_DOMAIN=${{ secrets.MAILGUN_SITE_DOMAIN }} >> .env
           cat .env
       - name: Build image
-        run: docker-compose up -d
+        run: docker-compose build && docker-compose up -t fixapp
       - name: Install doctl # install the doctl on the runner
         uses: digitalocean/action-doctl@v2
         with:
