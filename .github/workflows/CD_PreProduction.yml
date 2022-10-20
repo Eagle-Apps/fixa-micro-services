@@ -82,15 +82,15 @@ jobs:
           echo SITE_DOMAIN=${{ secrets.MAILGUN_SITE_DOMAIN }} >> .env
           cat .env
       - name: Build image
-        run: docker-compose build && docker-compose up -t fixapp
+        run: docker-compose build && docker-compose up
       - name: Install doctl # install the doctl on the runner
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-      # - name: Log in to DO Container Registry
-      #   run: doctl registry login --expiry-seconds 600
-      # - name: Tag image
-      #   run: docker tag fixapp registry.digitalocean.com/fixapplication/fixapp
+      - name: Log in to DO Container Registry
+        run: doctl registry login --expiry-seconds 600
+      - name: Tag image
+        run: docker tag fixa-micro-services_nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
       - name: Push image to digitalocean
         run: |
           doctl registry login
