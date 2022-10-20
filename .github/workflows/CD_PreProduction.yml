@@ -90,8 +90,7 @@ jobs:
       - name: Log in to DO Container Registry
         run: doctl registry login --expiry-seconds 600
       - name: Tag image
-        run: docker tag fixapp \
-          registry.digitalocean.com/fixapplication/fixapp:${{github.event.inputs.version}}
+        run: docker tag fixapp registry.digitalocean.com/fixapplication/fixapp:${{github.event.inputs.version}}
       - name: Push image to digitalocean
         run: |
           doctl registry login
