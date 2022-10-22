@@ -1,6 +1,6 @@
 FROM node
 
-WORKDIR /app/services/technician-management
+WORKDIR /app/billing
 
 COPY package.json .
 
@@ -8,6 +8,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 8004
+EXPOSE 8005
 
 CMD ["npm", "start"]

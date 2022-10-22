@@ -10,7 +10,7 @@ services:
   client:
     build:
       dockerfile: Dockerfile
-      context: ./services/client-manager
+      context: ./client
     container_name: client
     ports:
       - "8001:8001"
@@ -22,11 +22,11 @@ services:
       - /app/client/node_modules
 
     env_file:
-      - ./services/client-manager/.env
+      - ./client/.env
   fault:
     build:
       dockerfile: Dockerfile
-      context: ./services/fault-service-management
+      context: ./fault
     container_name: fault
     ports:
       - "8002:8002"
@@ -37,11 +37,11 @@ services:
       - .:/app
       - /app/fault/node_modules
     env_file:
-      - ./services/fault-service-management/.env
+      - ./fault/.env
   utility:
     build:
       dockerfile: Dockerfile
-      context: ./services/utility
+      context: ./utility
     container_name: utility
     ports:
       - "8003:8003"
@@ -53,11 +53,11 @@ services:
       - .:/app/
       - /app/utility/node_modules
     env_file:
-      - ./services/utility/.env
+      - ./utility/.env
   technician:
     build:
       dockerfile: Dockerfile
-      context: ./services/technician-manager
+      context: ./technician
     container_name: technician
     ports:
       - "8004:8004"
@@ -69,11 +69,11 @@ services:
       - .:/app/
       - /app/technician/node_modules
     env_file:
-      - ./services/technician-manager/.env
+      - ./technician/.env
   # billing:
   #   build:
   #     dockerfile: Dockerfile
-  #     context: ./services/billing-services
+  #     context: ./billing
   #   container_name: billing
   #   ports:
   #     - "8005:8005"
@@ -83,13 +83,13 @@ services:
 
   #   volumes:
   #     - .:/app/
-  #     - /app/services/billing-services/node_modules
+  #     - /app/billing/node_modules
   #   env_file:
-  #     - ./services/billing-services/.env
+  #     - ./billing/.env
   notification:
     build:
       dockerfile: Dockerfile
-      context: ./services/notification-services
+      context: ./notification
     container_name: notification
     ports:
       - "8006:8006"
@@ -101,11 +101,11 @@ services:
       - .:/app/
       - /app/notification/node_modules
     env_file:
-      - ./services/notification-services/.env
+      - ./notification/.env
   # deliveries:
   #   build:
   #     dockerfile: Dockerfile
-  #     context: ./services/deliveries
+  #     context: ./deliveries
   #   container_name: deliveries
   #   ports:
   #     - "8007:8007"
@@ -115,9 +115,9 @@ services:
 
   #   volumes:
   #     - .:/app/
-  #     - /app/services/deliveries/node_modules
+  #     - /app/deliveries/node_modules
   #   env_file:
-  #     - ./services/deliveries/.env
+  #     - ./deliveries/.env
   nginx-proxy:
     build:
       dockerfile: Dockerfile

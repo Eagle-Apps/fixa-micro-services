@@ -1,6 +1,6 @@
 FROM node
 
-WORKDIR /app/services/client-manager
+WORKDIR /app/client
 
 COPY package.json .
 
