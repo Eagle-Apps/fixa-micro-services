@@ -1,6 +1,6 @@
 FROM node
 
-WORKDIR /app/notification
+WORKDIR /app/services/notification-services
 
 COPY package.json .
 

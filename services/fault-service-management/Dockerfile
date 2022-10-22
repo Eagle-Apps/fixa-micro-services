@@ -1,6 +1,6 @@
 FROM node
 
-WORKDIR /app/fault
+WORKDIR /app/services/fault-service-mangement
 
 COPY package.json .
 

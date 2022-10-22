@@ -1,6 +1,6 @@
 FROM node
 
-WORKDIR /app/billing
+WORKDIR /app/services/billing-services
 
 COPY package.json .
 

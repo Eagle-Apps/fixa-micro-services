@@ -1,6 +1,6 @@
 FROM node
 
-WORKDIR /app/technician
+WORKDIR /app/services/technician-management
 
 COPY package.json .
 

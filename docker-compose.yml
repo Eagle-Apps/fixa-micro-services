@@ -19,7 +19,7 @@ services:
       - "nosql-db"
     volumes:
       - .:/app
-      - /app/client/node_modules
+      - /app/services/client-manager/node_modules
 
     env_file:
       - ./services/client-manager/.env
@@ -35,7 +35,7 @@ services:
       - "nosql-db"
     volumes:
       - .:/app
-      - /app/fault/node_modules
+      - /app/services/fault-services-management/node_modules
     env_file:
       - ./services/fault-service-management/.env
   utility:
@@ -51,7 +51,7 @@ services:
 
     volumes:
       - .:/app/
-      - /app/utility/node_modules
+      - /app/services/utility/node_modules
     env_file:
       - ./services/utility/.env
   technician:
@@ -67,7 +67,7 @@ services:
 
     volumes:
       - .:/app/
-      - /app/technician/node_modules
+      - /app/services/technician-manager/node_modules
     env_file:
       - ./services/technician-manager/.env
   billing:
@@ -83,7 +83,7 @@ services:
 
     volumes:
       - .:/app/
-      - /app/billing/node_modules
+      - /app/services/billing-services/node_modules
     env_file:
       - ./services/billing-services/.env
   notification:
@@ -99,7 +99,7 @@ services:
 
     volumes:
       - .:/app/
-      - /app/notification/node_modules
+      - /app/services/notification-services/node_modules
     env_file:
       - ./services/notification-services/.env
   deliveries:
@@ -115,7 +115,7 @@ services:
 
     volumes:
       - .:/app/
-      - /app/deliveries/node_modules
+      - /app/services/deliveries/node_modules
     env_file:
       - ./services/deliveries/.env
   nginx-proxy:
