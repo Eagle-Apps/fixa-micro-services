@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { client } from "./src/api/client.js";
+// import { notification } from "./src/api/notification.js";
 import { appEvents } from "./src/api/app-events.js";
 import HandleErrors from "./src/utils/error-handler.js";
 
@@ -12,8 +12,8 @@ export const expressApp = async (app) => {
   //Listen to Events
   appEvents(app);
 
-  //api
-  client(app);
+  // //api
+  // notification(app);
 
   // error handling
   app.use(HandleErrors);

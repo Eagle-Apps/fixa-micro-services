@@ -1,7 +1,7 @@
-import NotificationServices from "../service/notificationServices.js";
+import NotificationService from "../service/notificationService.js";
 
 export const appEvents = (app) => {
-  const service = new FaultServices();
+  const service = new NotificationService();
 
   app.use("/app-events", async (req, res, next) => {
     const { payload } = req.body;

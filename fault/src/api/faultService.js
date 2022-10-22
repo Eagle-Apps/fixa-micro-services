@@ -9,7 +9,6 @@ import {
 export const fault = (app) => {
   const service = new FaultService();
 
-
   app.get("/fetchtasks", async (req, res, next) => {
     try {
       const { data } = await service.GetAllRequests();
@@ -59,16 +58,17 @@ export const fault = (app) => {
       next(err);
     }
   });
-  app.post("/accepttask", async (req, res, next) => {
-    const { requestId, TechnicianId } = req.body;
+  // app.post("/accepttask", async (req, res, next) => {
+  //   const { requestId, TechnicianId } = req.body;
 
-    try {
-      const { data } = await service.AcceptTask({
-        requestId,
-        TechnicianId,
-      });
+  //   try {
+  //     const { data } = await service.AcceptTask({
+  //       requestId,
+  //       TechnicianId,
+  //     });
 
-      return res.json(data);
+  //     return res.json(data);
+  //   }
 
   app.post("/", async (req, res, next) => {
     const { description, schedule, serviceCategory } = req.body;
@@ -91,7 +91,6 @@ export const fault = (app) => {
       return res.json({
         message: "request created, assigning tecnician in progress",
       });
-
     } catch (err) {
       next(err);
     }
