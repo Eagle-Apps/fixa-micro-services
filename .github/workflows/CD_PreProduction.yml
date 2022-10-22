@@ -17,63 +17,63 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Create client Env file
-        working-directory: ./services/client-manager
+        working-directory: ./client
         run: |
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.CLIENT_MONGO_URI }} >> .env
           cat .env
       - name: Create technician Env file
-        working-directory: ./services/technician-manager
+        working-directory: ./technician
         run: |
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.TECHNICIAN_MONGO_URI }} >> .env
           cat .env
       - name: Create billing Env file
-        working-directory: ./services/billing-services
+        working-directory: ./billing
         run: |
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.BILLING_MONGO_URI }} >> .env
           cat .env
       - name: Create deliveries Env file
-        working-directory: ./services/deliveries
+        working-directory: ./deliveries
         run: |
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.DELIVERIES_MONGO_URI }} >> .env
           cat .env
       - name: Create fault Env file
-        working-directory: ./services/fault-service-management
+        working-directory: ./fault
         run: |
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.FAULT_MONGO_URI }} >> .env
           cat .env
       - name: Create recycling management Env file
-        working-directory: ./services/recycling-management
+        working-directory: ./recycling
         run: |
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.RECYCLING_MONGO_URI }} >> .env
           cat .env
       - name: Create unit management Env file
-        working-directory: ./services/unit-management
+        working-directory: ./unit
         run: |
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.UNIT_MONGO_URI }} >> .env
           cat .env
       - name: Create utility management Env file
-        working-directory: ./services/utility
+        working-directory: ./utility
         run: |
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.UNIT_MONGO_URI }} >> .env
           cat .env
       - name: Create notification management Env file
-        working-directory: ./services/notification-services
+        working-directory: ./notification
         run: |
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
