@@ -70,22 +70,22 @@ services:
       - /app/services/technician-manager/node_modules
     env_file:
       - ./services/technician-manager/.env
-  billing:
-    build:
-      dockerfile: Dockerfile
-      context: ./services/billing-services
-    container_name: billing
-    ports:
-      - "8005:8005"
-    restart: always
-    depends_on:
-      - "nosql-db"
+  # billing:
+  #   build:
+  #     dockerfile: Dockerfile
+  #     context: ./services/billing-services
+  #   container_name: billing
+  #   ports:
+  #     - "8005:8005"
+  #   restart: always
+  #   depends_on:
+  #     - "nosql-db"
 
-    volumes:
-      - .:/app/
-      - /app/services/billing-services/node_modules
-    env_file:
-      - ./services/billing-services/.env
+  #   volumes:
+  #     - .:/app/
+  #     - /app/services/billing-services/node_modules
+  #   env_file:
+  #     - ./services/billing-services/.env
   notification:
     build:
       dockerfile: Dockerfile
@@ -102,22 +102,22 @@ services:
       - /app/services/notification-services/node_modules
     env_file:
       - ./services/notification-services/.env
-  deliveries:
-    build:
-      dockerfile: Dockerfile
-      context: ./services/deliveries
-    container_name: deliveries
-    ports:
-      - "8007:8007"
-    restart: always
-    depends_on:
-      - "nosql-db"
+  # deliveries:
+  #   build:
+  #     dockerfile: Dockerfile
+  #     context: ./services/deliveries
+  #   container_name: deliveries
+  #   ports:
+  #     - "8007:8007"
+  #   restart: always
+  #   depends_on:
+  #     - "nosql-db"
 
-    volumes:
-      - .:/app/
-      - /app/services/deliveries/node_modules
-    env_file:
-      - ./services/deliveries/.env
+  #   volumes:
+  #     - .:/app/
+  #     - /app/services/deliveries/node_modules
+  #   env_file:
+  #     - ./services/deliveries/.env
   nginx-proxy:
     build:
       dockerfile: Dockerfile
@@ -127,8 +127,8 @@ services:
       - fault
       - utility
       - technician
-      - billing
+      # - billing
       - notification
-      - deliveries
+      # - deliveries
     ports:
       - 80:80
