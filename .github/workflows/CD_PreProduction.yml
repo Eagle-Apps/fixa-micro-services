@@ -83,7 +83,7 @@ jobs:
           echo MONGODB_URI=${{ secrets.NOTIFICATION_MONGO_URI }} >> .env
           cat .env
       - name: Build image
-        run: docker-compose up
+        run: docker-compose up -d
       - name: Install doctl # install the doctl on the runner
         uses: digitalocean/action-doctl@v2
         with:
