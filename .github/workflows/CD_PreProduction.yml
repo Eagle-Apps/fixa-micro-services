@@ -95,4 +95,4 @@ jobs:
       - name: Push image to digitalocean
         run: |
           doctl registry login
-          docker-compose push
+          docker-compose push registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
