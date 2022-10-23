@@ -83,7 +83,7 @@ jobs:
           echo MONGODB_URI=${{ secrets.NOTIFICATION_MONGO_URI }} >> .env
           cat .env
       - name: Build image
-        run: docker-compose build
+        run: docker-compose up
       - name: Install doctl # install the doctl on the runner
         uses: digitalocean/action-doctl@v2
         with:
@@ -93,6 +93,4 @@ jobs:
       - name: Tag image
         run: docker tag fixa-micro-services_nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
       - name: Push image to digitalocean
-        run: |
-          doctl registry login
-          docker-compose push registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
+        run: docker-compose push registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
