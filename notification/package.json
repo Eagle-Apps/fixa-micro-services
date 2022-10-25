@@ -1,0 +1,31 @@
+{
+<<<<<<< HEAD:services/deliveries/package.json
+  "name": "deliveries-manager",
+=======
+  "name": "notification-manager",
+>>>>>>> 8c7489cf4809f357833628e1355832a10b2c948f:notification/package.json
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "module": "main.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "mailgun.js": "^8.0.1",
+    "mongoose": "^6.5.4",
+    "winston": "^3.8.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}

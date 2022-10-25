@@ -1,0 +1,134 @@
+version: "3"
+services:
+  nosql-db:
+    image: mongo
+    ports:
+      - "27018:27017"
+    container_name: nosql-db
+    volumes:
+      - ./db/:/data/db
+  client:
+    build:
+      dockerfile: Dockerfile
+      context: ./client
+    container_name: client
+    ports:
+      - "8001:8001"
+    restart: always
+    depends_on:
+      - "nosql-db"
+    volumes:
+      - .:/app
+      - /app/client/node_modules
+
+    env_file:
+      - ./client/.env
+  fault:
+    build:
+      dockerfile: Dockerfile
+      context: ./fault
+    container_name: fault
+    ports:
+      - "8002:8002"
+    restart: always
+    depends_on:
+      - "nosql-db"
+    volumes:
+      - .:/app
+      - /app/fault/node_modules
+    env_file:
+      - ./fault/.env
+  utility:
+    build:
+      dockerfile: Dockerfile
+      context: ./utility
+    container_name: utility
+    ports:
+      - "8003:8003"
+    restart: always
+    depends_on:
+      - "nosql-db"
+
+    volumes:
+      - .:/app/
+      - /app/utility/node_modules
+    env_file:
+      - ./utility/.env
+  technician:
+    build:
+      dockerfile: Dockerfile
+      context: ./technician
+    container_name: technician
+    ports:
+      - "8004:8004"
+    restart: always
+    depends_on:
+      - "nosql-db"
+
+    volumes:
+      - .:/app/
+      - /app/technician/node_modules
+    env_file:
+      - ./technician/.env
+  # billing:
+  #   build:
+  #     dockerfile: Dockerfile
+  #     context: ./billing
+  #   container_name: billing
+  #   ports:
+  #     - "8005:8005"
+  #   restart: always
+  #   depends_on:
+  #     - "nosql-db"
+
+  #   volumes:
+  #     - .:/app/
+  #     - /app/billing/node_modules
+  #   env_file:
+  #     - ./billing/.env
+  notification:
+    build:
+      dockerfile: Dockerfile
+      context: ./notification
+    container_name: notification
+    ports:
+      - "8006:8006"
+    restart: always
+    depends_on:
+      - "nosql-db"
+
+    volumes:
+      - .:/app/
+      - /app/notification/node_modules
+    env_file:
+      - ./notification/.env
+  # deliveries:
+  #   build:
+  #     dockerfile: Dockerfile
+  #     context: ./deliveries
+  #   container_name: deliveries
+  #   ports:
+  #     - "8007:8007"
+  #   restart: always
+  #   depends_on:
+  #     - "nosql-db"
+
+  #   volumes:
+  #     - .:/app/
+  #     - /app/deliveries/node_modules
+  #   env_file:
+  #     - ./deliveries/.env
+  nginx-proxy:
+    build:
+      dockerfile: Dockerfile
+      context: ./proxy
+    depends_on:
+      - client
+      - fault
+      - utility
+      - technician
+      # - billing
+      - notification
+      # - deliveries
+    ports:
+      - 80:80

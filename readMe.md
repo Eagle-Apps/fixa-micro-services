@@ -10,12 +10,12 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 ## micro service ports [local]
 
 - [ ] client-manager - http://localhost:8001
-- [ ] technician-mangemment - http://localhost:8004
-- [ ] utility-mangemment - http://localhost:8002
-
-- [ ] fault-service-management - http://localhost:8003
-- [ ] notification-service - http://localhost:8006
+- [ ] fault-service-management - http://localhost:8002
+- [ ] utility-mangemment - http://localhost:8003
+- [ ] technician-managemment - http://localhost:8004
 - [ ] billing-service-http://localhost:8005
+- [ ] notification-service - http://localhost:8006
+- [ ] deliveries-http://localhost:8007
 
 - [ ] delivery-service-http://localhost:8007
 
