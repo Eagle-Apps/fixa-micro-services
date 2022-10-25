@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD:services/deliveries/package.json
+  "name": "deliveries-manager",
+=======
   "name": "notification-manager",
+>>>>>>> 8c7489cf4809f357833628e1355832a10b2c948f:notification/package.json
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

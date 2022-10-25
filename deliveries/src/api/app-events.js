@@ -1,7 +1,7 @@
-import ClientService from "../service/TechnicianServices.js";
+import DeliveriesServices from "../service/DeliveriesServices.js";
 
 export const appEvents = (app) => {
-  const service = new ClientService();
+  const service = new DeliveriesServices();
 
   app.use("/app-events", async (req, res, next) => {
     const { payload } = req.body;
