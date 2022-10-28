@@ -7,6 +7,15 @@ import {
 export const client = (app) => {
   const service = new ClientService();
 
+  app.get("/", async (req, res, next) => {
+    try {
+      let data = { api: "workin" };
+      return res.json(data);
+    } catch (err) {
+      next(err);
+    }
+  });
+
   app.post("/register", async (req, res, next) => {
     try {
       const {
