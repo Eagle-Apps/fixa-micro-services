@@ -90,6 +90,15 @@ jobs:
           docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
       - name: Build image
         run: docker-compose build
+      - name: Push image to docker hub
+        run: |
+          docker push eagleapps/utility:latest
+          docker push eagleapps/nginx-proxy:latest
+          docker push eagleapps/client:latest
+          docker push eagleapps/technician:latest
+          docker push eagleapps/fault:latest
+          docker push eagleapps/notification:latest
+
       # - name: Install doctl # install the doctl on the runner
       #   uses: digitalocean/action-doctl@v2
       #   with:
@@ -101,11 +110,4 @@ jobs:
         run: docker tag eagleapps/nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
       - name: Push image to digitalocean
         run: docker-compose push registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
-      - name: Push image to docker hub
-        run: |
-          docker push eagleapps/utility:latest
-          docker push eagleapps/nginx-proxy:latest
-          docker push eagleapps/client:latest
-          docker push eagleapps/technician:latest
-          docker push eagleapps/fault:latest
-          docker push eagleapps/notification:latest
+     
