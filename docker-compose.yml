@@ -9,6 +9,7 @@ services:
       - ./db/:/data/db
   client:
     build:
+      image: "eagleapps/client:latest"
       dockerfile: Dockerfile
       context: ./client
     container_name: client
@@ -40,6 +41,7 @@ services:
       - ./fault/.env
   utility:
     build:
+      image: "eagleapps/utility:latest"
       dockerfile: Dockerfile
       context: ./utility
     container_name: utility
@@ -56,6 +58,7 @@ services:
       - ./utility/.env
   technician:
     build:
+      image: "eagleapps/technician:latest"
       dockerfile: Dockerfile
       context: ./technician
     container_name: technician
@@ -88,6 +91,7 @@ services:
   #     - ./billing/.env
   notification:
     build:
+      image: "eagleapps/notification:latest"
       dockerfile: Dockerfile
       context: ./notification
     container_name: notification
@@ -120,6 +124,7 @@ services:
   #     - ./deliveries/.env
   nginx-proxy:
     build:
+      image: "eagleapps/nginx-proxy:latest"
       dockerfile: Dockerfile
       context: ./proxy
     depends_on:

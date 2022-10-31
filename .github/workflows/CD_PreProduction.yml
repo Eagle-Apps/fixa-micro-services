@@ -82,15 +82,23 @@ jobs:
           echo SITE_DOMAIN=${{ secrets.MAILGUN_SITE_DOMAIN }} >> .env
           echo MONGODB_URI=${{ secrets.NOTIFICATION_MONGO_URI }} >> .env
           cat .env
+      - name: docker login
+        env:
+          DOCKERHUB_USERNAME: ${{secrets.DOCKERHUB_USERNAME}}
+          DOCKERHUB_TOKEN: ${{secrets.DOCKERHUB_TOKEN}}
+        run: |
+          docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
       - name: Build image
-        run: docker-compose up -d
-      - name: Install doctl # install the doctl on the runner
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-      - name: Log in to DO Container Registry
-        run: doctl registry login --expiry-seconds 600
-      - name: Tag image
-        run: docker tag fixa-micro-services_nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
-      - name: Push image to digitalocean
-        run: docker-compose push registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
+        run: docker-compose build
+      # - name: Install doctl # install the doctl on the runner
+      #   uses: digitalocean/action-doctl@v2
+      #   with:
+      #     token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      # - name: Log in to DO Container Registry
+      #   run: doctl registry login --expiry-seconds 600
+      # - name: Tag image
+      #   run: docker tag fixa-micro-services_nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
+      # - name: Push image to digitalocean
+      #   run: docker-compose push registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
+      - name: Push image to docker hub
+        run: docker push registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
