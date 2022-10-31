@@ -109,7 +109,6 @@ jobs:
         
       - name: Tag image
         #run: docker tag fixa-micro-services_nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
-        run: docker tag eagleapps/nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
+        run: docker tag eagleapps/nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy:latest
       - name: Push image to digitalocean
-        run: docker-compose push registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
-     
+        run: docker push registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy:latest
