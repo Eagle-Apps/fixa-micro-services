@@ -101,4 +101,4 @@ jobs:
       # - name: Push image to digitalocean
       #   run: docker-compose push registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
       - name: Push image to docker hub
-        run: docker push
+        run: docker push ${{secrets.DOCKERHUB_USERNAME}}/eagleapps
