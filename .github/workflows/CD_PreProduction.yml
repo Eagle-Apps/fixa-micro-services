@@ -96,10 +96,10 @@ jobs:
       #     token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       # - name: Log in to DO Container Registry
       #   run: doctl registry login --expiry-seconds 600
-      # - name: Tag image
-      #   run: docker tag fixa-micro-services_nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
-      # - name: Push image to digitalocean
-      #   run: docker-compose push registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
+      - name: Tag image
+        run: docker tag fixa-micro-services_nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
+      - name: Push image to digitalocean
+        run: docker-compose push registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
       - name: Push image to docker hub
         run: docker push eagleapps/utility:latest
         run: docker push eagleapps/nginx-proxy:latest
