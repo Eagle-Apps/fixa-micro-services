@@ -98,7 +98,7 @@ jobs:
       #   run: doctl registry login --expiry-seconds 600
       - name: Tag image
         #run: docker tag fixa-micro-services_nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
-        run: docker tag nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
+        run: docker tag eagleapps/nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
       - name: Push image to digitalocean
         run: docker-compose push registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
       - name: Push image to docker hub
