@@ -1,11 +1,13 @@
 import ClientService from "../service/clientServices.js";
-import {
-  PublishFaultManagementEvent,
-  PublishNotificationEvent,
-} from "../utils/index.js";
+import { PublishMessage, SubscribeMessage } from "../utils/index.js";
+import { configs } from "../config/index.js";
+const { NOTIFICATION_SERVICE, FAULT_SERVICE } = configs;
 
-export const client = (app) => {
+export const client = (app, channel) => {
   const service = new ClientService();
+
+  // listen to events from other services
+  SubscribeMessage(channel, service);
 
   app.get("/", async (req, res, next) => {
     try {
@@ -47,7 +49,9 @@ export const client = (app) => {
         data,
       };
 
-      PublishNotificationEvent(payload);
+      // PublishNotificationEvent(payload);
+
+      PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
 
       return res.json(data);
     } catch (err) {
@@ -107,7 +111,8 @@ export const client = (app) => {
         data,
       };
 
-      PublishNotificationEvent(payload);
+      // PublishNotificationEvent(payload);
+      PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
 
       return res.json({ message: "email have been sent" });
     } catch (err) {
@@ -127,7 +132,8 @@ export const client = (app) => {
         data,
       };
 
-      PublishNotificationEvent(payload);
+      // PublishNotificationEvent(payload);
+      PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
 
       return res.json({ message: "email have been sent" });
     } catch (err) {
@@ -146,7 +152,8 @@ export const client = (app) => {
         data,
       };
 
-      PublishNotificationEvent(payload);
+      // PublishNotificationEvent(payload);
+      PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
       return res.json(data);
     } catch (err) {
       next(err);
@@ -224,7 +231,9 @@ export const client = (app) => {
         },
       };
 
-      PublishFaultManagementEvent(payload);
+      // PublishFaultManagementEvent(payload);
+      //inform fault service of the client request
+      PublishMessage(channel, FAULT_SERVICE, JSON.stringify(payload));
 
       const messagePayload = {
         event: "REQUEST_SERVICE",
@@ -234,7 +243,13 @@ export const client = (app) => {
           clientPhone: data.phone,
         },
       };
-      PublishNotificationEvent(messagePayload);
+
+      PublishMessage(
+        channel,
+        NOTIFICATION_SERVICE,
+        JSON.stringify(messagePayload)
+      );
+      // PublishNotificationEvent(messagePayload);
 
       return res.json({
         message: "request dispatched",

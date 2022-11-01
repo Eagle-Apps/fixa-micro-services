@@ -1,13 +1,11 @@
 import FaultService from "../service/faultServices.js";
-import {
-  PublishBillingEvent,
-  PublishClientEvent,
-  PublishNotificationEvent,
-  PublishTechnicianEvent,
-} from "../utils/index.js";
+import { SubscribeMessage } from "../utils/index.js";
 
-export const fault = (app) => {
-  const service = new FaultService();
+export const fault = (app, channel) => {
+  const service = new FaultService(channel);
+
+  // listen to events from other services
+  SubscribeMessage(channel, service);
 
   app.get("/fetchtasks", async (req, res, next) => {
     try {
@@ -70,29 +68,30 @@ export const fault = (app) => {
   //     return res.json(data);
   //   }
 
-  app.post("/", async (req, res, next) => {
-    const { description, schedule, serviceCategory } = req.body;
+  // app.post("/", async (req, res, next) => {
+  //   const { description, schedule, serviceCategory } = req.body;
 
-    const { userId } = req.user;
+  //   const { userId } = req.user;
 
-    try {
-      //create new service request
-      const { data } = await service.AddServiceRequest({
-        userId,
-        description,
-        schedule,
-      });
+  //   try {
+  //     //create new service request
+  //     const { data } = await service.AddServiceRequest({
+  //       userId,
+  //       description,
+  //       schedule,
+  //     });
 
-      // handle all notifications
+  //     // handle all notifications
 
-      const payload = { event: "VARIABLE_SERVICE", data };
-      PublishNotificationEvent(payload);
+  //     const payload = { event: "VARIABLE_SERVICE", data };
+  //     // PublishNotificationEvent(payload);
+  //     PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
 
-      return res.json({
-        message: "request created, assigning tecnician in progress",
-      });
-    } catch (err) {
-      next(err);
-    }
-  });
+  //     return res.json({
+  //       message: "request created, assigning tecnician in progress",
+  //     });
+  //   } catch (err) {
+  //     next(err);
+  //   }
+  // });
 };

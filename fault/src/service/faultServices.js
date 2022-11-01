@@ -1,20 +1,19 @@
 import FaultServiceRepository from "../dba/repository/faultServiceRepository.js";
-import {
-  generateRequestId,
-  PublishNotificationEvent,
-  PublishTechnicianEvent,
-} from "../utils/index.js";
+import { generateRequestId, PublishMessage } from "../utils/index.js";
 import {
   APIError,
   BadRequestError,
   STATUS_CODES,
   ValidationError,
 } from "../utils/app-errors.js";
+import { configs } from "../config/index.js";
+const { NOTIFICATION_SERVICE, TECHNICIAN_SERVICE } = configs;
 
 // All Business logic will be here
 class FaultService {
-  constructor() {
+  constructor(channel) {
     this.repository = new FaultServiceRepository();
+    this.channel = channel;
   }
   async FetchAllRequests() {
     try {
@@ -67,7 +66,13 @@ class FaultService {
         event: "NEW_REQUEST",
         data: newRequest,
       };
-      PublishNotificationEvent(payload);
+      // PublishNotificationEvent(payload);
+
+      PublishMessage(
+        this.channel,
+        NOTIFICATION_SERVICE,
+        JSON.stringify(payload)
+      );
 
       return FormatData({
         newRequest,
@@ -97,7 +102,11 @@ class FaultService {
         },
       };
 
-      PublishNotificationEvent(payload);
+      PublishMessage(
+        this.channel,
+        NOTIFICATION_SERVICE,
+        JSON.stringify(payload)
+      );
     } catch (err) {
       throw new APIError(
         err.name ? err.name : "Data Not found",
@@ -118,7 +127,9 @@ class FaultService {
           location: request.location,
         },
       };
-      PublishTechnicianEvent(payload);
+      // PublishTechnicianEvent(payload);
+
+      PublishMessage(this.channel, TECHNICIAN_SERVICE, JSON.stringify(payload));
     } catch (err) {
       throw new APIError(
         err.name ? err.name : "Data Not found",
@@ -179,7 +190,11 @@ class FaultService {
               event: "REQUEST_ACTIVE",
               data: { ...request, statusType },
             };
-            PublishNotificationEvent(payload);
+            PublishMessage(
+              this.channel,
+              NOTIFICATION_SERVICE,
+              JSON.stringify(payload)
+            );
           };
           break;
         case "Cancelled":
@@ -188,7 +203,11 @@ class FaultService {
               event: "REQUEST_CANCELLED",
               data: { ...request, statusType },
             };
-            PublishNotificationEvent(payload);
+            PublishMessage(
+              this.channel,
+              NOTIFICATION_SERVICE,
+              JSON.stringify(payload)
+            );
           };
           break;
         case "Completed":
@@ -197,7 +216,11 @@ class FaultService {
               event: "REQUEST_COMPLETED",
               data: { ...request, statusType },
             };
-            PublishNotificationEvent(payload);
+            PublishMessage(
+              this.channel,
+              NOTIFICATION_SERVICE,
+              JSON.stringify(payload)
+            );
           };
           break;
 

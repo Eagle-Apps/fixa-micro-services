@@ -1,5 +1,8 @@
-import NotificationService from "../service/notificationServices.js";
+import NotificationService from "../service/notificationService.js";
+import { SubscribeMessage } from "../utils/index.js";
 
-export const notification = (app) => {
-  const service = new NotificationService();
+export const notification = (app, channel) => {
+  const service = new NotificationService(channel);
+  // listen to events from other services
+  SubscribeMessage(channel, service);
 };
