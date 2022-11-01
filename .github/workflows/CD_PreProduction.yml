@@ -22,6 +22,8 @@ jobs:
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.CLIENT_MONGO_URI }} >> .env
+          echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
+          echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
       - name: Create technician Env file
         working-directory: ./technician
@@ -29,6 +31,8 @@ jobs:
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.TECHNICIAN_MONGO_URI }} >> .env
+          echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
+          echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
       - name: Create billing Env file
         working-directory: ./billing
@@ -36,6 +40,8 @@ jobs:
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.BILLING_MONGO_URI }} >> .env
+          echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
+          echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
       - name: Create deliveries Env file
         working-directory: ./deliveries
@@ -43,6 +49,8 @@ jobs:
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.DELIVERIES_MONGO_URI }} >> .env
+          echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
+          echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
       - name: Create fault Env file
         working-directory: ./fault
@@ -50,6 +58,8 @@ jobs:
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.FAULT_MONGO_URI }} >> .env
+          echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
+          echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
       - name: Create recycling management Env file
         working-directory: ./recycling
@@ -57,6 +67,8 @@ jobs:
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.RECYCLING_MONGO_URI }} >> .env
+          echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
+          echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
       - name: Create unit management Env file
         working-directory: ./unit
@@ -64,6 +76,8 @@ jobs:
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.UNIT_MONGO_URI }} >> .env
+          echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
+          echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
       - name: Create utility management Env file
         working-directory: ./utility
@@ -71,6 +85,8 @@ jobs:
           touch .env
           echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
           echo MONGODB_URI=${{ secrets.UTILITY_MONGO_URI }} >> .env
+          echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
+          echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
       - name: Create notification management Env file
         working-directory: ./notification
@@ -81,6 +97,8 @@ jobs:
           echo URL=${{ secrets.MAILGUN_URL }} >> .env
           echo SITE_DOMAIN=${{ secrets.MAILGUN_SITE_DOMAIN }} >> .env
           echo MONGODB_URI=${{ secrets.NOTIFICATION_MONGO_URI }} >> .env
+          echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
+          echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
       - name: docker login
         env:
@@ -103,10 +121,10 @@ jobs:
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-          
+
       - name: Log in to DO Container Registry
         run: doctl registry login --expiry-seconds 600
-        
+
       - name: Tag image
         #run: docker tag fixa-micro-services_nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
         run: docker tag eagleapps/nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy:latest
