@@ -106,22 +106,3 @@ export const SubscribeMessage = async (channel, service) => {
     }
   );
 };
-
-// // -----connect to technician micro-secrvice----//
-
-// export const PublishTechnicianEvent = async (payload) => {
-//   axios.post("http://localhost:8002/technician/app-events", {
-//     payload,
-//   });
-// };
-
-// export const PublishFaultManagementEvent = async (payload) => {
-//   axios.post("http://localhost:8003/fault/app-events", {
-//     payload,
-//   });
-// };
-// export const PublishNotificationEvent = async (payload) => {
-//   axios.post("http://localhost:8005/notification/app-events", {
-//     payload,
-//   });
-// };
