@@ -12,7 +12,7 @@ services:
       dockerfile: Dockerfile
       context: ./client
     container_name: client
-    image: "eagleapps/utility:latest"
+    image: "eagleapps/client:latest"
     ports:
       - "8001:8001"
     restart: always
