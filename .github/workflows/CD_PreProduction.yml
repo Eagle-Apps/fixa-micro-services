@@ -116,6 +116,7 @@ jobs:
           docker push eagleapps/technician:latest
           docker push eagleapps/fault:latest
           docker push eagleapps/notification:latest
+          docker images ls
 
       - name: Install doctl # install the doctl on the runner
         uses: digitalocean/action-doctl@v2
@@ -130,14 +131,8 @@ jobs:
         run: docker tag eagleapps/nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy:latest
       - name: Push image to digitalocean
         run: docker push registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy:latest
-      - name: upload compose file to droplet
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_DEV }}
-          REMOTE_HOST: ${{ secrets.SSH_HOST_DEV }}
-          REMOTE_USER: ${{ secrets.SSH_USERNAME_DEV }}
-          TARGET: fixa-micro-services
-      - name: Docker-Compose UP
+        
+      - name: Docker-Compose DOWN
         uses: appleboy/ssh-action@master
         with:
             host: ${{ secrets.SSH_HOST_DEV }}
@@ -147,6 +142,24 @@ jobs:
             script: |
                cd fixa-micro-services
                docker compose down --remove-orphans  
+                     
+      - name: upload compose file to droplet
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_DEV }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST_DEV }}
+          REMOTE_USER: ${{ secrets.SSH_USERNAME_DEV }}
+          TARGET: fixa-micro-services
+          
+      - name: Docker-Compose UP
+        uses: appleboy/ssh-action@master
+        with:
+            host: ${{ secrets.SSH_HOST_DEV }}
+            username: ${{ secrets.SSH_USERNAME_DEV }}
+            key: ${{ secrets.SSH_PRIVATE_KEY_DEV }}
+            port: 22
+            script: |
+               cd fixa-micro-services
                docker compose up -d 
           
         
