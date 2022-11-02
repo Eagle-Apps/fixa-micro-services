@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const paymentSchema =new mongoose.Schema({
+const paymentSchema = new mongoose.Schema({
 technicianid:  { type: String },
   paymentid: { type: String },
   billingid: { type: String },
