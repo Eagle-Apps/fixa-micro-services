@@ -25,7 +25,7 @@ jobs:
           echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
           echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
-          
+
       - name: Create technician Env file
         working-directory: ./technician
         run: |
@@ -35,7 +35,7 @@ jobs:
           echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
           echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
-          
+
       - name: Create billing Env file
         working-directory: ./billing
         run: |
@@ -45,7 +45,7 @@ jobs:
           echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
           echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
-          
+
       - name: Create deliveries Env file
         working-directory: ./deliveries
         run: |
@@ -55,7 +55,7 @@ jobs:
           echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
           echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
-          
+
       - name: Create fault Env file
         working-directory: ./fault
         run: |
@@ -65,7 +65,7 @@ jobs:
           echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
           echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
-          
+
       - name: Create recycling management Env file
         working-directory: ./recycling
         run: |
@@ -75,7 +75,7 @@ jobs:
           echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
           echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
-          
+
       - name: Create unit management Env file
         working-directory: ./unit
         run: |
@@ -85,7 +85,7 @@ jobs:
           echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
           echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
-          
+
       - name: Create utility management Env file
         working-directory: ./utility
         run: |
@@ -95,7 +95,7 @@ jobs:
           echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
           echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
-          
+
       - name: Create notification management Env file
         working-directory: ./notification
         run: |
@@ -108,17 +108,17 @@ jobs:
           echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
           echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
-          
+
       - name: docker login
         env:
           DOCKERHUB_USERNAME: ${{secrets.DOCKERHUB_USERNAME}}
           DOCKERHUB_TOKEN: ${{secrets.DOCKERHUB_TOKEN}}
         run: |
           docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
-          
+
       - name: Build image
-        run: docker-compose build
-        
+        run: docker-compose build && docker-compose-up
+
       - name: Push image to docker hub
         run: |
           docker push eagleapps/client:latest
@@ -139,21 +139,21 @@ jobs:
       - name: Tag image
         #run: docker tag fixa-micro-services_nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
         run: docker tag eagleapps/nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy:latest
-        
+
       - name: Push image to digitalocean
         run: docker push registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy:latest
-        
+
       - name: Docker-Compose DOWN
         uses: appleboy/ssh-action@master
         with:
-            host: ${{ secrets.SSH_HOST_DEV }}
-            username: ${{ secrets.SSH_USERNAME_DEV }}
-            key: ${{ secrets.SSH_PRIVATE_KEY_DEV }}
-            port: 22
-            script: |
-               cd fixa-micro-services
-               docker compose down --remove-orphans  
-                     
+          host: ${{ secrets.SSH_HOST_DEV }}
+          username: ${{ secrets.SSH_USERNAME_DEV }}
+          key: ${{ secrets.SSH_PRIVATE_KEY_DEV }}
+          port: 22
+          script: |
+            cd fixa-micro-services
+            docker compose down --remove-orphans
+
       - name: upload compose file to droplet
         uses: easingthemes/ssh-deploy@main
         env:
@@ -161,16 +161,14 @@ jobs:
           REMOTE_HOST: ${{ secrets.SSH_HOST_DEV }}
           REMOTE_USER: ${{ secrets.SSH_USERNAME_DEV }}
           TARGET: fixa-micro-services
-          
+
       - name: Docker-Compose UP
         uses: appleboy/ssh-action@master
         with:
-            host: ${{ secrets.SSH_HOST_DEV }}
-            username: ${{ secrets.SSH_USERNAME_DEV }}
-            key: ${{ secrets.SSH_PRIVATE_KEY_DEV }}
-            port: 22
-            script: |
-               cd fixa-micro-services
-               docker compose up -d 
-          
-        
+          host: ${{ secrets.SSH_HOST_DEV }}
+          username: ${{ secrets.SSH_USERNAME_DEV }}
+          key: ${{ secrets.SSH_PRIVATE_KEY_DEV }}
+          port: 22
+          script: |
+            cd fixa-micro-services
+            docker compose up -d
