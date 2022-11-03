@@ -1,6 +1,6 @@
 import amqplib from "amqplib";
 import { configs } from "../config/index.js";
-const { PAYMENT_SERVICE } = configs;
+const { PAYMENT_SERVICE, EXCHANGE_NAME, MSG_QUEUE_URL } = configs;
 
 //Utility functions
 
@@ -34,7 +34,7 @@ export const SubscribeMessage = async (channel, service) => {
   const q = await channel.assertQueue("", { exclusive: true });
   console.log(` Waiting for messages in queue: ${q.queue}`);
 
-  channel.bindQueue(q.queue, EXCHANGE_NAME, CLIENT_SERVICE);
+  channel.bindQueue(q.queue, EXCHANGE_NAME, PAYMENT_SERVICE);
 
   channel.consume(
     q.queue,
