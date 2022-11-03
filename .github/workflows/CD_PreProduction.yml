@@ -117,7 +117,7 @@ jobs:
           docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
 
       - name: Build image
-        run: docker-compose build && docker-compose up
+        run: docker-compose build
 
       - name: Push image to docker hub
         run: |
