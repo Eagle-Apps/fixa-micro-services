@@ -7,6 +7,14 @@ export const fault = (app, channel) => {
   // listen to events from other services
   SubscribeMessage(channel, service);
 
+  app.get("/", async (req, res, next) => {
+    try {
+      res.send({ faultSays: "everything soft here" });
+    } catch (err) {
+      next(err);
+    }
+  });
+
   app.get("/fetchtasks", async (req, res, next) => {
     try {
       const { data } = await service.GetAllRequests();
