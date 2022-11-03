@@ -1,0 +1,3 @@
+MSG_QUEUE_URL='amqps://qrllrfie:1RlUMylU7h8_l66V2S9hR0aKy33T_P4I@rat.rmq2.cloudamqp.com/qrllrfie'
+
+EXCHANGE_NAME='FIXA-MICRO-SERVICE'

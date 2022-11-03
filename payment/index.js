@@ -10,7 +10,7 @@ const StartServer = async () => {
   const PORT = "8008";
   const app = express();
   await connect_db();
-  const channel = CreateChannel();
+  const channel = await CreateChannel();
   await expressApp(app, channel);
 
   app
