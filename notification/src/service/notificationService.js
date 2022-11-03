@@ -14,8 +14,9 @@ import {
 
 // All Business logic will be here
 class NotificationService {
-  constructor() {
+  constructor(channel) {
     // this.repository = new NotificationServiceRepository();
+    this.channel = channel;
   }
 
   async SignupSuccessMessage({ name, email, password }) {

@@ -12,6 +12,7 @@ services:
       dockerfile: Dockerfile
       context: ./client
     container_name: client
+    image: "eagleapps/client:latest"
     ports:
       - "8001:8001"
     restart: always
@@ -28,6 +29,7 @@ services:
       dockerfile: Dockerfile
       context: ./fault
     container_name: fault
+    image: "eagleapps/fault:latest"
     ports:
       - "8002:8002"
     restart: always
@@ -43,6 +45,7 @@ services:
       dockerfile: Dockerfile
       context: ./utility
     container_name: utility
+    image: "eagleapps/utility:latest"
     ports:
       - "8003:8003"
     restart: always
@@ -59,6 +62,7 @@ services:
       dockerfile: Dockerfile
       context: ./technician
     container_name: technician
+    image: "eagleapps/technician:latest"
     ports:
       - "8004:8004"
     restart: always
@@ -91,6 +95,7 @@ services:
       dockerfile: Dockerfile
       context: ./notification
     container_name: notification
+    image: "eagleapps/notification:latest"
     ports:
       - "8006:8006"
     restart: always
@@ -122,6 +127,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./proxy
+    image: "eagleapps/nginx-proxy:latest"
     depends_on:
       - client
       - fault

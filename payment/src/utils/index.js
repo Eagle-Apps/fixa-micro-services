@@ -1,6 +1,6 @@
-import { configs } from "../config/index.js";
-const { EXCHANGE_NAME, MSG_QUEUE_URL, NOTIFICATION_SERVICE } = configs;
 import amqplib from "amqplib";
+import { configs } from "../config/index.js";
+const { PAYMENT_SERVICE, MSG_QUEUE_URL, EXCHANGE_NAME } = configs;
 
 //Utility functions
 
@@ -34,7 +34,7 @@ export const SubscribeMessage = async (channel, service) => {
   const q = await channel.assertQueue("", { exclusive: true });
   console.log(` Waiting for messages in queue: ${q.queue}`);
 
-  channel.bindQueue(q.queue, EXCHANGE_NAME, NOTIFICATION_SERVICE);
+  channel.bindQueue(q.queue, EXCHANGE_NAME, CLIENT_SERVICE);
 
   channel.consume(
     q.queue,
@@ -50,27 +50,3 @@ export const SubscribeMessage = async (channel, service) => {
     }
   );
 };
-
-// // -----connect to technician micro-secrvice----//
-
-// export const PublishTechnicianEvent = async (payload) => {
-//   axios.post("http://localhost:8002/technician/app-events", {
-//     payload,
-//   });
-// };
-
-// // -----connect to client micro-secrvice----//
-
-// export const PublishClientEvent = async (payload) => {
-//   axios.post("http://localhost:8001/client/app-events", {
-//     payload,
-//   });
-// };
-
-// // -----connect to notification micro-secrvice----//
-
-// export const PublishNotificationEvent = async (payload) => {
-//   axios.post("http://localhost:8004/notification/app-events", {
-//     payload,
-//   });
-// };

@@ -1,11 +1,14 @@
 import TechnicianService from "../service/TechnicianServices.js";
-import {
-  PublishFaultManagementEvent,
-  PublishNotificationEvent,
-} from "../utils/index.js";
+import { PublishMessage, SubscribeMessage } from "../utils/index.js";
+import { configs } from "../config/index.js";
+import { json } from "stream/consumers";
+const { NOTIFICATION_SERVICE } = configs;
 
-export const technician = (app) => {
-  const service = new TechnicianService();
+export const technician = (app, channel) => {
+  const service = new TechnicianService(channel);
+
+  // listen to events from other services
+  SubscribeMessage(channel, service);
 
   //rating
   //displaying of fetching
@@ -60,13 +63,7 @@ export const technician = (app) => {
     try {
       const { jobytype, jobcategory, pricerange, serviceimage, technicianid } =
         req.body;
-      const { data } = service.addservice({
-        jobytype,
-        jobcategory,
-        pricerange,
-        serviceimage,
-        technicianid,
-      });
+      const { data } = service.addservice();
       return res.status(201).json(data);
     } catch (err) {
       next(err);
@@ -163,7 +160,12 @@ export const technician = (app) => {
         data,
       };
 
-      PublishNotificationEvent(payload);
+      // PublishNotificationEvent(payload);
+      PublishMessage(
+        this.channel,
+        NOTIFICATION_SERVICE,
+        JSON.stringify(payload)
+      );
 
       return res.json(data);
     } catch (err) {
@@ -223,11 +225,11 @@ export const technician = (app) => {
         data,
       };
 
-      PublishNotificationEvent(payload);
+      NOTIFICATION_SERVICE, JSON.stringify(payload);
 
       return res.json({ message: "email have been sent" });
     } catch (err) {
-      next(err);
+      err.message;
     }
   });
 
@@ -243,7 +245,12 @@ export const technician = (app) => {
         data,
       };
 
-      PublishNotificationEvent(payload);
+      // PublishNotificationEvent(payload);
+      PublishMessage(
+        this.channel,
+        NOTIFICATION_SERVICE,
+        JSON.stringify(payload)
+      );
 
       return res.json({ message: "email have been sent" });
     } catch (err) {
@@ -262,7 +269,12 @@ export const technician = (app) => {
         data,
       };
 
-      PublishNotificationEvent(payload);
+      // PublishNotificationEvent(payload);
+      PublishMessage(
+        this.channel,
+        NOTIFICATION_SERVICE,
+        JSON.stringify(payload)
+      );
       return res.json(data);
     } catch (err) {
       next(err);
