@@ -10,6 +10,14 @@ export const technician = (app, channel) => {
   // listen to events from other services
   SubscribeMessage(channel, service);
 
+  app.get("/", async (req, res, next) => {
+    try {
+      res.send({ technicianSays: "everything soft here" });
+    } catch (err) {
+      next(err);
+    }
+  });
+
   //rating
   //displaying of fetching
   app.get("/rating", async (req, res, next) => {
