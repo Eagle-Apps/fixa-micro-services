@@ -7,7 +7,7 @@ import { CreateChannel } from "./src/utils/index.js";
 dotenv.config();
 
 const StartServer = async () => {
-  const PORT = "8007";
+  const PORT = "4004";
   const app = express();
   await connect_db();
 
