@@ -6,12 +6,12 @@ const clientSchema = mongoose.Schema(
     phone: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    address: { type: String, required: true },
-    city: { type: String, required: true },
-    state: { type: String, required: true },
-    zipCode: { type: String, required: true },
+    address: { type: String },
+    city: { type: String },
+    state: { type: String },
+    zipCode: { type: String },
     salt: String,
-    bvn: { type: String, require: true },
+    bvn: { type: String },
     emailStatus: {
       type: String,
       enum: ["Pending", "Verified"],
@@ -30,7 +30,6 @@ const clientSchema = mongoose.Schema(
 
     serviceRequests: [{ type: String }],
 
-    bvn: { type: String, require: true },
     emailStatus: {
       type: String,
       enum: ["Pending", "Verified"],
@@ -66,7 +65,6 @@ const clientSchema = mongoose.Schema(
       enum: ["Active", "Inactive"],
       default: "Active",
     },
-    salt: String,
     verificationString: String,
   },
   {
