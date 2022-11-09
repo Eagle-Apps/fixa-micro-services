@@ -169,7 +169,6 @@ class TechnicianService {
 
           const link = `${SITE_DOMAIN}/verifyemail/?token=${createdClient.verificationString}`;
         
-          res.json({"message" : "sucessfully signed up", "data":createdClient } );
 
           return FormatData({
             id: createdClient._id,

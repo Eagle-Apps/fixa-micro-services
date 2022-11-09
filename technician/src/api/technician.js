@@ -173,7 +173,10 @@ export const technician = (app, channel) => {
         JSON.stringify(payload)
       );
 
-      return res.json(data);
+      return res
+      .status(200)
+      .json({"message" : "sucessfully signed up", "data":data } );
+
     } catch (err) {
       next(err);
     }
