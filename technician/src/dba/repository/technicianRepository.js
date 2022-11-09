@@ -288,8 +288,7 @@ STATUS_CODES.INTERNAL_ERROR,
     }
   }
 
-  async CreateClient({
-    name,
+  async CreateClient({name,
     email,
     password,
     phone,
@@ -301,8 +300,7 @@ STATUS_CODES.INTERNAL_ERROR,
     verificationString,
   }) {
     try {
-      const client = new technicians({
-        name,
+      const client = new technicians({name,
         email,
         password,
         phone,

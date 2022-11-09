@@ -124,8 +124,7 @@ class TechnicianService {
     } catch (err) {}
   }
 
-  async SignUp({
-    name,
+  async SignUp({name,
     email,
     password,
     confirmPassword,
@@ -151,8 +150,7 @@ class TechnicianService {
           let hashedPassword = await HashPassword(password, salt);
           let verificationString = await CreateVerificationString();
 
-          const createdClient = await this.repository.CreateClient({
-            name,
+          const createdClient = await this.repository.CreateClient({name,
             email,
             password: hashedPassword,
             phone,
