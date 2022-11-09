@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const clientSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
-    phone: { type: String, required: true },
+    phone: { type: String },
     email: { type: String, required: true },
     password: { type: String, required: true },
     address: { type: String },
