@@ -152,7 +152,7 @@ class TechnicianService {
           let verificationString = await CreateVerificationString();
 
           const createdClient = await this.repository.CreateClient({
-            name: name,
+            name,
             email,
             password: hashedPassword,
             phone,
