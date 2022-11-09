@@ -138,8 +138,7 @@ export const technician = (app, channel) => {
   app.post("/register", async (req, res, next) => {
     try {
       const {
-        firstName,
-        lastName,
+        name,
         email,
         password,
         confirmPassword,
@@ -151,8 +150,7 @@ export const technician = (app, channel) => {
       } = req.body;
 
       const { data } = await service.SignUp({
-        firstName,
-        lastName,
+       name,
         email,
         password,
         confirmPassword,
