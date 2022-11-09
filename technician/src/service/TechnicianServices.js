@@ -125,8 +125,7 @@ class TechnicianService {
   }
 
   async SignUp({
-    firstName,
-    lastName,
+    name,
     email,
     password,
     confirmPassword,
@@ -153,7 +152,7 @@ class TechnicianService {
           let verificationString = await CreateVerificationString();
 
           const createdClient = await this.repository.CreateClient({
-            name: `${lastName} ${firstName}`,
+            name: name,
             email,
             password: hashedPassword,
             phone,
@@ -171,6 +170,8 @@ class TechnicianService {
           });
 
           const link = `${SITE_DOMAIN}/verifyemail/?token=${createdClient.verificationString}`;
+        
+          res.json({"message" : "sucessfully signed up", "data":createdClient } );
 
           return FormatData({
             id: createdClient._id,
@@ -192,6 +193,11 @@ class TechnicianService {
       );
     }
   }
+
+
+
+
+
 
   async SendEmailVerifcation({ id }) {
     try {
@@ -230,6 +236,14 @@ class TechnicianService {
       );
     }
   }
+
+
+
+
+
+
+
+
 
   async SignIn(userInputs) {
     const { email, password } = userInputs;
