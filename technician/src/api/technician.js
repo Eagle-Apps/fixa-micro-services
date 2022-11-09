@@ -149,7 +149,7 @@ export const technician = (app, channel) => {
         zipCode,
       } = req.body;
 
-      const { data } = await service.SignUp({
+      const data  = await service.SignUp({
        name,
         email,
         password,
@@ -172,7 +172,7 @@ export const technician = (app, channel) => {
         NOTIFICATION_SERVICE,
         JSON.stringify(payload)
       );
-
+      res.send("sucessful");
       return res
       .status(200)
       .json({"message" : "sucessfully signed up", "data":data } );
