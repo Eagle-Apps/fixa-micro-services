@@ -167,14 +167,14 @@ class TechnicianService {
             _id: createdClient._id,
           });
 
-          // const link = `${SITE_DOMAIN}/verifyemail/?token=${createdClient.verificationString}`;
+          const link = `${SITE_DOMAIN}/verifyemail/?token=${createdClient.verificationString}`;
 
          
           return  FormatData({
             id: createdClient._id,
             email: createdClient.email,
             token,
-            // link,
+            link,
           });
 ;
         } else {

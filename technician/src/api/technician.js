@@ -161,10 +161,10 @@ export const technician = (app, channel) => {
         zipCode,
       });
 
-      // const payload = {
-      //   event: "SIGN_UP",
-      //   data,
-      // };
+      const payload = {
+        event: "SIGN_UP",
+        data,
+      };
 
       // PublishNotificationEvent(payload);
       // PublishMessage(
