@@ -149,7 +149,7 @@ export const technician = (app, channel) => {
         zipCode,
       } = req.body;
 
-      const data = await service.SignUp({
+      const {data} = await service.SignUp({
        name,
         email,
         password,
