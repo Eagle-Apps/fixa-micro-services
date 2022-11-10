@@ -162,21 +162,21 @@ class TechnicianService {
             verificationString,
           });
 
-          // const token = await GenerateSignature({
-          //   email: email,
-          //   _id: createdClient._id,
-          // });
+          const token = await GenerateSignature({
+            email: email,
+            _id: createdClient._id,
+          });
 
           // const link = `${SITE_DOMAIN}/verifyemail/?token=${createdClient.verificationString}`;
 
-          // FormatData({
-          //   id: createdClient._id,
-          //   email: createdClient.email,
-          //   token,
-          //   link,
-          // });
-
-          return createdClient;
+         
+          return  FormatData({
+            id: createdClient._id,
+            email: createdClient.email,
+            token,
+            // link,
+          });
+;
         } else {
           throw new BadRequestError("passwords does not match", true);
         }
