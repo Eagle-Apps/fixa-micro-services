@@ -162,10 +162,10 @@ class TechnicianService {
             verificationString,
           });
 
-          const token = await GenerateSignature({
-            email: email,
-            _id: createdClient._id,
-          });
+          // const token = await GenerateSignature({
+          //   email: email,
+          //   _id: createdClient._id,
+          // });
 
           const link = `${SITE_DOMAIN}/verifyemail/?token=${createdClient.verificationString}`;
 
