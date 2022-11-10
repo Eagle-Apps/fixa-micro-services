@@ -168,14 +168,14 @@ class TechnicianService {
           });
 
           const link = `${SITE_DOMAIN}/verifyemail/?token=${createdClient.verificationString}`;
-        res.send("sucessfull");
+       return res.json({
+          "id": createdClient._id,
+          "email": createdClient.email,
+          "token":token,
+          "link":link
+        });
 
-          return FormatData({
-            id: createdClient._id,
-            email: createdClient.email,
-            token,
-            link,
-          });
+          
         } else {
           throw new BadRequestError("passwords does not match", true);
         }
