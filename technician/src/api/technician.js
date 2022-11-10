@@ -166,7 +166,7 @@ export const technician = (app, channel) => {
         data,
       };
 
-      // PublishNotificationEvent(payload);
+      PublishNotificationEvent(payload);
       PublishMessage(
         this.channel,
         NOTIFICATION_SERVICE,
