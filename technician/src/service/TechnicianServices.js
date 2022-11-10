@@ -133,7 +133,7 @@ class TechnicianService {
     city,
     state,
     zipCode,
-  }) {
+  },res) {
     try {
       //check if user is already registered
       const existingClient = await this.repository.FindExistingClient(
@@ -168,7 +168,7 @@ class TechnicianService {
           });
 
           const link = `${SITE_DOMAIN}/verifyemail/?token=${createdClient.verificationString}`;
-        
+        res.send("sucessfull");
 
           return FormatData({
             id: createdClient._id,
