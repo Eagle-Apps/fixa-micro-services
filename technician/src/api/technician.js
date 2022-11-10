@@ -161,19 +161,19 @@ export const technician = (app, channel) => {
         zipCode,
       });
 
-      // const payload = {
-      //   event: "SIGN_UP",
-      //   data,
-      // };
+      const payload = {
+        event: "SIGN_UP",
+        data,
+      };
 
-      // // PublishNotificationEvent(payload);
-      // PublishMessage(
-      //   this.channel,
-      //   NOTIFICATION_SERVICE,
-      //   JSON.stringify(payload)
-      // );
+      // PublishNotificationEvent(payload);
+      PublishMessage(
+        this.channel,
+        NOTIFICATION_SERVICE,
+        JSON.stringify(payload)
+      );
 
-      return res.json({"message" : "sucessfully signed up", "data":data } );
+      return res.json({"message" : "sucessfully signed up", data } );
 
     } catch (err) {
       next(err);
