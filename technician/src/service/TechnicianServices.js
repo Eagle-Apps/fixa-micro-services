@@ -167,7 +167,7 @@ class TechnicianService {
           //   _id: createdClient._id,
           // });
 
-          const link = `${SITE_DOMAIN}/verifyemail/?token=${createdClient.verificationString}`;
+          // const link = `${SITE_DOMAIN}/verifyemail/?token=${createdClient.verificationString}`;
 
           // FormatData({
           //   id: createdClient._id,
@@ -176,7 +176,7 @@ class TechnicianService {
           //   link,
           // });
 
-          return createdClient+"done";
+          return createdClient;
         } else {
           throw new BadRequestError("passwords does not match", true);
         }
