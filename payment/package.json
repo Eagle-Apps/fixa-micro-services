@@ -18,6 +18,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.1",
+    "flutterwave-node": "^1.2.2",
+    "got": "^12.5.2",
     "mongoose": "^6.5.4",
     "winston": "^3.8.1"
   },
