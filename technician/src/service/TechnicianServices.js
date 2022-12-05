@@ -124,9 +124,7 @@ class TechnicianService {
     } catch (err) {}
   }
 
-  async SignUp({
-    firstName,
-    lastName,
+  async SignUp({name,
     email,
     password,
     confirmPassword,
@@ -135,7 +133,7 @@ class TechnicianService {
     city,
     state,
     zipCode,
-  }) {
+  },res) {
     try {
       //check if user is already registered
       const existingClient = await this.repository.FindExistingClient(
@@ -152,8 +150,7 @@ class TechnicianService {
           let hashedPassword = await HashPassword(password, salt);
           let verificationString = await CreateVerificationString();
 
-          const createdClient = await this.repository.CreateClient({
-            name: `${lastName} ${firstName}`,
+          const createdClient = await this.repository.CreateClient({name,
             email,
             password: hashedPassword,
             phone,
@@ -172,12 +169,14 @@ class TechnicianService {
 
           const link = `${SITE_DOMAIN}/verifyemail/?token=${createdClient.verificationString}`;
 
-          return FormatData({
+         
+          return  FormatData({
             id: createdClient._id,
             email: createdClient.email,
             token,
             link,
           });
+;
         } else {
           throw new BadRequestError("passwords does not match", true);
         }
@@ -192,6 +191,11 @@ class TechnicianService {
       );
     }
   }
+
+
+
+
+
 
   async SendEmailVerifcation({ id }) {
     try {
@@ -230,6 +234,14 @@ class TechnicianService {
       );
     }
   }
+
+
+
+
+
+
+
+
 
   async SignIn(userInputs) {
     const { email, password } = userInputs;

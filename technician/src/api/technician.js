@@ -137,8 +137,7 @@ export const technician = (app, channel) => {
   app.post("/register", async (req, res, next) => {
     try {
       const {
-        firstName,
-        lastName,
+        name,
         email,
         password,
         confirmPassword,
@@ -149,9 +148,8 @@ export const technician = (app, channel) => {
         zipCode,
       } = req.body;
 
-      const { data } = await service.SignUp({
-        firstName,
-        lastName,
+      const {data} = await service.SignUp({
+       name,
         email,
         password,
         confirmPassword,
@@ -168,13 +166,14 @@ export const technician = (app, channel) => {
       };
 
       // PublishNotificationEvent(payload);
-      PublishMessage(
-        this.channel,
-        NOTIFICATION_SERVICE,
-        JSON.stringify(payload)
-      );
+      // PublishMessage(
+      //   this.channel,
+      //   NOTIFICATION_SERVICE,
+      //   JSON.stringify(payload)
+      // );
 
-      return res.json(data);
+      return res.json({"message" : "sucessfully signed up", data } );
+
     } catch (err) {
       next(err);
     }
