@@ -45,7 +45,7 @@ export const client = (app, channel) => {
       });
 
       const payload = {
-        event: "SIGN_UP",
+        event: "SIGN_UP_CLIENT",
         data,
       };
 
@@ -59,7 +59,7 @@ export const client = (app, channel) => {
     }
   });
 
-  app.post("/editprofile", async (req, res, next) => {
+  app.put("/editprofile", async (req, res, next) => {
     try {
       const {
         firstName,

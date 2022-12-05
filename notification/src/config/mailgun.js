@@ -6,7 +6,6 @@ export const mailgunConfig = () => {
     username: "api",
     key: process.env.MAILGUN_API_KEY,
     domain: process.env.DOMAIN,
-    url: process.env.URL,
   };
   return emailConfig;
 };

@@ -89,11 +89,12 @@ class NotificationService {
   }
 
   async SubscribeEvents(payload) {
+    // console.log("payload-----", JSON.parse(payload));
     const { event, data } = payload;
-
+    console.log(event);
     switch (event) {
-      case "SIGN_UP":
-        this.SignupSuccessMessage(data);
+      case "SIGN_UP_CLIENT":
+        this.SignupSuccessMessage(payload);
         break;
       case "VERIFY_EMAIL":
         this.VerifyEmailAccount(data);

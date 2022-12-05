@@ -41,7 +41,7 @@ export const SubscribeMessage = async (channel, service) => {
     (msg) => {
       if (msg.content) {
         console.log("the message is:", msg.content.toString());
-        service.SubscribeEvents(msg.content.toString());
+        service.SubscribeEvents(JSON.parse(msg.content.toString()));
       }
       console.log("[X] received");
     },

@@ -1,7 +1,6 @@
 import TechnicianService from "../service/TechnicianServices.js";
 import { PublishMessage, SubscribeMessage } from "../utils/index.js";
 import { configs } from "../config/index.js";
-import { json } from "stream/consumers";
 const { NOTIFICATION_SERVICE } = configs;
 
 export const technician = (app, channel) => {

@@ -10,7 +10,7 @@ export const signupSuccess = (name, email, password) => {
     from: "Fixa  <info@mg.fixa.com.ng>",
     to: email,
     subject: "Hello",
-    template: "signin-success",
+    template: "welcome_email",
     "h:X-Mailgun-Variables": JSON.stringify({ name, email, password }),
     "h:Reply-To": "reply-to@example.com",
   };
@@ -59,7 +59,7 @@ export const requestService = (email, info) => {
 
 const sendmessage = (data) => {
   mg.messages
-    .create(mailgunConfig.domain, data)
+    .create(mailgunConfig().domain, data)
     .then((msg) => console.log(msg)) // logs response data
     .catch((err) => console.log(err)); // logs any error
 };
