@@ -8,12 +8,21 @@ import {
 
 class ServiceRepository {
   //create service
-  async Createproduct({ data }) {
+  async Createproduct({name,
+    image,
+    icon,
+    price,
+    categories}) {
     try {
-      const product = new Service(data);
+      const product = new Service({name,
+        image,
+        icon,
+        price,
+        categories});
 
       product.save();
-      return res.status(201).json(product);
+      
+      return product;
     } catch (err) {
       throw new APIError(
         "API Error",
@@ -26,24 +35,14 @@ class ServiceRepository {
   //update
   async Updateproduct({ data }) {
     try {
-      Product.findById(req.params.productId, (err, product) => {
+      Service.findById(req.params.productId, (err, product) => {
         if (err) {
           return res.send(err);
         }
-        product.brand = req.body.brand;
-        product.source = req.body.source;
-        product.time_of_production = req.body.time_of_production;
-        product.operating_conditions = req.body.operating_conditions;
-        product.state = req.body.state;
-        product.min_lifespan = req.body.min_lifespan;
-        product.max_lifespan = req.body.max_lifespan;
-        product.average_lifespan = req.body.average_lifespan;
-        product.popular_use_regions = req.body.popular_use_regions;
-        product.min_cost = req.body.min_cost;
-        product.max_cost = req.body.max_cost;
-        product.avg_cost = req.body.avg_cost;
-        product.user_feedback = req.body.user_feedback;
-        product.common_faults = req.body.common_faults;
+        image = req.body.image,
+        icon = req.body.icon,
+        price= req.body.price,
+        categories = req.body.categories,
         product.save((err) => {
           if (err) {
             return res.send(err);
@@ -64,11 +63,12 @@ class ServiceRepository {
 
   async Getproduct({ data }) {
     try {
-      Product.find(query, (err, products) => {
+      Service.find((err, products) => {
         if (err) {
           return res.send(err);
         }
-        return res.json(products);
+        console.log(err);
+        return products;
       });
     } catch (err) {
       throw new APIError(

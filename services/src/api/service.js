@@ -14,7 +14,7 @@ export const service = (app) => {
   //displaying details of a particular product using it's unique id
   app.get("/products/:productId", async (req, res, next) => {
     try {
-      const { data } = service.Productfind();
+      const data  = await service.Productfind();
 
       return res.status(201).json(data);
     } catch (err) {
@@ -24,9 +24,9 @@ export const service = (app) => {
   //displaying all the products
   app.get("/products", async (req, res, next) => {
     try {
-      const { data } = service.GetProduct();
+      const  data  = await service.Getproduct();
 
-      return res.status(201).json(data);
+      return res.status(200).json(data);
     } catch (err) {
       next(err);
     }
@@ -36,25 +36,21 @@ export const service = (app) => {
   app.post("/add", async (req, res, next) => {
     try {
       const {
-        brand,
-        source,
-        time_of_production,
-        operating_conditions,
-        state,
-        min_lifespan,
-        max_lifespan,
-        average_lifespan,
-        popular_use_regions,
-        min_cost,
-        max_cost,
-        avg_cost,
-        user_feedback,
-        common_faults,
+        name,
+        image,
+        icon,
+        price,
+        categories
       } = req.body;
 
-      const { data } = service.CreateProduct();
+      const data  = await service.CreateProduct({ name,
+        image,
+        icon,
+        price,
+        categories});
+        console.log(data);
 
-      return res.status(201).json(data);
+      return res.status(201).send({data});
     } catch (err) {
       next(err);
     }
@@ -64,28 +60,18 @@ export const service = (app) => {
   app.put("/products/:productId/update", async (req, res, next) => {
     try {
       const {
-        firstName,
-        lastName,
-        email,
-        password,
-        confirmPassword,
-        phone,
-        address,
-        city,
-        state,
-        zipCode,
+        name,
+        image,
+        icon,
+        price,
+        categories
       } = req.body;
-      const { data } = await service.productUpdate({
-        firstName,
-        lastName,
-        email,
-        password,
-        confirmPassword,
-        phone,
-        address,
-        city,
-        state,
-        zipCode,
+      const data  = await service.productUpdate({
+        name,
+        image,
+        icon,
+        price,
+        categories
       });
 
       return res.json(data);
