@@ -45,6 +45,7 @@ export const PublishMessage = (channel, service, msg) => {
   console.log("Sent: ", msg);
 };
 
+//subscribe
 export const SubscribeMessage = async (channel, service) => {
   await channel.assertExchange(EXCHANGE_NAME, "direct", { durable: true });
   const q = await channel.assertQueue("", { exclusive: true });

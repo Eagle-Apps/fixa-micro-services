@@ -207,8 +207,9 @@ export const client = (app, channel) => {
       next(err);
     }
   });
-
-  app.post("/request-service", async (req, res, next) => {
+//request service
+ 
+app.post("/request-service", async (req, res, next) => {
     const { description, schedule, serviceCategory, location } = req.body;
 
     const { userId } = req.user;
