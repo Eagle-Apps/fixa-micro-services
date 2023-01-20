@@ -32,24 +32,22 @@ class ServicesService {
     }
   }
 
-  async Updateproduct(userInputs){
-    const {
-      name,
+  async Updateproduct({userInputs}){
+    const{name,
       image,
       icon,
       price,
-      categories} = userInputs;
-  
-  
+      categories,
+      _id} = userInputs;
       try{
-        const UpdateProducts = await this.repository.Updateproduct({
-          name,
+        const UpdateProducts =  this.repository.Updateproduct({name,
           image,
           icon,
           price,
-          categories
-        });
-  
+          categories,
+          _id});
+        console.log(UpdateProducts);
+      return UpdateProducts;
       }
       catch(err){
   
@@ -60,32 +58,19 @@ class ServicesService {
   async Getproduct(){
   
       try{
-        const GetProducts = await this.repository.Getproduct()
-   return GetProducts;
+       const data =await this.repository.Getproductr();
+        return data;
       }
       catch(err){
   
       }
     }
     
-  async Productfind(userInputs){
-    const {
-      name,
-      image,
-      icon,
-      price,
-      categories} = userInputs;
-  
+  async Productfind(data){
   
       try{
-        const Productfind = await this.repository.Productfind({
-          name,
-          image,
-          icon,
-          price,
-          categories
-        });
-  
+        const Productfind = await this.repository.Productfind(data);
+  return Productfind;
       }
       catch(err){
   

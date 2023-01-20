@@ -14,9 +14,13 @@ export const service = (app) => {
   //displaying details of a particular product using it's unique id
   app.get("/products/:productId", async (req, res, next) => {
     try {
-      const data  = await service.Productfind();
+      const query = {};
+      if (req.query.status) {
+        query.status = req.query;
+      }
+      const data  = await service.Productfind(req.params.productId);
 
-      return res.status(201).json(data);
+      return res.status(200).send(data);
     } catch (err) {
       next(err);
     }
@@ -24,9 +28,9 @@ export const service = (app) => {
   //displaying all the products
   app.get("/products", async (req, res, next) => {
     try {
-      const  data  = await service.Getproduct();
-
-      return res.status(200).json(data);
+      const data  = await service.Getproduct();
+      
+      return res.status(200).send(data);
     } catch (err) {
       next(err);
     }
@@ -42,7 +46,7 @@ export const service = (app) => {
         price,
         categories
       } = req.body;
-
+     
       const data  = await service.CreateProduct({ name,
         image,
         icon,
@@ -57,8 +61,8 @@ export const service = (app) => {
   });
 
   //updating any of the properties of a particular product
-  app.put("/products/:productId/update", async (req, res, next) => {
-    try {
+  app.put("/products/update/:productId", async (req, res, next) => {
+    
       const {
         name,
         image,
@@ -66,15 +70,22 @@ export const service = (app) => {
         price,
         categories
       } = req.body;
-      const data  = await service.productUpdate({
+      const query = {};
+      if (req.query.status) {
+        query.status = req.query;
+      }
+     const _id=req.params.productId;
+     try {
+      const data= await service.Updateproduct({
         name,
         image,
         icon,
         price,
-        categories
+        categories,
+        _id
       });
-
-      return res.json(data);
+ console.log(data);
+      return res.send(data);
     } catch (err) {
       next(err);
     }

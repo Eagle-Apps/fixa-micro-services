@@ -5,6 +5,7 @@ import {
   BadRequestError,
   STATUS_CODES,
 } from "../../utils/app-errors.js";
+import service from "../../../../technician/src/dba/models/service.js";
 
 class ServiceRepository {
   //create service
@@ -33,21 +34,26 @@ class ServiceRepository {
   }
 
   //update
-  async Updateproduct({ data }) {
+  async Updateproduct({userInputs }) {
+  const{ name,
+        image,
+        icon,
+        price,
+        categories,
+        _id} = userInputs;
+        console.log('hello'+_id);
     try {
-      Service.findById(req.params.productId, (err, product) => {
-        if (err) {
-          return res.send(err);
-        }
-        image = req.body.image,
-        icon = req.body.icon,
-        price= req.body.price,
-        categories = req.body.categories,
+     await Service.findById(_id, (err, product) => {
+       name=name,
+        image = image,
+        icon = icon,
+        price= price,
+        categories = categories,
         product.save((err) => {
           if (err) {
             return res.send(err);
           }
-          return res.json(product);
+          return product;
         });
       });
     } catch (err) {
@@ -61,15 +67,11 @@ class ServiceRepository {
 
   //to display all product properties
 
-  async Getproduct({ data }) {
+  async Getproductr() {
     try {
-      Service.find((err, products) => {
-        if (err) {
-          return res.send(err);
-        }
-        console.log(err);
+     const products= await Service.find();
         return products;
-      });
+    
     } catch (err) {
       throw new APIError(
         "API Error",
@@ -82,17 +84,15 @@ class ServiceRepository {
   //to display a particular product by id
 
   async Productfind(req, res) {
+    
     try {
-      const query = {};
-      if (req.query.status) {
-        query.status = req.query;
-      }
-      Product.findById(req.params.productId, (err, product) => {
-        if (err) {
-          return res.send(err);
-        }
-        return res.json(product);
-      });
+     
+      
+    const product= await Service.findById(req);
+    
+        return product;
+ 
+
     } catch (err) {
       throw new APIError(
         "API Error",
