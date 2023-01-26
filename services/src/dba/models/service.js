@@ -8,6 +8,7 @@ name: { type: String},
 image: { type: String},
 icon: { type: String},
 price: { type: String},
+location: { type: String},
 categories: { type: String},
 
 });

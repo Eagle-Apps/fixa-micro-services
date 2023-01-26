@@ -16,11 +16,12 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 - [ ] billing-service-http://localhost:8005
 - [ ] notification-service - http://localhost:8006
 - [ ] deliveries-http://localhost:8007
-- [ ] services-http://localhost:8008
-
+- [ ] payment-service-http://localhost:8008
+- [ ] services-http://localhost:8009
+<!-- 
 - [ ] delivery-service-http://localhost:8007
 
-- [ ] payment-service-http://localhost:8001
+- [ ] payment-service-http://localhost:80018
 - [ ] material-managment - http://localhost:8001
 - [ ] warehouse-managemnt - http://localhost:8001
-
+ -->

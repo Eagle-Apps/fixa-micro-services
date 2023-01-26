@@ -13,13 +13,15 @@ class ServiceRepository {
     image,
     icon,
     price,
-    categories}) {
+    categories,
+    location}) {
     try {
       const product = new Service({name,
         image,
         icon,
         price,
-        categories});
+        categories,
+        location});
 
       product.save();
       
@@ -40,6 +42,7 @@ class ServiceRepository {
         icon,
         price,
         categories,
+        location,
         _id} = userInputs;
         console.log('hello'+_id);
     try {
@@ -49,6 +52,8 @@ class ServiceRepository {
         icon = icon,
         price= price,
         categories = categories,
+        location=location,
+
         product.save((err) => {
           if (err) {
             return res.send(err);
