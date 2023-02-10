@@ -7,7 +7,7 @@ export const client = (app, channel) => {
   const service = new ClientService();
 
   // listen to events from other services
-  SubscribeMessage(channel, service);
+  // SubscribeMessage(channel, service);
 
   app.get("/", async (req, res, next) => {
     try {
