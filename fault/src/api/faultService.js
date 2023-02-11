@@ -15,6 +15,25 @@ export const fault = (app, channel) => {
     }
   });
 
+
+  app.post("/servicerequest", async (req, res, next) => {
+   const {userId,
+    location,
+    description,
+    schedule}= req.body;
+    try {
+      const { data } = await service.AddServiceRequest(userId,
+        location,
+        description,
+        schedule);
+      return res.json(data);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  
+
   app.get("/fetchtasks", async (req, res, next) => {
     try {
       const { data } = await service.GetAllRequests();

@@ -47,32 +47,33 @@ class FaultService {
     }
   }
 
-  async AddServiceRequest(userInfo, requestInfo) {
+  async AddServiceRequest(userId,location, description, schedule) {
     try {
       const id = this.repository.GetTransactionId;
 
       const requestId = await generateRequestId(id);
 
-      const newRequest = await this.repository.CreateServiceRequest({
-        userInfo,
-        requestInfo,
-        requestId,
-      });
+      const newRequest = await this.repository.CreateServiceRequest(
+        userId,
+        location,
+        description,
+        schedule,
+        requestId);
 
-      if (requestInfo.serviceType === "fixed") {
-        this.FetchTechnician(newRequest);
-      }
+      // if (requestInfo.serviceType === "fixed") {
+      //   this.FetchTechnician(newRequest);
+      // }
       const payload = {
         event: "NEW_REQUEST",
         data: newRequest,
       };
       // PublishNotificationEvent(payload);
 
-      PublishMessage(
-        this.channel,
-        NOTIFICATION_SERVICE,
-        JSON.stringify(payload)
-      );
+      // PublishMessage(
+      //   this.channel,
+      //   NOTIFICATION_SERVICE,
+      //   JSON.stringify(payload)
+      // );
 
       return FormatData({
         newRequest,

@@ -51,7 +51,7 @@ export const client = (app, channel) => {
 
       // PublishNotificationEvent(payload);
 
-      PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
+      // PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
 
       return res.json(data);
     } catch (err) {
@@ -112,7 +112,7 @@ export const client = (app, channel) => {
       };
 
       // PublishNotificationEvent(payload);
-      PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
+      // PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
 
       return res.json({ message: "email have been sent" });
     } catch (err) {
@@ -133,7 +133,7 @@ export const client = (app, channel) => {
       };
 
       // PublishNotificationEvent(payload);
-      PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
+      // PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
 
       return res.json({ message: "email have been sent" });
     } catch (err) {
@@ -234,7 +234,7 @@ app.post("/request-service", async (req, res, next) => {
 
       // PublishFaultManagementEvent(payload);
       //inform fault service of the client request
-      PublishMessage(channel, FAULT_SERVICE, JSON.stringify(payload));
+      // PublishMessage(channel, FAULT_SERVICE, JSON.stringify(payload));
 
       const messagePayload = {
         event: "REQUEST_SERVICE",
@@ -245,11 +245,11 @@ app.post("/request-service", async (req, res, next) => {
         },
       };
 
-      PublishMessage(
-        channel,
-        NOTIFICATION_SERVICE,
-        JSON.stringify(messagePayload)
-      );
+      // PublishMessage(
+      //   channel,
+      //   NOTIFICATION_SERVICE,
+      //   JSON.stringify(messagePayload)
+      // );
       // PublishNotificationEvent(messagePayload);
 
       return res.json({
