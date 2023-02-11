@@ -5,7 +5,7 @@ export const fault = (app, channel) => {
   const service = new FaultService(channel);
 
   // listen to events from other services
-  SubscribeMessage(channel, service);
+  // SubscribeMessage(channel, service);
 
   app.get("/", async (req, res, next) => {
     try {

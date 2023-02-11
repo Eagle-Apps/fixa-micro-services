@@ -7,7 +7,7 @@ export const technician = (app, channel) => {
   const service = new TechnicianService(channel);
 
   // listen to events from other services
-  SubscribeMessage(channel, service);
+  // SubscribeMessage(channel, service);
 
   app.get("/", async (req, res, next) => {
     try {
