@@ -15,6 +15,7 @@ const {
   NOTIFICATION_SERVICE,
   CLIENT_SERVICE,
 } = configs;
+// import amqplib from "amqplib";
 import amqplib from "amqplib";
 
 //Utility functions
@@ -69,13 +70,35 @@ export const FormatData = (data) => {
 };
 
 //Message Broker
+import amqp from 'amqplib';
+
 export const CreateChannel = async () => {
   try {
-    const connection = await amqplib.connect(MSG_QUEUE_URL);
+    // const connection = await amqplib.connect(MSG_QUEUE_URL);
+    // const channel = await connection.createChannel();
+    // console.log(channel);
+    // // await channel.assertQueue(EXCHANGE_NAME, "direct", { durable: false });
+    // return channel;
+
+    const connection = await amqp.connect('amqp://localhost');
+
+    // Open a channel within the connection
     const channel = await connection.createChannel();
-    await channel.assertQueue(EXCHANGE_NAME, "direct", { durable: true });
+  
+    // Declare an exchange
+    await channel.assertExchange('example_exchange', 'direct');
+  
+    // Declare a queue
+    await channel.assertQueue('example_queue');
+  
+    // Bind the queue to the exchange
+    await channel.bindQueue('example_queue', 'example_exchange', '');
+  
     return channel;
+    console.log('hekk');
   } catch (err) {
+    console.log('hekkk');
+    console.error(err);
     throw err;
   }
 };

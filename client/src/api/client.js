@@ -7,7 +7,7 @@ export const client = (app, channel) => {
   const service = new ClientService();
 
   // listen to events from other services
-  SubscribeMessage(channel, service);
+  // SubscribeMessage(channel, service);
 
   app.get("/", async (req, res, next) => {
     try {
@@ -51,7 +51,7 @@ export const client = (app, channel) => {
 
       // PublishNotificationEvent(payload);
 
-      PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
+      // PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
 
       return res.json(data);
     } catch (err) {
@@ -112,7 +112,7 @@ export const client = (app, channel) => {
       };
 
       // PublishNotificationEvent(payload);
-      PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
+      // PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
 
       return res.json({ message: "email have been sent" });
     } catch (err) {
@@ -133,7 +133,7 @@ export const client = (app, channel) => {
       };
 
       // PublishNotificationEvent(payload);
-      PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
+      // PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
 
       return res.json({ message: "email have been sent" });
     } catch (err) {
@@ -207,8 +207,9 @@ export const client = (app, channel) => {
       next(err);
     }
   });
-
-  app.post("/request-service", async (req, res, next) => {
+//request service
+ 
+app.post("/request-service", async (req, res, next) => {
     const { description, schedule, serviceCategory, location } = req.body;
 
     const { userId } = req.user;
@@ -233,7 +234,7 @@ export const client = (app, channel) => {
 
       // PublishFaultManagementEvent(payload);
       //inform fault service of the client request
-      PublishMessage(channel, FAULT_SERVICE, JSON.stringify(payload));
+      // PublishMessage(channel, FAULT_SERVICE, JSON.stringify(payload));
 
       const messagePayload = {
         event: "REQUEST_SERVICE",
@@ -244,11 +245,11 @@ export const client = (app, channel) => {
         },
       };
 
-      PublishMessage(
-        channel,
-        NOTIFICATION_SERVICE,
-        JSON.stringify(messagePayload)
-      );
+      // PublishMessage(
+      //   channel,
+      //   NOTIFICATION_SERVICE,
+      //   JSON.stringify(messagePayload)
+      // );
       // PublishNotificationEvent(messagePayload);
 
       return res.json({

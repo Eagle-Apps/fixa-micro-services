@@ -9,13 +9,18 @@ import {
 
 //Dealing with database operations
 class FaultServiceRepository {
-  async CreateServiceRequest({ userId, description, schedule, requestId }) {
+  async CreateServiceRequest( userId,
+    location,
+    description,
+    schedule,
+    requestId) {
     try {
       const service = {
         clientId: userId,
-        description,
-        schedule,
-        requestId,
+        description: description,
+        schedule: schedule,
+        location: location,
+        requestId: requestId
       };
 
       const newRequest = new requestModel(service);

@@ -12,7 +12,7 @@ const StartServer = async () => {
 
   await connect_db();
 
-  const channel = await CreateChannel();
+  const channel = "";
 
   await expressApp(app, channel);
 
