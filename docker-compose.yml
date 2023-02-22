@@ -37,6 +37,8 @@ services:
     volumes:
       - .:/app
       - /app/services/node_modules
+    env_file:
+      - ./services/.env
   fault:
     build:
       dockerfile: Dockerfile
