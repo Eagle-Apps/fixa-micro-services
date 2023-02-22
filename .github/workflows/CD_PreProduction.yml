@@ -95,6 +95,16 @@ jobs:
           echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
           echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
+      
+      - name: Create services management Env file
+        working-directory: ./services
+        run: |
+          touch .env
+          echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
+          echo MONGODB_URI=${{ secrets.UTILITY_MONGO_URI }} >> .env
+          echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
+          echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
+          cat .env
 
       - name: Create notification management Env file
         working-directory: ./notification
