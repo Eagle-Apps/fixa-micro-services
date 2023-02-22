@@ -21,9 +21,22 @@ services:
     volumes:
       - .:/app
       - /app/client/node_modules
-
     env_file:
       - ./client/.env
+  services:
+    build:
+      dockerfile: Dockerfile
+      context: ./services
+    container_name: services
+    image: "eagleapps/services:latest"
+    ports:
+      - "8008:8008"
+    restart: always
+    depends_on:
+      - "nosql-db"
+    volumes:
+      - .:/app
+      - /app/services/node_modules
   fault:
     build:
       dockerfile: Dockerfile
