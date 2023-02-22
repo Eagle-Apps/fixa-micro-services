@@ -137,6 +137,7 @@ jobs:
           docker push eagleapps/technician:latest
           docker push eagleapps/fault:latest
           docker push eagleapps/notification:latest
+          docker push eagleapps/services:latest
 
       - name: Install doctl # install the doctl on the runner
         uses: digitalocean/action-doctl@v2
