@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 8008
 
-CMD ["npm", "start"]
+# CMD ["npm", "start"]
