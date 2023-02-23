@@ -164,7 +164,7 @@ export const client = (app, channel) => {
     try {
       const id = req.params.id;
 
-      const { data } = await service.GetProfile({ id });
+      const { data } = await service.GetProfile(id);
 
       return res.json(data);
     } catch (err) {

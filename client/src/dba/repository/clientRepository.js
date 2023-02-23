@@ -206,7 +206,7 @@ class ClientRepository {
     }
   }
 
-  async GetClientProfile({ id }) {
+  async GetClientProfile(id) {
     try {
       const profile = await clientModel.findById({ _id: id }).populate({
         path: "serviceRequests",
