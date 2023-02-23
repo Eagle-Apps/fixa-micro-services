@@ -9,6 +9,9 @@ image: { type: String},
 icon: { type: String},
 price: { type: String},
 categories: { type: String},
+description: { type: String},
+
+
 
 });
 

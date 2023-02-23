@@ -44,14 +44,16 @@ export const service = (app) => {
         image,
         icon,
         price,
-        categories
+        categories,
+        discription
       } = req.body;
      
       const data  = await service.CreateProduct({ name,
         image,
         icon,
         price,
-        categories});
+        categories,
+        discription});
         console.log(data);
 
       return res.status(201).send({data});
@@ -68,7 +70,8 @@ export const service = (app) => {
         image,
         icon,
         price,
-        categories
+        categories,
+        discription
       } = req.body;
       const query = {};
       if (req.query.status) {
@@ -82,6 +85,7 @@ export const service = (app) => {
         icon,
         price,
         categories,
+        discription,
         _id
       });
  console.log(data);
