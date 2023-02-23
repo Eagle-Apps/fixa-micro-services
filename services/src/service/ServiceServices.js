@@ -14,7 +14,8 @@ class ServicesService {
     image,
     icon,
     price,
-    categories} = userInputs;
+    categories,
+    description} = userInputs;
 
 
     try{
@@ -23,7 +24,8 @@ class ServicesService {
         image,
         icon,
         price,
-        categories});
+        categories,
+        description});
         return CreateProducts;
 
     }
@@ -38,6 +40,7 @@ class ServicesService {
       icon,
       price,
       categories,
+      description,
       _id} = userInputs;
       try{
         const UpdateProducts =  this.repository.Updateproduct({name,
@@ -45,6 +48,7 @@ class ServicesService {
           icon,
           price,
           categories,
+          description,
           _id});
         console.log(UpdateProducts);
       return UpdateProducts;
