@@ -235,11 +235,11 @@ class ClientService {
     }
   }
 
-  async GetProfile({ id }) {
+  async GetProfile(id ) {
     try {
-      const profile = await this.repository.GetClientProfile({
+      const profile = await this.repository.GetClientProfile(
         id,
-      });
+      );
 
       return FormatData({
         profile,
