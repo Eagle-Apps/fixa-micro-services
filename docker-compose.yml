@@ -30,7 +30,7 @@ services:
     container_name: services
     image: "eagleapps/services:latest"
     ports:
-      - "8008:8008"
+      - "6008:6008"
     restart: always
     depends_on:
       - "nosql-db"
