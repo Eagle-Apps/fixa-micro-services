@@ -23,22 +23,24 @@ services:
       - /app/client/node_modules
     env_file:
       - ./client/.env
-  services:
+  servicesapi:
     build:
       dockerfile: Dockerfile
       context: ./services
-    container_name: services
+    container_name: servicesapi
     image: "eagleapps/services:latest"
     ports:
       - "6008:6008"
     restart: always
     depends_on:
       - "nosql-db"
+      - "rabbitmq"
     volumes:
       - .:/app
       - /app/services/node_modules
     env_file:
       - ./services/.env
+
   fault:
     build:
       dockerfile: Dockerfile
@@ -89,6 +91,20 @@ services:
       - /app/technician/node_modules
     env_file:
       - ./technician/.env
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    # environment:
+    # - RABBITMQ_DEFAULT_USER=u8hrtil
+    # - RABBITMQ_DEFAULT_PASS=kiglond85
+    #volumes:
+        #- data/:/var/lib/rabbitmq/
+        #- log:/var/log/rabbitmq
+    ports:
+    # AMQP protocol port
+    - '5672:5672'
+    # HTTP management UI
+    - '15672:15672'
   # billing:
   #   build:
   #     dockerfile: Dockerfile
@@ -116,6 +132,7 @@ services:
     restart: always
     depends_on:
       - "nosql-db"
+      - "rabbitmq"
 
     volumes:
       - .:/app/
@@ -148,7 +165,7 @@ services:
       - fault
       - utility
       - technician
-      - services
+      - servicesapi
       # - billing
       - notification
       # - deliveries
