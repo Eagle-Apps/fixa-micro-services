@@ -23,11 +23,11 @@ services:
       - /app/client/node_modules
     env_file:
       - ./client/.env
-  servicesapi:
+  services:
     build:
       dockerfile: Dockerfile
       context: ./services
-    container_name: servicesapi
+    container_name: services
     image: "eagleapps/services:latest"
     ports:
       - "6008:6008"
