@@ -15,7 +15,7 @@ export const service = (app) => {
     try {
       const data  = await service.Getcategories();
       
-      return res.status(200).send(data);
+      return res.send(data);
     } catch (err) {
       next(err);
     }
@@ -29,7 +29,7 @@ export const service = (app) => {
       } = req.body;
      
       const data  = await service.Createcategories({categories});
-        // console.log(dataa);
+       console.log(data);
 
       return res.status(201).send({data});
     } catch (err) {
@@ -52,6 +52,7 @@ export const service = (app) => {
       next(err);
     }
   });
+
   //displaying all the products
   app.get("/products", async (req, res, next) => {
     try {

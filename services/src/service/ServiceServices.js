@@ -6,18 +6,14 @@ class ServicesService {
   }
   
   async Createcategories(userInputs){
-    const {categories} = userInputs;
-      try{
-        const Createcategories = await this.repository.Createcategories({
-          categories});
+    // const {categories} = userInputs;
+    
+        const Createcategories = this.repository.Createcategories(userInputs);
           console.log( "datates");
 
-          return Createcategories;
+       return Createcategories;
 
-      }
-      catch(err){
-  
-      }
+      
     }
 
     
@@ -25,10 +21,11 @@ class ServicesService {
   
     try{
      const data =await this.repository.Getcategories();
+     console.log(data);
       return data;
     }
     catch(err){
-
+return err;
     }
   }
   
