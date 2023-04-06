@@ -1,4 +1,5 @@
-import { Service } from "../models/service.js";
+import { Servicem } from "../models/service.js";
+import { Categories } from "../models/cartegories.js";
 
 import {
   APIError,
@@ -8,6 +9,39 @@ import {
 import service from "../../../../technician/src/dba/models/service.js";
 
 class ServiceRepository {
+
+  async Getcategories() {
+    try {
+     const categories= await Categories.find();
+        return categories;
+    
+    } catch (err) {
+      throw new APIError(
+        "API Error",
+        STATUS_CODES.INTERNAL_ERROR,
+        `Unable to Update product ${err.message}`
+      );
+    }
+  }
+
+  //create categories
+  async Createcategories({categories}) {
+    try {
+      const categories = new Categories({categories});
+
+      categories.save();
+      console.log("test", categories);
+
+      return categories;
+    } catch (err) {
+      throw new APIError(
+        "API Error",
+        STATUS_CODES.INTERNAL_ERROR,
+        `Unable to Create product ${err.message}`
+      );
+    }
+  }
+
   //create service
   async Createproduct({name,
     image,
@@ -16,7 +50,7 @@ class ServiceRepository {
     categories,
     description}) {
     try {
-      const product = new Service({name,
+      const product = new Servicem({name,
         image,
         icon,
         price,
@@ -46,7 +80,7 @@ class ServiceRepository {
         _id} = userInputs;
         console.log('hello'+_id);
     try {
-     await Service.findById(_id, (err, product) => {
+     await Servicem.findById(_id, (err, product) => {
        name=name,
         image = image,
         icon = icon,
@@ -73,7 +107,7 @@ class ServiceRepository {
 
   async Getproductr() {
     try {
-     const products= await Service.find();
+     const products= await Servicem.find();
         return products;
     
     } catch (err) {
@@ -92,7 +126,7 @@ class ServiceRepository {
     try {
      
       
-    const product= await Service.findById(req);
+    const product= await Servicem.findById(req);
     
         return product;
  

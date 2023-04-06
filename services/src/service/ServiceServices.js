@@ -1,12 +1,37 @@
 import ServiceRepository from "../dba/repository/serviceRepository.js";
 
-
-
 class ServicesService {
   constructor() {
     this.repository = new ServiceRepository();
-
   }
+  
+  async Createcategories(userInputs){
+    const {categories} = userInputs;
+      try{
+        const Createcategories = await this.repository.Createcategories({
+          categories});
+          console.log( "datates");
+
+          return Createcategories;
+
+      }
+      catch(err){
+  
+      }
+    }
+
+    
+  async Getcategories(){
+  
+    try{
+     const data =await this.repository.Getcategories();
+      return data;
+    }
+    catch(err){
+
+    }
+  }
+  
 
   async CreateProduct(userInputs){
   const {
