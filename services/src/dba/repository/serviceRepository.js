@@ -31,7 +31,7 @@ class ServiceRepository {
 
     try {
       const product = new Categories({
-        categorie,
+        categories: categorie,
      });
 
       product.save();
