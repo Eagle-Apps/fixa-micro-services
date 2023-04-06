@@ -10,6 +10,33 @@ export const service = (app) => {
       next(err);
     }
   });
+  //displaying all the cartegories
+  app.get("/categories", async (req, res, next) => {
+    try {
+      const data  = await service.Getcategories();
+      
+      return res.status(200).send(data);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  //creating or adding a new product
+  app.post("/categories/add", async (req, res, next) => {
+    try {
+      const {
+        categories
+      } = req.body;
+     
+      const data  = await service.Createcategories({categories});
+        // console.log(dataa);
+
+      return res.status(201).send({data});
+    } catch (err) {
+      next(err);
+    }
+  });
+
 
   //displaying details of a particular product using it's unique id
   app.get("/products/:productId", async (req, res, next) => {
@@ -37,7 +64,7 @@ export const service = (app) => {
   });
 
   //creating or adding a new product
-  app.post("/add", async (req, res, next) => {
+  app.post("/products/add", async (req, res, next) => {
     try {
       const {
         name,
@@ -45,7 +72,7 @@ export const service = (app) => {
         icon,
         price,
         categories,
-        discription
+        description
       } = req.body;
      
       const data  = await service.CreateProduct({ name,
@@ -53,7 +80,7 @@ export const service = (app) => {
         icon,
         price,
         categories,
-        discription});
+        description});
         console.log(data);
 
       return res.status(201).send({data});
@@ -71,7 +98,7 @@ export const service = (app) => {
         icon,
         price,
         categories,
-        discription
+        description
       } = req.body;
       const query = {};
       if (req.query.status) {
@@ -85,7 +112,7 @@ export const service = (app) => {
         icon,
         price,
         categories,
-        discription,
+        description,
         _id
       });
  console.log(data);
