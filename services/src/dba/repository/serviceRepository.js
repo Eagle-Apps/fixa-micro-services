@@ -13,6 +13,7 @@ class ServiceRepository {
   async Getcategories() {
     try {
      const categories= await Categories.find();
+     console.log(categories);
         return categories;
     
     } catch (err) {
