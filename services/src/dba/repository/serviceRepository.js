@@ -26,19 +26,23 @@ class ServiceRepository {
   }
 
   //create categories
-  async Createcategories({categories}) {
+  async Createcategories({categorie}) {
+    // const {categorie}= categorie;
+
     try {
-      const categories = new Categories({categories});
+      const product = new Categories({
+        categorie,
+     });
 
-      categories.save();
-      console.log("test", categories);
-
-      return categories;
+      product.save();
+      
+      return product;
+   
     } catch (err) {
       throw new APIError(
         "API Error",
         STATUS_CODES.INTERNAL_ERROR,
-        `Unable to Create product ${err.message}`
+        `Unable to Create categories ${err.message}`
       );
     }
   }
