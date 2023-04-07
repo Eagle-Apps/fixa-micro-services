@@ -28,7 +28,7 @@ export const service = (app) => {
         categories
       } = req.body;
      
-      const data  = await service.Createcategories({categories});
+      const data  = await service.Createcategories(categories);
        console.log(data);
 
       return res.status(201).send({data});

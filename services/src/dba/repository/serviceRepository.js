@@ -26,13 +26,11 @@ class ServiceRepository {
   }
 
   //create categories
-  async Createcategories({categorie}) {
+  async Createcategories(categorie) {
     // const {categorie}= categorie;
 
     try {
-      const product = new Categories({
-        categories: categorie,
-     });
+      const product = new Categories({categories: categorie});
 
       product.save();
       
