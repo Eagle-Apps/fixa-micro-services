@@ -165,7 +165,7 @@ services:
       - fault
       - utility
       - technician
-      - servicesapi
+      - services
       # - billing
       - notification
       # - deliveries
