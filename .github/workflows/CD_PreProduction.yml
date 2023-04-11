@@ -163,7 +163,7 @@ jobs:
           port: 22
           script: |
             cd fixa-micro-services
-            docker compose down
+            docker-compose down --remove-orphans
 
       - name: upload compose file to droplet
         uses: easingthemes/ssh-deploy@main
@@ -182,4 +182,4 @@ jobs:
           port: 22
           script: |
             cd fixa-micro-services
-            docker compose up -d
+            docker-compose up -d
