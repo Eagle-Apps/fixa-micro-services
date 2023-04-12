@@ -3,9 +3,9 @@ name: Build and deploy to pre-production
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [master]
+    branches: [masters]
   pull_request:
-    branches: [master]
+    branches: [masters]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -138,21 +138,6 @@ jobs:
           docker push eagleapps/fault:latest
           docker push eagleapps/notification:latest
           docker push eagleapps/services:latest
-
-      - name: Install doctl # install the doctl on the runner
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-
-      - name: Log in to DO Container Registry
-        run: doctl registry login --expiry-seconds 600
-
-      - name: Tag image
-        #run: docker tag fixa-micro-services_nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy
-        run: docker tag eagleapps/nginx-proxy registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy:latest
-
-      - name: Push image to digitalocean
-        run: docker push registry.digitalocean.com/fixapplication/fixa-micro-services_nginx-proxy:latest
 
       - name: Docker-Compose DOWN
         uses: appleboy/ssh-action@master
