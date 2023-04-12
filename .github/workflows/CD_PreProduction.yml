@@ -148,23 +148,6 @@ jobs:
           port: 22
           script: |
             cd fixa-micro-services
-            docker-compose down --remove-orphans
-
-      - name: upload compose file to droplet
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY_DEV }}
-          REMOTE_HOST: ${{ secrets.SSH_HOST_DEV }}
-          REMOTE_USER: ${{ secrets.SSH_USERNAME_DEV }}
-          TARGET: fixa-micro-services
-
-      - name: Docker-Compose UP
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST_DEV }}
-          username: ${{ secrets.SSH_USERNAME_DEV }}
-          key: ${{ secrets.SSH_PRIVATE_KEY_DEV }}
-          port: 22
-          script: |
-            cd fixa-micro-services
-            docker-compose up -d
+            docker-compose up -d --force-recreate
+            sleep 60
+            docker image prune -f
