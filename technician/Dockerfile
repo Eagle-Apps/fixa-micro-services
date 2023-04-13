@@ -3,7 +3,7 @@ RUN mkdir technician
 
 WORKDIR /technician
 
-COPY package.json .
+COPY package*.json ./
 
 RUN npm install
 
