@@ -5,7 +5,7 @@ export const service = (app) => {
 
   app.get("/", async (req, res, next) => {
     try {
-      res.send({ serviceSays: "everything soft here" });
+      res.send({ serviceSays: "everything soft here updated" });
     } catch (err) {
       next(err);
     }
