@@ -2,7 +2,7 @@ FROM node:16
 RUN mkdir services
 WORKDIR /services
 
-COPY package.json .
+COPY package*.json ./
 
 RUN npm install
 
