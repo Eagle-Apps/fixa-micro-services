@@ -8,7 +8,7 @@ export const notification = (app, channel) => {
 
   app.get("/", async (req, res, next) => {
     try {
-      res.send({ notifSays: "everything soft here ci-cd removed" });
+      res.send({ notifSays: "everything soft here new" });
     } catch (err) {
       next(err);
     }
