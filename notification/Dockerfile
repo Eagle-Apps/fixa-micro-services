@@ -1,6 +1,6 @@
 FROM node:16
-
-WORKDIR /app/notification
+RUN mkdir notification
+WORKDIR /notification
 
 COPY package*.json ./
 
