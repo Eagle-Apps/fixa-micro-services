@@ -58,7 +58,7 @@ class GalleryRepository {
     _id} = userInputs;
         console.log('hello'+_id);
     try {
-     await Servicem.findById(_id, (err, product) => {
+     await Gallery.findById(_id, (err, product) => {
        
         description,
         image,
