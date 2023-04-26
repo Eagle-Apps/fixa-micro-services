@@ -51,14 +51,18 @@ class ServiceRepository {
     icon,
     price,
     categories,
-    description}) {
+    description,
+    locationstate,
+    locationlga}) {
     try {
       const product = new Servicem({name,
         image,
         icon,
         price,
         categories,
-      description});
+      description,
+      locationstate,
+      locationlga});
 
       product.save();
       

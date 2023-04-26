@@ -2,14 +2,14 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
-const categories = new Schema({
+const subcategories = new Schema({
    
-    categories: { type: String},
+    subcategories: { type: String},
     description: { type: String},
     image: { type: String},
  
     
     });
     
-    export const Categories = mongoose.model("Categories", categories);
+    export const Subcategories = mongoose.model("Subcategories", subcategories);
     

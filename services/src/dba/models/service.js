@@ -10,6 +10,9 @@ icon: { type: String},
 price: { type: String},
 categories: { type: String},
 description: { type: String},
+locationstate:{ type: String},
+locationlga:{ type: String},
+
 
 });
 
