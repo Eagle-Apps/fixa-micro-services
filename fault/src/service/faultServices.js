@@ -6,6 +6,7 @@ import {
   STATUS_CODES,
   ValidationError,
 } from "../utils/app-errors.js";
+import {FormatData} from "../utils/index.js";
 import { configs } from "../config/index.js";
 const { NOTIFICATION_SERVICE, TECHNICIAN_SERVICE } = configs;
 
@@ -59,6 +60,7 @@ class FaultService {
         description,
         schedule,
         requestId);
+        newRequest.save();
 
       // if (requestInfo.serviceType === "fixed") {
       //   this.FetchTechnician(newRequest);
@@ -74,7 +76,6 @@ class FaultService {
       //   NOTIFICATION_SERVICE,
       //   JSON.stringify(payload)
       // );
-
       return FormatData({
         newRequest,
       });

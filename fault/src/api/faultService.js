@@ -36,7 +36,7 @@ export const fault = (app, channel) => {
 
   app.get("/fetchtasks", async (req, res, next) => {
     try {
-      const { data } = await service.GetAllRequests();
+      const { data } = await service.FetchAllRequests();
       return res.json(data);
     } catch (err) {
       next(err);
