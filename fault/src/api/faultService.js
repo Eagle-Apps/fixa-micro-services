@@ -34,7 +34,7 @@ export const fault = (app, channel) => {
 
   
 
-  app.get("/fetchtasks", async (req, res, next) => {
+  app.get("/fetchtask", async (req, res, next) => {
     try {
       const { data } = await service.FetchAllRequests();
       return res.json(data);
@@ -46,20 +46,20 @@ export const fault = (app, channel) => {
   app.get("/fetchtask/:id", async (req, res, next) => {
     const id = req.params.id;
     try {
-      const { data } = await service.GetRequest(id);
+      const { data } = await service.FetchSingleRequest(id);
       return res.json(data);
     } catch (err) {
       next(err);
     }
   });
 
-  app.post("/assigntasks", async (req, res, next) => {
-    const { requestId, TechnicianId } = req.body;
+  app.post("/assigntask", async (req, res, next) => {
+    const { requestId, technicianId, billingId } = req.body;
 
     try {
-      const { data } = await service.AssignTaskByAdmin({
+      const data  = await service.AssignTaskByAdmin({
         requestId,
-        TechnicianId,
+        technicianId,
         billingId,
       });
 

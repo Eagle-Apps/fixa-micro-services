@@ -90,7 +90,7 @@ class FaultService {
 
   async AssignTechnician({ technician, id }) {
     try {
-      const currentRequest = await this.repository.FindRequest(id);
+      const currentRequest = await this.repository.UpdateRequest(id, technician);
       const tech = technician[0];
 
       const payload = {
@@ -129,9 +129,10 @@ class FaultService {
           location: request.location,
         },
       };
+
       // PublishTechnicianEvent(payload);
 
-      PublishMessage(this.channel, TECHNICIAN_SERVICE, JSON.stringify(payload));
+      // PublishMessage(this.channel, TECHNICIAN_SERVICE, JSON.stringify(payload));
     } catch (err) {
       throw new APIError(
         err.name ? err.name : "Data Not found",
@@ -170,6 +171,8 @@ class FaultService {
   }
   async AssignTaskByAdmin({ requestId, TechnicianId, billingId }) {
     try {
+     const request= this.UpdateRequest(requestId, TechnicianId, billingId)
+     return request;
     } catch (err) {
       throw new APIError(
         err.name ? err.name : "Data Not found",
@@ -179,56 +182,61 @@ class FaultService {
     }
   }
 
-  async UpdateRequest(requestInfo, statusType) {
+  async UpdateRequest(requestId, technicianId, billingId) {
     try {
       const request = await this.repository.UpdateRequest(
-        requestInfo,
-        statusType
-      );
-      switch (statusType) {
-        case "Active":
-          () => {
-            const payload = {
-              event: "REQUEST_ACTIVE",
-              data: { ...request, statusType },
-            };
-            PublishMessage(
-              this.channel,
-              NOTIFICATION_SERVICE,
-              JSON.stringify(payload)
-            );
-          };
-          break;
-        case "Cancelled":
-          () => {
-            const payload = {
-              event: "REQUEST_CANCELLED",
-              data: { ...request, statusType },
-            };
-            PublishMessage(
-              this.channel,
-              NOTIFICATION_SERVICE,
-              JSON.stringify(payload)
-            );
-          };
-          break;
-        case "Completed":
-          () => {
-            const payload = {
-              event: "REQUEST_COMPLETED",
-              data: { ...request, statusType },
-            };
-            PublishMessage(
-              this.channel,
-              NOTIFICATION_SERVICE,
-              JSON.stringify(payload)
-            );
-          };
-          break;
+        requestId, technicianId, billingId
+        );
 
-        default:
-          break;
-      }
+        return request;
+      // const request = await this.repository.UpdateRequest(
+      //   requestInfo,
+      //   statusType
+      // );
+      // switch (statusType) {
+      //   case "Active":
+      //     () => {
+      //       const payload = {
+      //         event: "REQUEST_ACTIVE",
+      //         data: { ...request, statusType },
+      //       };
+      //       PublishMessage(
+      //         this.channel,
+      //         NOTIFICATION_SERVICE,
+      //         JSON.stringify(payload)
+      //       );
+      //     };
+      //     break;
+      //   case "Cancelled":
+      //     () => {
+      //       const payload = {
+      //         event: "REQUEST_CANCELLED",
+      //         data: { ...request, statusType },
+      //       };
+      //       PublishMessage(
+      //         this.channel,
+      //         NOTIFICATION_SERVICE,
+      //         JSON.stringify(payload)
+      //       );
+      //     };
+      //     break;
+      //   case "Completed":
+      //     () => {
+      //       const payload = {
+      //         event: "REQUEST_COMPLETED",
+      //         data: { ...request, statusType },
+      //       };
+      //       PublishMessage(
+      //         this.channel,
+      //         NOTIFICATION_SERVICE,
+      //         JSON.stringify(payload)
+      //       );
+      //     };
+      //     break;
+
+      //   default:
+      //     break;
+      // }
     } catch (err) {
       throw new APIError(
         err.name ? err.name : "Data Not found",

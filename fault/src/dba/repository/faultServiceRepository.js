@@ -30,11 +30,12 @@ class FaultServiceRepository {
     }
   }
 
-  async UpdateRequest(requestInfo, statusType) {
-    const query = { _id: requestInfo._id };
+  async UpdateRequest(requestId, technicianId, billingId) {
+    const query = { _id: requestId };
     const update = {
-      ...requestInfo,
-      status: statusType,
+      technician:technicianId, 
+      billing:billingId,
+    
     };
     try {
       const request = await requestModel.findOneAndUpdate(query, update, {
@@ -54,9 +55,10 @@ class FaultServiceRepository {
       throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
     }
   }
+
   async FindRequest(id) {
     try {
-      const request = await requestModel.findOne({ requestId: id });
+      const request = await requestModel.findOne({_id: id });
       return request;
     } catch (err) {
       throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
