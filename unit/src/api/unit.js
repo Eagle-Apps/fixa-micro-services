@@ -37,7 +37,7 @@ export const unit = (app) => {
     if (req.query.status) {
       query.status = req.query;
     }
-    const id= req.params.productId;
+    const id= req.params.id;
     try {
       const { data } = await service.UpdateUnit({
         unitName,
