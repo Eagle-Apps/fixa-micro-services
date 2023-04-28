@@ -39,13 +39,13 @@ export const unit = (app) => {
     }
     const id= req.params.id;
     try {
-      const { data } = await service.UpdateUnit({
+      const { data } = await service.UpdateUnit(
         unitName,
         category,
         model,
         modelNum,
         id,
-      });
+      );
 
       // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
       // PublishClientEvent(payload);
