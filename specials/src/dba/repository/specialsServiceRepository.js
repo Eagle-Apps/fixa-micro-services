@@ -3,21 +3,26 @@ import {
   BadRequestError,
   STATUS_CODES,
 } from "../../utils/app-errors.js";
-import {unitModel} from "../models/unit.js";
+import {specialsModel} from "../models/specials.js";
 
 //Dealing with database operations
-class UnitServiceRepository {
+class SpecialsServiceRepository {
   
  
-  async CreateUnit({ unitName, category, model, modelNum }) {
+  async CreateSpecials( {title,
+    description,
+    discount,
+    type,
+    image 
+     }) {
     try {
-      const unit = {
-        unitName,
-        category,
-        model,
-        modelNum,
-      };
-      const newUnit = new unitModel(unit);
+      const unit =  {title,
+        description,
+        discount,
+        type,
+        image 
+         };
+      const newUnit = new specialsModel(unit);
       newUnit.save();
       return newUnit;
     } catch (err) {
@@ -25,19 +30,20 @@ class UnitServiceRepository {
     }
   }
 
-  async UpdateUnit(unitName,
-    category,
-    model,
-    modelNum,
-    id,) {
+  async UpdateSpecials(title,
+    description,
+    discount,
+    type,
+    image,
+    id) {
     try {
       const filter = { _id:id };
       const update = {
-        unitName,
-        category,
-        model,
-        modelNum,
-        
+        title,
+    description,
+    discount,
+    type,
+    image
       };
       const updatedUnit = await unitModel.findByIdAndUpdate(filter, update, {
         new: true,
@@ -48,7 +54,7 @@ class UnitServiceRepository {
     }
   }
 
-  async FetchUnit(id) {
+  async FetchSpecials(id) {
     try {
       const unit = unitModel.findOne(id);
       return unit;
@@ -57,7 +63,7 @@ class UnitServiceRepository {
     }
   }
 
-async FetchallUnit() {
+async FetchallSpecials() {
   try {
     const unit = await unitModel.find();
     return unit;
@@ -67,4 +73,4 @@ async FetchallUnit() {
 }
 }
 
-export default UnitServiceRepository;
+export default SpecialsServiceRepository;

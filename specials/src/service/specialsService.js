@@ -1,4 +1,4 @@
-import UnitServiceRepository from "../dba/repository/unitServiceRepository.js";
+import SpecialsRepository from "../dba/repository/specialsRepository.js";
 
 import {
   APIError,
@@ -10,18 +10,19 @@ import {
   FormatData
 } from "../utils/index.js";
 // All Business logic will be here
-class UnitService {
+class SpecialsService {
   constructor() {
-    this.repository = new UnitServiceRepository();
+    this.repository = new SpecialsServiceRepository();
   }
 
-  async CreateUnit({ unitName, category, model, modelNum }) {
+  async CreateSpecials({ unitName, category, model, modelNum }) {
     try {
-      const unit = await this.repository.CreateUnit({
-        unitName,
-        category,
-        model,
-        modelNum,
+      const unit = await this.repository.CreateSpecials({
+        title,
+        description,
+        discount,
+        type,
+        image
       });
 
       return FormatData({
@@ -36,17 +37,19 @@ class UnitService {
     }
   }
 
-  async UpdateUnit(unitName,
-    category,
-    model,
-    modelNum,
+  async UpdateSpecials(title,
+    description,
+    discount,
+    type,
+    image,
     id) {
     try {
-      const unit = await this.repository.UpdateUnit(
-        unitName,
-        category,
-        model,
-        modelNum,
+      const unit = await this.repository.UpdateSpecials(
+        title,
+        description,
+        discount,
+        type,
+        image,
         id,
       );
 
@@ -62,9 +65,9 @@ class UnitService {
     }
   }
 
-  async GetUnit(id) {
+  async GetSpecials(id) {
     try {
-      const unit = await this.repository.FetchUnit(id);
+      const unit = await this.repository.FetchSpecials(id);
       return FormatData({
         unit,
       });
@@ -78,9 +81,9 @@ class UnitService {
   }
 
   
-  async GetallUnit() {
+  async GetallSpecials() {
     try {
-      const unit = await this.repository.FetchallUnit();
+      const unit = await this.repository.FetchallSpecials();
       return FormatData({
         unit,
       });
@@ -131,4 +134,4 @@ class UnitService {
   }
 }
 
-export default UnitService;
+export default SpecialsService;

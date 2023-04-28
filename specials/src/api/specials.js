@@ -1,26 +1,31 @@
-import UnitService from "../service/unitService.js";
+import SpecialsService from "../service/specialsService.js";
 import { PublishClientEvent } from "../utils/index.js";
 
-export const unit = (app) => {
-  const service = new UnitService();
+export const specials = (app) => {
+  const service = new SpecialsService();
 
  app.get("/", async (req, res, next) => {
     try {
-      res.send({ unitSays: "everything soft here" });
+      res.send({ specialsSays: "everything soft here" });
     } catch (err) {
       next(err);
     }
   });
 
-  app.post("/createunit", async (req, res, next) => {
-    const { unitName, category, model, modelNum, clientId } = req.body;
+  app.post("/create", async (req, res, next) => {
+    const { title,
+      description,
+      discount,
+      type,
+      image} = req.body;
 
     try {
-      const { data } = await service.CreateUnit({
-        unitName,
-        category,
-        model,
-        modelNum,
+      const { data } = await service.CreateSpecials({
+        title,
+        description,
+        discount,
+        type,
+        image
       });
 
       // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
@@ -31,19 +36,24 @@ export const unit = (app) => {
     }
   });
 
-  app.post("/updateunit/:id", async (req, res, next) => {
-    const { unitName, category, model, modelNum, clientId } = req.body;
+  app.post("/update/:id", async (req, res, next) => {
+    const {title,
+      description,
+      discount,
+      type,
+      image} = req.body;
     const query = {};
     if (req.query.status) {
       query.status = req.query;
     }
     const id= req.params.id;
     try {
-      const { data } = await service.UpdateUnit(
-        unitName,
-        category,
-        model,
-        modelNum,
+      const { data } = await service.UpdateSpecials(
+        title,
+        description,
+        discount,
+        type,
+        image,
         id,
       );
 
@@ -55,20 +65,20 @@ export const unit = (app) => {
     }
   });
 
-  app.get("/getunit/:id", async (req, res, next) => {
-    const unitid = req.params.id;
+  app.get("/get/:id", async (req, res, next) => {
+    const id = req.params.id;
 
     try {
-      const { data } = await service.GetUnit(unitid);
+      const { data } = await service.GetSpecials(id);
       return res.json({ message: "unit found", data });
     } catch (err) {
       next(err);
     }
   });
-  app.get("/getunit", async (req, res, next) => {
+  app.get("/get", async (req, res, next) => {
 
     try {
-      const { data } = await service.GetallUnit();
+      const { data } = await service.GetallSpecials();
       return res.json({ message: "unit found", data });
     } catch (err) {
       next(err);
