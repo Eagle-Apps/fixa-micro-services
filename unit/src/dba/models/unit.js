@@ -35,6 +35,6 @@ const unitSchema = mongoose.Schema(
   }
 );
 
-clientSchema.index({ location: "2dsphere" });
+unitSchema.index({ location: "2dsphere" });
 
-export const unitModel = mongoose.model("Unit", unitSchema);
+export const unitModel = mongoose.model("UnitModel", unitSchema);

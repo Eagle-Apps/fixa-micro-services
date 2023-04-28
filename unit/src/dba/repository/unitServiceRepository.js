@@ -3,10 +3,12 @@ import {
   BadRequestError,
   STATUS_CODES,
 } from "../../utils/app-errors.js";
-import { unitModel } from "../models/unit";
+import {unitModel} from "../models/unit.js";
 
 //Dealing with database operations
 class UnitServiceRepository {
+  
+ 
   async CreateUnit({ unitName, category, model, modelNum }) {
     try {
       const unit = {
@@ -48,6 +50,15 @@ class UnitServiceRepository {
       throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
     }
   }
+
+async FetchallUnit() {
+  try {
+    const unit = await unitModel.find();
+    return unit;
+  } catch (err) {
+    throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
+  }
+}
 }
 
 export default UnitServiceRepository;

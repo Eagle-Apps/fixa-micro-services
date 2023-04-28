@@ -4,6 +4,14 @@ import { PublishClientEvent } from "../utils/index.js";
 export const unit = (app) => {
   const service = new UnitService();
 
+ app.get("/", async (req, res, next) => {
+    try {
+      res.send({ unitSays: "everything soft here" });
+    } catch (err) {
+      next(err);
+    }
+  });
+
   app.post("/createunit", async (req, res, next) => {
     const { unitName, category, model, modelNum, clientId } = req.body;
 
@@ -47,7 +55,16 @@ export const unit = (app) => {
 
     try {
       const { data } = await service.GetUnit(unitid);
-      return res.json({ message: "unit created", data });
+      return res.json({ message: "unit found", data });
+    } catch (err) {
+      next(err);
+    }
+  });
+  app.get("/getunit", async (req, res, next) => {
+
+    try {
+      const { data } = await service.GetallUnit();
+      return res.json({ message: "unit found", data });
     } catch (err) {
       next(err);
     }

@@ -10,7 +10,7 @@ export const expressApp = async (app) => {
   app.use(cors());
 
   //Listen to Events
-  appEvents(app);
+  // appEvents(app);
 
   //api
   unit(app);

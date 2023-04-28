@@ -1,4 +1,4 @@
-import NotificationServices from "../service/notificationServices.js";
+// import NotificationServices from "../service/notificationServices.js";
 
 export const appEvents = (app) => {
   const service = new FaultServices();
