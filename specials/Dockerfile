@@ -1,6 +1,6 @@
-FROM node:16
+FROM node
 
-WORKDIR /app/specials
+WORKDIR /app/unit
 
 COPY package.json .
 
@@ -8,6 +8,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 6009
+EXPOSE 8005
 
 CMD ["npm", "start"]
