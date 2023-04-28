@@ -36,15 +36,19 @@ class UnitService {
     }
   }
 
-  async UpdateUnit({ _id, unitName, category, model, modelNum }) {
+  async UpdateUnit(unitName,
+    category,
+    model,
+    modelNum,
+    id) {
     try {
-      const unit = await this.repository.UpdateUnit({
-        _id,
+      const unit = await this.repository.UpdateUnit(
         unitName,
         category,
         model,
         modelNum,
-      });
+        id,
+      );
 
       return FormatData({
         unit,

@@ -23,27 +23,32 @@ export const unit = (app) => {
         modelNum,
       });
 
-      const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
-      PublishClientEvent(payload);
+      // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
+      // PublishClientEvent(payload);
       return res.json({ message: "unit created", data });
     } catch (err) {
       next(err);
     }
   });
 
-  app.post("/updateunit", async (req, res, next) => {
+  app.post("/updateunit/:id", async (req, res, next) => {
     const { unitName, category, model, modelNum, clientId } = req.body;
-
+    const query = {};
+    if (req.query.status) {
+      query.status = req.query;
+    }
+    const id= req.params.productId;
     try {
       const { data } = await service.UpdateUnit({
         unitName,
         category,
         model,
         modelNum,
+        id,
       });
 
-      const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
-      PublishClientEvent(payload);
+      // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
+      // PublishClientEvent(payload);
       return res.json({ message: "unit created", data });
     } catch (err) {
       next(err);

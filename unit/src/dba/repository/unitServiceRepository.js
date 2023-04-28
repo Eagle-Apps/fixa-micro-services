@@ -18,20 +18,26 @@ class UnitServiceRepository {
         modelNum,
       };
       const newUnit = new unitModel(unit);
+      newUnit.save();
       return newUnit;
     } catch (err) {
       throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
     }
   }
 
-  async UpdateUnit({ _id, unitName, category, model, modelNum }) {
+  async UpdateUnit(unitName,
+    category,
+    model,
+    modelNum,
+    id,) {
     try {
-      const filter = { _id };
+      const filter = { _id:id };
       const update = {
         unitName,
         category,
         model,
         modelNum,
+        
       };
       const updatedUnit = await unitModel.findByIdAndUpdate(filter, update, {
         new: true,
