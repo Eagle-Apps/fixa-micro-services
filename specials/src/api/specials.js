@@ -30,7 +30,7 @@ export const specials = (app) => {
 
       // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
       // PublishClientEvent(payload);
-      return res.json({ message: "unit created", data });
+      return res.json({ message: "created", data });
     } catch (err) {
       next(err);
     }
@@ -59,7 +59,7 @@ export const specials = (app) => {
 
       // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
       // PublishClientEvent(payload);
-      return res.json({ message: "unit created", data });
+      return res.json({ message: " created", data });
     } catch (err) {
       next(err);
     }
@@ -70,7 +70,7 @@ export const specials = (app) => {
 
     try {
       const { data } = await service.GetSpecials(id);
-      return res.json({ message: "unit found", data });
+      return res.json({ message: " found", data });
     } catch (err) {
       next(err);
     }
@@ -79,7 +79,7 @@ export const specials = (app) => {
 
     try {
       const { data } = await service.GetallSpecials();
-      return res.json({ message: "unit found", data });
+      return res.json({ message: " specials found", data });
     } catch (err) {
       next(err);
     }

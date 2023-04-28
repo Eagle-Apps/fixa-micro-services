@@ -1,4 +1,4 @@
-import SpecialsRepository from "../dba/repository/specialsRepository.js";
+import SpecialsServiceRepository from "../dba/repository/specialsRepository.js";
 
 import {
   APIError,
@@ -15,7 +15,11 @@ class SpecialsService {
     this.repository = new SpecialsServiceRepository();
   }
 
-  async CreateSpecials({ unitName, category, model, modelNum }) {
+  async CreateSpecials({ title,
+      description,
+      discount,
+      type,
+      image}) {
     try {
       const unit = await this.repository.CreateSpecials({
         title,

@@ -45,7 +45,7 @@ class SpecialsServiceRepository {
     type,
     image
       };
-      const updatedUnit = await unitModel.findByIdAndUpdate(filter, update, {
+      const updatedUnit = await specialsModel.findByIdAndUpdate(filter, update, {
         new: true,
       });
       return updatedUnit;
@@ -56,7 +56,7 @@ class SpecialsServiceRepository {
 
   async FetchSpecials(id) {
     try {
-      const unit = unitModel.findOne(id);
+      const unit = specialsModel.findById(id);
       return unit;
     } catch (err) {
       throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
@@ -65,7 +65,7 @@ class SpecialsServiceRepository {
 
 async FetchallSpecials() {
   try {
-    const unit = await unitModel.find();
+    const unit = await specialsModel.find();
     return unit;
   } catch (err) {
     throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
