@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const specialsSchema = mongoose.Schema(
+const subscriptionsSchema = mongoose.Schema(
   {
     serviceid: {
       type: String,
@@ -33,4 +33,4 @@ const specialsSchema = mongoose.Schema(
 );
 
 
-export const specialsModel = mongoose.model("SpecialsModel", specialsSchema);
+export const subscriptionsModel = mongoose.model("SubscriptionsModel", subscriptionsSchema);

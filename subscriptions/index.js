@@ -1,6 +1,6 @@
 import express from "express";
 import { expressApp } from "./express-app.js";
-import { connect_db } from "./src/dba/connection.js.js";
+import { connect_db } from "./src/dba/connection.js";
 import dotenv from "dotenv";
 // const { PORT } = import "./config.js
 dotenv.config();
