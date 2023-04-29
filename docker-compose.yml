@@ -175,6 +175,24 @@ services:
     env_file:
       - ./specials/.env
 
+  subscriptions:
+    build:
+      dockerfile: Dockerfile
+      context: ./subscriptions
+    container_name: subscriptions
+    image: "eagleapps/subscriptions:latest"
+    ports:
+      - "7001:7001"
+    restart: always
+    depends_on:
+      - "nosql-db"
+
+    volumes:
+      - .:/app/
+      - /app/subscriptions/node_modules
+    env_file:
+      - ./subscriptions/.env
+
   nginx-proxy:
     build:
       dockerfile: Dockerfile
@@ -190,5 +208,6 @@ services:
       # - billing
       - notification
       # - deliveries
+      - subscriptions
     ports:
       - 8081:8081
