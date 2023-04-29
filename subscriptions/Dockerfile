@@ -1,0 +1,13 @@
+FROM node
+
+WORKDIR /app/unit
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 7001
+
+CMD ["npm", "start"]
