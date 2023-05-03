@@ -140,18 +140,4 @@ jobs:
           docker push eagleapps/services:latest
 
 
-      - name: Docker-Compose DOWN
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST_DEV }}
-          username: ${{ secrets.SSH_USERNAME_DEV }}
-          key: ${{ secrets.SSH_PRIVATE_KEY_DEV }}
-          port: 22
-          script: |
-            cd fixa-micro-services
-            docker-compose up -d --force-recreate
-            sleep 60
-            docker image prune -f
-
-            
-
+      
