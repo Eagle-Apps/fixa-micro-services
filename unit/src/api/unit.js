@@ -4,6 +4,14 @@ import { PublishClientEvent } from "../utils/index.js";
 export const unit = (app) => {
   const service = new UnitService();
 
+ app.get("/", async (req, res, next) => {
+    try {
+      res.send({ unitSays: "everything soft here" });
+    } catch (err) {
+      next(err);
+    }
+  });
+
   app.post("/createunit", async (req, res, next) => {
     const { unitName, category, model, modelNum, clientId } = req.body;
 
@@ -15,27 +23,32 @@ export const unit = (app) => {
         modelNum,
       });
 
-      const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
-      PublishClientEvent(payload);
+      // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
+      // PublishClientEvent(payload);
       return res.json({ message: "unit created", data });
     } catch (err) {
       next(err);
     }
   });
 
-  app.post("/updateunit", async (req, res, next) => {
+  app.post("/updateunit/:id", async (req, res, next) => {
     const { unitName, category, model, modelNum, clientId } = req.body;
-
+    const query = {};
+    if (req.query.status) {
+      query.status = req.query;
+    }
+    const id= req.params.id;
     try {
-      const { data } = await service.UpdateUnit({
+      const { data } = await service.UpdateUnit(
         unitName,
         category,
         model,
         modelNum,
-      });
+        id,
+      );
 
-      const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
-      PublishClientEvent(payload);
+      // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
+      // PublishClientEvent(payload);
       return res.json({ message: "unit created", data });
     } catch (err) {
       next(err);
@@ -47,7 +60,16 @@ export const unit = (app) => {
 
     try {
       const { data } = await service.GetUnit(unitid);
-      return res.json({ message: "unit created", data });
+      return res.json({ message: "unit found", data });
+    } catch (err) {
+      next(err);
+    }
+  });
+  app.get("/getunit", async (req, res, next) => {
+
+    try {
+      const { data } = await service.GetallUnit();
+      return res.json({ message: "unit found", data });
     } catch (err) {
       next(err);
     }

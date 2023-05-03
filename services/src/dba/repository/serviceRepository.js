@@ -26,13 +26,11 @@ class ServiceRepository {
   }
 
   //create categories
-  async Createcategories({categorie}) {
+  async Createcategories(categorie) {
     // const {categorie}= categorie;
 
     try {
-      const product = new Categories({
-        categories: categorie,
-     });
+      const product = new Categories({categories: categorie});
 
       product.save();
       
@@ -53,14 +51,18 @@ class ServiceRepository {
     icon,
     price,
     categories,
-    description}) {
+    description,
+    locationstate,
+    locationlga}) {
     try {
       const product = new Servicem({name,
         image,
         icon,
         price,
         categories,
-      description});
+      description,
+      locationstate,
+      locationlga});
 
       product.save();
       
