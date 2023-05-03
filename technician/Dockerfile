@@ -1,8 +1,9 @@
 FROM node:16
+RUN mkdir technician
 
-WORKDIR /app/technician
+WORKDIR /technician
 
-COPY package.json .
+COPY package*.json ./
 
 RUN npm install
 

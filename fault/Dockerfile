@@ -1,8 +1,9 @@
 FROM node:16
 
-WORKDIR /app/fault
+RUN mkdir fault
+WORKDIR /fault
 
-COPY package.json .
+COPY package*.json ./
 
 RUN npm install
 

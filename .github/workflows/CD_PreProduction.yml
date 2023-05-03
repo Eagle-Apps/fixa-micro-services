@@ -139,6 +139,7 @@ jobs:
           docker push eagleapps/notification:latest
           docker push eagleapps/services:latest
 
+
       - name: Docker-Compose DOWN
         uses: appleboy/ssh-action@master
         with:
@@ -151,3 +152,6 @@ jobs:
             docker-compose up -d --force-recreate
             sleep 60
             docker image prune -f
+
+            
+
