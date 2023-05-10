@@ -1,8 +1,8 @@
 FROM node:16
+RUN mkdir notification
+WORKDIR /notification
 
-WORKDIR /app/notification
-
-COPY package.json .
+COPY package*.json ./
 
 RUN npm install
 

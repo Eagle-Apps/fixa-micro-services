@@ -1,10 +1,10 @@
 FROM node:16
-WORKDIR /app/client
+RUN mkdir client
+WORKDIR /client
 
-COPY package.json .
+COPY package*.json ./
 
 RUN npm install
-
 COPY . .
 
 EXPOSE 8001

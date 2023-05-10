@@ -1,8 +1,9 @@
 FROM node
 
-WORKDIR /app/unit
+RUN mkdir unit
+WORKDIR /unit
 
-COPY package.json .
+COPY package*.json ./
 
 RUN npm install
 

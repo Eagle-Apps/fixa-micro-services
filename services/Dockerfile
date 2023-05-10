@@ -1,8 +1,9 @@
 FROM node:16
 
-WORKDIR /app/services
+RUN mkdir service
+WORKDIR /service
 
-COPY package.json .
+COPY package*.json ./
 
 RUN npm install
 
