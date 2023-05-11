@@ -25,6 +25,15 @@ jobs:
           echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
           echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
           cat .env
+      - name: Create client Env for offers
+        working-directory: ./specials
+        run: |
+          touch .env
+          echo APP_SECRET=${{ secrets.APP_SECRET }} >> .env
+          echo MONGODB_URI=${{ secrets.CLIENT_MONGO_URI }} >> .env
+          echo MSG_QUEUE_URL=${{ secrets.MSG_QUEUE_URL }} >> .env
+          echo EXCHANGE_NAME=${{ secrets.EXCHANGE_NAME }} >> .env
+          cat .env
 
       - name: Create technician Env file
         working-directory: ./technician
@@ -138,6 +147,7 @@ jobs:
           docker push eagleapps/fault:latest
           docker push eagleapps/notification:latest
           docker push eagleapps/services:latest
+          docker push eagleapps/specials:latest
 
 
       
