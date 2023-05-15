@@ -301,7 +301,7 @@ export const technician = (app, channel) => {
 
   app.get("/fetchclients", async (req, res, next) => {
     try {
-      const { data } = await service.GetAllClients();
+      const {data} = await service.GetAllClients();
       return res.json(data);
     } catch (err) {
       next(err);
@@ -380,7 +380,8 @@ export const technician = (app, channel) => {
   //displaying of fetching
   app.get("/technicians", async (req, res, next) => {
     try {
-      const { data } = service.Gettechnicians();
+      const data = await service.Gettechnicians();
+      console.log('data', data)
       return res.status(201).json(data);
     } catch (err) {
       next(err);

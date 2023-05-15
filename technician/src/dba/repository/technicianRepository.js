@@ -473,21 +473,6 @@ STATUS_CODES.INTERNAL_ERROR,
     }
   }
 
-  async GetClients() {
-    try {
-      const clients = await technicians.find().populate({
-        path: "serviceRequests",
-        model: "request",
-        select: { _id: 0 },
-      });
-
-      return clients;
-    } catch (err) {
-      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
-    }
-  }
-
-
 //create 
 async addtechnicians({ data }) {
    
@@ -533,7 +518,7 @@ STATUS_CODES.INTERNAL_ERROR,
 
 //to display 
 
-async Gettechnicians({ data }) {
+async Gettechniciansort({ data }) {
 try{
 technicians.find({data}, (err, products) => {
 if (err) {
@@ -551,7 +536,24 @@ STATUS_CODES.INTERNAL_ERROR,
 }
 }
 
+async Gettechnicians() {
+  try{
+ const products= technicians.find();
 
+ 
+  return products;
+  
+  
+  }catch (err) {
+  throw new APIError(
+  "API Error",
+  STATUS_CODES.INTERNAL_ERROR,
+  `Unable to Update product ${err.message}`
+ 
+  )
+  }
+}
+  
 //training
 
 //create 
