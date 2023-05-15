@@ -288,7 +288,8 @@ STATUS_CODES.INTERNAL_ERROR,
     }
   }
 
-  async CreateClient({name,
+  async CreateClient({
+    name,
     email,
     password,
     phone,
@@ -298,9 +299,15 @@ STATUS_CODES.INTERNAL_ERROR,
     zipCode,
     salt,
     verificationString,
+    technicianid,
+    technciantype,
+    credentialtype,
+    credentialfile,
+    status,
   }) {
     try {
       const client = new technicians({name,
+        name,
         email,
         password,
         phone,
@@ -310,6 +317,11 @@ STATUS_CODES.INTERNAL_ERROR,
         zipCode,
         salt,
         verificationString,
+        technicianid,
+        technciantype,
+        credentialtype,
+        credentialfile,
+        status,
       });
       const clientResult = await client.save();
       return clientResult;
@@ -477,10 +489,10 @@ STATUS_CODES.INTERNAL_ERROR,
 async addtechnicians({ data }) {
    
   try {
-    const technicians = new technicians(data);
+    const technician = new technicians({data});
 
-    technicians.save();
-    return res.status(201).json(technicians);
+    technician.save();
+    return res.status(201).json(technician);
    
   } catch (err) {
     throw new APIError(
