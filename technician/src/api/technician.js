@@ -146,10 +146,15 @@ export const technician = (app, channel) => {
         city,
         state,
         zipCode,
+        technicianid,
+        technciantype,
+        credentialtype,
+        credentialfile,
+        status,
       } = req.body;
 
       const {data} = await service.SignUp({
-       name,
+        name,
         email,
         password,
         confirmPassword,
@@ -158,6 +163,11 @@ export const technician = (app, channel) => {
         city,
         state,
         zipCode,
+        technicianid,
+        technciantype,
+        credentialtype,
+        credentialfile,
+        status,
       });
 
       const payload = {
@@ -388,47 +398,46 @@ export const technician = (app, channel) => {
     }
   });
   //creating or adding
-  app.post("/technicians", async (req, res, next) => {
-    try {
-      const {
-        name,
-        phone,
-        email,
-        password,
-        address,
-        city,
-        stat,
-        zipCode,
-        salt,
+  // app.post("/technicians", async (req, res, next) => {
+  //   try {
+  //     const {
+  //       name,
+  //       phone,
+  //       email,
+  //       password,
+  //       address,
+  //       city,
+  //       state,
+  //       zipCode,
+  //       salt,
+  //       technicianid,
+  //       technciantype,
+  //       credentialtype,
+  //       credentialfile,
+  //       status,
+  //     } = req.body;
+  //     const { data } = service.addtechnicians({
+  //       name,
+  //       phone,
+  //       email,
+  //       password,
+  //       address,
+  //       city,
+  //       state,
+  //       zipCode,
+  //       salt,
 
-        technicianid,
-        technciantype,
-        credentialtype,
-        credentialfile,
-        status,
-      } = req.body;
-      const { data } = service.addtechnicians({
-        name,
-        phone,
-        email,
-        password,
-        address,
-        city,
-        stat,
-        zipCode,
-        salt,
-
-        technicianid,
-        technciantype,
-        credentialtype,
-        credentialfile,
-        status,
-      });
-      return res.status(201).json(data);
-    } catch (err) {
-      next(err);
-    }
-  });
+  //       technicianid,
+  //       technciantype,
+  //       credentialtype,
+  //       credentialfile,
+  //       status,
+  //     });
+  //     return res.status(201).json(data);
+  //   } catch (err) {
+  //     next(err);
+  //   }
+  // });
   //updating any of the properties
   app.put("technicians", async (req, res, next) => {
     try {
@@ -439,10 +448,9 @@ export const technician = (app, channel) => {
         password,
         address,
         city,
-        stat,
+        state,
         zipCode,
         salt,
-
         technicianid,
         technciantype,
         credentialtype,
@@ -456,10 +464,9 @@ export const technician = (app, channel) => {
         password,
         address,
         city,
-        stat,
+        state,
         zipCode,
         salt,
-
         technicianid,
         technciantype,
         credentialtype,
