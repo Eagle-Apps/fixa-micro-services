@@ -382,7 +382,7 @@ export const technician = (app, channel) => {
     try {
       const data = await service.Gettechnicians();
       console.log('data', data)
-      return res.status(201).json(data);
+      return res.status(200).json(data);
     } catch (err) {
       next(err);
     }
