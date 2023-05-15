@@ -366,7 +366,7 @@ class TechnicianService {
     }
   }
 
-  async GetAllClients({ id }) {
+  async GetAllClients() {
     try {
       const clients = await this.repository.GetClients();
       return FormatData({
@@ -536,6 +536,8 @@ class TechnicianService {
   async Gettechnicians() {
     try {
       const Gettechnicians = await this.repository.Gettechnicians();
+
+      return Gettechnicians;
     } catch (err) {
       return err;
     }
