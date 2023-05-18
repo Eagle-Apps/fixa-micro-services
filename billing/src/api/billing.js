@@ -152,7 +152,7 @@ export const billing = (app) => {
 
 
   app.put("/ticket", async (req, res, next) => {
-    try {const {
+    const {
       invoiceid,
       item1particulars,
       item1amount,
@@ -172,6 +172,7 @@ export const billing = (app) => {
       status
     } = req.body;
 
+    try {
     const { data } = await service.Updateticket({
       invoiceid,
       item1particulars,
