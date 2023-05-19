@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
-import { billing } from "../billing-services/src/api/billing.js";
-import { appEvents } from "../billing-services/src/api/app-events.js";
-import HandleErrors from "../billing-services/src/utils/error-handler.js";
+import { billing } from "./src/api/billing.js";
+import { appEvents } from "./src/api/app-events.js";
+import HandleErrors from "./src/utils/error-handler.js";
 
 export const expressApp = async (app) => {
   app.use(express.json());
