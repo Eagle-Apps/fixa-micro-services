@@ -203,7 +203,6 @@ services:
       - fault
       - utility
       - technician
-      - services
       - specials
       # - billing
       - notification
