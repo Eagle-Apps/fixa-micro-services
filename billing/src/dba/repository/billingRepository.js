@@ -166,20 +166,28 @@ class BillingRepository {
 
   //to display
 
-  async Getticket({ data }) {
+  async Getticket() {
+    // try {
+    //   const getDatas = billingModel.find()
+    //   // console.log(getDatas, 'from get datas')
+    //   billingModel.find({ data }, (err, products) => {
+    //     if (err) {
+    //       return res.send(err)
+    //     }
+    //     return res.json(products)
+    //   })
+    // } catch (err) {
+    //   throw new APIError(
+    //     'API Error',
+    //     STATUS_CODES.INTERNAL_ERROR,
+    //     `Unable to Update product ${err.message}`
+    //   )
+    // }
     try {
-      billing.find({ data }, (err, products) => {
-        if (err) {
-          return res.send(err)
-        }
-        return res.json(products)
-      })
+      const ticket = await billingModel.find()
+      return ticket
     } catch (err) {
-      throw new APIError(
-        'API Error',
-        STATUS_CODES.INTERNAL_ERROR,
-        `Unable to Update product ${err.message}`
-      )
+      throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, err.message)
     }
   }
 }

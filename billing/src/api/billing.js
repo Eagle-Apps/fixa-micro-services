@@ -111,8 +111,9 @@ export const billing = (app) => {
         option,
         status,
       } = req.body
+      // console.log(req.body, 'reg body')
 
-      const { data } = await service.Getticket({
+      const ticketData = await service.Getticket({
         invoiceid,
         item1particulars,
         item1amount,
@@ -131,7 +132,15 @@ export const billing = (app) => {
         option,
         status,
       })
-      return res.json(data)
+      // console.log(data, 'from data')
+      // return res.json(data)
+      res.status(200).json({
+        status: 'success',
+        results: ticketData.length,
+        data: {
+          ticketData,
+        },
+      })
     } catch (err) {
       console.log(err)
       next(err)
@@ -152,15 +161,15 @@ export const billing = (app) => {
       item5particulars,
       item5amount,
       discount,
-      vat,
-      amount,
-      finalamount,
+      // vat,
+      // amount,
+      // finalamount,
       option,
       status,
     } = req.body
 
     try {
-      const { data } = await service.Updateticket({
+      const data  = await service.Updateticket({
         invoiceid,
         item1particulars,
         item1amount,
@@ -173,9 +182,9 @@ export const billing = (app) => {
         item5particulars,
         item5amount,
         discount,
-        vat,
-        amount,
-        finalamount,
+        // vat,
+        // amount,
+        // finalamount,
         option,
         status,
       })

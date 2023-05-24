@@ -137,11 +137,14 @@ class billingService {
         option,
         status,
       })
+      return Updateticket
     } catch (err) {}
   }
   async Getticket() {
     try {
       const Getticket = await this.repository.Getticket()
+
+      return Getticket
     } catch (err) {}
   }
 
