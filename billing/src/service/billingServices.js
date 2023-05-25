@@ -98,7 +98,8 @@ class billingService {
     } catch (err) {}
   }
   async Updateticket(userInputs) {
-    const {id,
+    const {
+      id,
       invoiceid,
       item1particulars,
       item1amount,
@@ -118,6 +119,7 @@ class billingService {
       status,
     } = userInputs
     try {
+      // console.log('UserInputs: ', userInputs)
       const Updateticket = await this.repository.Updateticket({
         id,
         invoiceid,
@@ -138,6 +140,7 @@ class billingService {
         option,
         status,
       })
+      console.log('UPdate Ticket', Updateticket )
       return Updateticket
     } catch (err) {}
   }
