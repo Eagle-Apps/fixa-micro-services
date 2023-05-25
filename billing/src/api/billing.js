@@ -147,7 +147,7 @@ export const billing = (app) => {
     }
   })
 
-  app.put('/ticket', async (req, res, next) => {
+  app.post('/ticketupdate/:id', async (req, res, next) => {
     const {
       invoiceid,
       item1particulars,
@@ -167,9 +167,10 @@ export const billing = (app) => {
       option,
       status,
     } = req.body
-
+    const id = req.params.id;
     try {
       const data  = await service.Updateticket({
+        id, 
         invoiceid,
         item1particulars,
         item1amount,
