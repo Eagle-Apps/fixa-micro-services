@@ -141,8 +141,10 @@ class BillingRepository {
   }
 
   //update
-  async Updateticket({userInputs}) {
-    const {id,
+  async Updateticket( userInputs ) {
+    // console.log('Updateticket', userInputs)
+    const {
+      id,
       invoiceid,
       item1particulars,
       item1amount,
@@ -160,8 +162,9 @@ class BillingRepository {
       finalamount,
       option,
       status,
-    } = userInputs;
+    } = userInputs
     try {
+      // console.log('UserInputs from Repo', userInputs)
       const update = {
         invoiceid,
         item1particulars,
@@ -180,12 +183,14 @@ class BillingRepository {
         finalamount,
         option,
         status,
-      };
-      const ticket = technicians.findByIdAndUpdate(id, update, {
+      }
+      const ticket = billingModel.findByIdAndUpdate(id, update, {
         new: true,
-      });
+        runValidators: true,
+        context: 'query',
+      })
 
-      return ticket;
+      return ticket
     } catch (err) {
       throw new APIError(
         'API Error',

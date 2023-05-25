@@ -147,7 +147,7 @@ export const billing = (app) => {
     }
   })
 
-  app.post('/ticketupdate/:id', async (req, res, next) => {
+  app.patch('/ticketupdate/:id', async (req, res, next) => {
     const {
       invoiceid,
       item1particulars,
@@ -167,10 +167,10 @@ export const billing = (app) => {
       option,
       status,
     } = req.body
-    const id = req.params.id;
+    const id = req.params.id
     try {
-      const data  = await service.Updateticket({
-        id, 
+      const ticketData = await service.Updateticket({
+        id,
         invoiceid,
         item1particulars,
         item1amount,
@@ -189,10 +189,20 @@ export const billing = (app) => {
         option,
         status,
       })
-      return res.json(data)
+      // return res.json(data)
+      res.status(200).json({
+        status: 'success',
+        data: {
+          data: ticketData,
+        },
+      })
     } catch (err) {
-      console.log(err)
-      next(err)
+      res.status(404).json({
+        status: 'fail',
+        message: next(err),
+      })
+      // console.log(err)
+      // next(err)
     }
   })
 }
