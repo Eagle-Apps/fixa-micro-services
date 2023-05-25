@@ -141,20 +141,51 @@ class BillingRepository {
   }
 
   //update
-  async Updateticket() {
+  async Updateticket({userInputs}) {
+    const {id,
+      invoiceid,
+      item1particulars,
+      item1amount,
+      item2particulars,
+      item2amount,
+      item3particulars,
+      item3amount,
+      item4particulars,
+      item4amount,
+      item5particulars,
+      item5amount,
+      discount,
+      vat,
+      amount,
+      finalamount,
+      option,
+      status,
+    } = userInputs;
     try {
-      billing.findById(req.params.billingId, (err, billing) => {
-        if (err) {
-          return res.send(err)
-        }
-        billing.status = req.body.brand
-        billing.save((err) => {
-          if (err) {
-            return res.send(err)
-          }
-          return res.json(product)
-        })
-      })
+      const update = {
+        invoiceid,
+        item1particulars,
+        item1amount,
+        item2particulars,
+        item2amount,
+        item3particulars,
+        item3amount,
+        item4particulars,
+        item4amount,
+        item5particulars,
+        item5amount,
+        discount,
+        vat,
+        amount,
+        finalamount,
+        option,
+        status,
+      };
+      const ticket = technicians.findByIdAndUpdate(id, update, {
+        new: true,
+      });
+
+      return ticket;
     } catch (err) {
       throw new APIError(
         'API Error',
