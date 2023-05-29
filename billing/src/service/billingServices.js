@@ -119,6 +119,19 @@ class billingService {
       status,
     } = userInputs
     try {
+      const vatRate = 7.5
+
+      const totalAmount =
+        +item1amount + +item2amount + +item3amount + +item4amount + +item5amount
+
+      // Calculate the discounted amount
+      const discountedAmount = totalAmount * (+discount / 100)
+
+      // Calculate the VAT amount
+      const vatAmount = totalAmount * (vatRate / 100)
+
+      // Calculate the final amount
+      const finalAmount = totalAmount - (discountedAmount + vatAmount)
       // console.log('UserInputs: ', userInputs)
       const Updateticket = await this.repository.Updateticket({
         id,
@@ -134,13 +147,13 @@ class billingService {
         item5particulars,
         item5amount,
         discount,
-        vat,
-        amount,
-        finalamount,
+        vat: vatRate,
+        amount: totalAmount.toLocaleString(),
+        finalamount: finalAmount.toLocaleString(),
         option,
         status,
       })
-      console.log('UPdate Ticket', Updateticket )
+      console.log('UPdate Ticket', Updateticket)
       return Updateticket
     } catch (err) {}
   }

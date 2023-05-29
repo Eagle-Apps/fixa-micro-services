@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 
 const unitSchema = mongoose.Schema(
   {
@@ -11,7 +11,7 @@ const unitSchema = mongoose.Schema(
     model: {
       type: String,
     },
-    modelNo: {
+    modelNum: {
       type: String,
     },
     timesWorkedOn: {
@@ -19,8 +19,8 @@ const unitSchema = mongoose.Schema(
     },
     preventiveMaintenance: {
       type: String,
-      enum: ["true", "false"],
-      default: "false",
+      enum: ['true', 'false'],
+      default: 'false',
     },
     performanceReport: {},
   },
@@ -28,13 +28,13 @@ const unitSchema = mongoose.Schema(
   {
     toJSON: {
       transform(doc, ret) {
-        delete ret.__v;
+        delete ret.__v
       },
     },
     timestamps: true,
   }
-);
+)
 
-unitSchema.index({ location: "2dsphere" });
+unitSchema.index({ location: '2dsphere' })
 
-export const unitModel = mongoose.model("UnitModel", unitSchema);
+export const unitModel = mongoose.model('UnitModel', unitSchema)
