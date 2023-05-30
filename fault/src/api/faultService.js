@@ -49,6 +49,16 @@ export const fault = (app, channel) => {
     }
   })
 
+  app.get('/fetchuserservices/:id', async (req, res, next) => {
+    const id = req.params.id
+    try {
+      const data  = await service.FetchUserServices(id)
+      return res.json(data)
+    } catch (err) {
+      next(err)
+    }
+  })
+
   app.post('/assigntask', async (req, res, next) => {
     const { requestId, technicianId, billingId } = req.body
 

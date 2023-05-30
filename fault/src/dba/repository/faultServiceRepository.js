@@ -65,6 +65,18 @@ class FaultServiceRepository {
     }
   }
 
+  async FindUserRequest(id) {
+    
+    try {
+      const request = await requestModel.findOne({clientId:id });
+      console.log(request,id);
+      return request;
+    } catch (err) {
+      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
+    }
+  }
+
+
   async GetTransactionId() {
     try {
       let id;
