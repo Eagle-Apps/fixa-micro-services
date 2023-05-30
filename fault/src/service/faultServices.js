@@ -47,7 +47,21 @@ class FaultService {
       );
     }
   }
+ async FetchUserServices(id) {
+  try {
+    const request = await this.repository.FindUserRequest(id);
 
+    return FormatData({
+      request,
+    });
+  } catch (err) {
+    throw new APIError(
+      err.name ? err.name : "Data Not found",
+      err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
+      err.message
+    );
+  }
+}
   async AddServiceRequest(userId,location, description, schedule) {
     try {
       const id = this.repository.GetTransactionId;
