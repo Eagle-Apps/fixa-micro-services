@@ -13,13 +13,14 @@ class UnitService {
     this.repository = new UnitServiceRepository()
   }
 
-  async CreateUnit({ unitName, category, model, modelNum }) {
+  async CreateUnit({ unitName, category, model, modelNum, clientId }) {
     try {
       const unit = await this.repository.CreateUnit({
         unitName,
         category,
         model,
         modelNum,
+        clientId
       })
 
       return FormatData({
@@ -41,7 +42,8 @@ class UnitService {
         category,
         model,
         modelNum,
-        id
+        id,
+        clientId
       )
 
       return FormatData({

@@ -17,6 +17,9 @@ const unitSchema = mongoose.Schema(
     timesWorkedOn: {
       type: Number,
     },
+    clientId: {
+      type: Number,
+    },
     preventiveMaintenance: {
       type: String,
       enum: ['true', 'false'],
@@ -24,7 +27,7 @@ const unitSchema = mongoose.Schema(
     },
     performanceReport: {},
   },
-
+ 
   {
     toJSON: {
       transform(doc, ret) {
@@ -37,4 +40,4 @@ const unitSchema = mongoose.Schema(
 
 unitSchema.index({ location: '2dsphere' })
 
-export const unitModel = mongoose.model('UnitModel', unitSchema)
+export const unitModels = mongoose.model('UnitModels', unitSchema)

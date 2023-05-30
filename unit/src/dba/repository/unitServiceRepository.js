@@ -7,13 +7,14 @@ import { unitModel } from '../models/unit.js'
 
 //Dealing with database operations
 class UnitServiceRepository {
-  async CreateUnit({ unitName, category, model, modelNum }) {
+  async CreateUnit({ unitName, category, model, modelNum, clientId }) {
     try {
       const unit = {
         unitName,
         category,
         model,
         modelNum,
+        clientId
       }
       const newUnit = new unitModel(unit)
       newUnit.save()
@@ -23,7 +24,7 @@ class UnitServiceRepository {
     }
   }
 
-  async UpdateUnit(unitName, category, model, modelNum, id) {
+  async UpdateUnit(unitName, category, model, modelNum, id,  clientId) {
     try {
       const filter = { _id: id }
       const update = {
@@ -31,6 +32,7 @@ class UnitServiceRepository {
         category,
         model,
         modelNum,
+        clientId
       }
       const updatedUnit = await unitModel.findByIdAndUpdate(filter, update, {
         new: true,

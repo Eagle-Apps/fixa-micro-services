@@ -21,6 +21,7 @@ export const unit = (app) => {
         category,
         model,
         modelNum,
+        clientId
       })
 
       // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
@@ -44,7 +45,8 @@ export const unit = (app) => {
         category,
         model,
         modelNum,
-        id
+        id,
+        clientId
       )
 
       // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
