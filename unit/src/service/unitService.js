@@ -35,7 +35,7 @@ class UnitService {
     }
   }
 
-  async UpdateUnit(unitName, category, model, modelNum, id) {
+  async UpdateUnit(unitName, category, model, modelNum, id, clientId) {
     try {
       const unit = await this.repository.UpdateUnit(
         unitName,

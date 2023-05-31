@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const unitSchema = mongoose.Schema(
+const unitSchemas = mongoose.Schema(
   {
     unitName: {
       type: String,
@@ -18,7 +18,7 @@ const unitSchema = mongoose.Schema(
       type: Number,
     },
     clientId: {
-      type: Number,
+      type: String,
     },
     preventiveMaintenance: {
       type: String,
@@ -27,7 +27,7 @@ const unitSchema = mongoose.Schema(
     },
     performanceReport: {},
   },
- 
+
   {
     toJSON: {
       transform(doc, ret) {
@@ -38,6 +38,6 @@ const unitSchema = mongoose.Schema(
   }
 )
 
-unitSchema.index({ location: '2dsphere' })
+unitSchemas.index({ location: '2dsphere' })
 
-export const unitModels = mongoose.model('UnitModels', unitSchema)
+export const unitModels = mongoose.model('UnitModels', unitSchemas)
