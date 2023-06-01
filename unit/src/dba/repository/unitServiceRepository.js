@@ -3,19 +3,20 @@ import {
   BadRequestError,
   STATUS_CODES,
 } from '../../utils/app-errors.js'
-import { unitModel } from '../models/unit.js'
+import { unitModels } from '../models/unit.js'
 
 //Dealing with database operations
 class UnitServiceRepository {
-  async CreateUnit({ unitName, category, model, modelNum }) {
+  async CreateUnit({ unitName, category, model, modelNum, clientId }) {
     try {
       const unit = {
         unitName,
         category,
         model,
         modelNum,
+        clientId,
       }
-      const newUnit = new unitModel(unit)
+      const newUnit = new unitModels(unit)
       newUnit.save()
       return newUnit
     } catch (err) {
@@ -23,7 +24,7 @@ class UnitServiceRepository {
     }
   }
 
-  async UpdateUnit(unitName, category, model, modelNum, id) {
+  async UpdateUnit(unitName, category, model, modelNum, id, clientId) {
     try {
       const filter = { _id: id }
       const update = {
@@ -31,8 +32,9 @@ class UnitServiceRepository {
         category,
         model,
         modelNum,
+        clientId,
       }
-      const updatedUnit = await unitModel.findByIdAndUpdate(filter, update, {
+      const updatedUnit = await unitModels.findByIdAndUpdate(filter, update, {
         new: true,
       })
       return updatedUnit
@@ -44,7 +46,7 @@ class UnitServiceRepository {
   async FetchUnit(id) {
     const unitid = { _id: id }
     try {
-      const unit = unitModel.findOne(unitid)
+      const unit = unitModels.findOne(unitid)
       return unit
     } catch (err) {
       throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, err.message)
@@ -53,7 +55,7 @@ class UnitServiceRepository {
 
   async FetchallUnit() {
     try {
-      const unit = await unitModel.find()
+      const unit = await unitModels.find()
       return unit
     } catch (err) {
       throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, err.message)

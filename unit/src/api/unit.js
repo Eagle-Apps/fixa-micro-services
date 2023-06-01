@@ -21,6 +21,7 @@ export const unit = (app) => {
         category,
         model,
         modelNum,
+        clientId,
       })
 
       // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
@@ -31,7 +32,7 @@ export const unit = (app) => {
     }
   })
 
-  app.post('/updateunit/:id', async (req, res, next) => {
+  app.patch('/updateunit/:id', async (req, res, next) => {
     const { unitName, category, model, modelNum, clientId } = req.body
     const query = {}
     if (req.query.status) {
@@ -44,7 +45,8 @@ export const unit = (app) => {
         category,
         model,
         modelNum,
-        id
+        id,
+        clientId
       )
 
       // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);

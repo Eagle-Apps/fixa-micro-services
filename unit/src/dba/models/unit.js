@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const unitSchema = mongoose.Schema(
+const unitSchemas = mongoose.Schema(
   {
     unitName: {
       type: String,
@@ -16,6 +16,9 @@ const unitSchema = mongoose.Schema(
     },
     timesWorkedOn: {
       type: Number,
+    },
+    clientId: {
+      type: String,
     },
     preventiveMaintenance: {
       type: String,
@@ -35,6 +38,6 @@ const unitSchema = mongoose.Schema(
   }
 )
 
-unitSchema.index({ location: '2dsphere' })
+unitSchemas.index({ location: '2dsphere' })
 
-export const unitModel = mongoose.model('UnitModel', unitSchema)
+export const unitModels = mongoose.model('UnitModels', unitSchemas)
