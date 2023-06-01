@@ -62,7 +62,7 @@ class FaultService {
     );
   }
 }
-  async AddServiceRequest(userId,location, description, schedule) {
+  async AddServiceRequest(userId,location, description, schedule, billingId) {
     try {
       const id = this.repository.GetTransactionId;
 
@@ -73,7 +73,8 @@ class FaultService {
         location,
         description,
         schedule,
-        requestId);
+        requestId,
+        billingId);
         newRequest.save();
 
       // if (requestInfo.serviceType === "fixed") {

@@ -16,13 +16,14 @@ export const fault = (app, channel) => {
   })
 
   app.post('/servicerequest', async (req, res, next) => {
-    const { userId, location, description, schedule } = req.body
+    const { userId, location, description, schedule, billingId } = req.body
     try {
       const { data } = await service.AddServiceRequest(
         userId,
         location,
         description,
-        schedule
+        schedule,
+        billingId,
       )
       return res.json(data)
     } catch (err) {
