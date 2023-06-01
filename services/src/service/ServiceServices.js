@@ -86,6 +86,7 @@ return err;
       try{
        const data =await this.repository.Getproductr();
         return data;
+        
       }
       catch(err){
   
