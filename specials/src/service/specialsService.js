@@ -21,7 +21,7 @@ class SpecialsService {
       type,
       image}) {
     try {
-      const unit = await this.repository.CreateSpecials({
+      const specials = await this.repository.CreateSpecials({
         title,
         description,
         discount,
@@ -30,7 +30,7 @@ class SpecialsService {
       });
 
       return FormatData({
-        unit,
+        specials,
       });
     } catch (err) {
       throw new APIError(
@@ -48,7 +48,7 @@ class SpecialsService {
     image,
     id) {
     try {
-      const unit = await this.repository.UpdateSpecials(
+      const specials = await this.repository.UpdateSpecials(
         title,
         description,
         discount,
@@ -58,7 +58,7 @@ class SpecialsService {
       );
 
       return FormatData({
-        unit,
+        specials,
       });
     } catch (err) {
       throw new APIError(
@@ -71,9 +71,9 @@ class SpecialsService {
 
   async GetSpecials(id) {
     try {
-      const unit = await this.repository.FetchSpecials(id);
+      const specials = await this.repository.FetchSpecials(id);
       return FormatData({
-        unit,
+        specials,
       });
     } catch (err) {
       throw new APIError(
@@ -87,9 +87,9 @@ class SpecialsService {
   
   async GetallSpecials() {
     try {
-      const unit = await this.repository.FetchallSpecials();
+      const specials = await this.repository.FetchallSpecials();
       return FormatData({
-        unit,
+        specials,
       });
     } catch (err) {
       throw new APIError(
@@ -105,10 +105,10 @@ class SpecialsService {
       let payload;
 
       switch (event) {
-        case "NEW_UNIT":
+        case "NEW_specials":
           payload = {
             event,
-            data: { unitId: data._id, clientId },
+            data: { specialsId: data._id, clientId },
           };
 
         default:
