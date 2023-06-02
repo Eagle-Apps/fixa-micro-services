@@ -1,3 +1,26 @@
+import multer from "multer";
+import cloudinary from "cloudinary";
+
+// import fs from "fs";
+import {
+  APIError,
+  BadRequestError,
+  STATUS_CODES,
+} from "../utils/app-errors.js";
+// import jwt from "jsonwebtoken";
+import { configs } from "../config/index.js";
+const {
+  APP_SECRET,
+  EXCHANGE_NAME,
+  MSG_QUEUE_URL,
+  FAULT_SERVICE,
+  CLOUD_NAME,
+  API_KEY,
+  API_SECRET,
+  NOTIFICATION_SERVICE,
+  CLIENT_SERVICE,
+  PRODUCT_SERVICE,
+} = configs;
 
 // handing images upload
 const storage = multer.diskStorage({
