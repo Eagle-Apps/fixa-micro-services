@@ -6,7 +6,7 @@ import {
   UploadImage,
   uploadTwo,
 } from "../utils/file-handler.js";
-import { consumeMessage } from "../utils/messaging-que.js";
+import { consumeMessage } from "../utils/rabbitmq.js";
 
 export const service = (app) => {
   const service = new ServiceService();

@@ -44,3 +44,24 @@ const storage = multer.diskStorage({
     return uploadCheck;
   };
   
+export const ValidateSignature = async (req) => {
+    const signature = req.get("Authorization");
+  
+    if (signature) {
+      const payload = await jwt.verify(signature.split(" ")[1], APP_SECRET);
+      req.user = payload;
+      return true;
+    }
+  
+    return false;
+  };
+  
+  export const FormatData = (data) => {
+    console.log("-----here_---", data);
+    if (data) {
+      return { data };
+    } else {
+      throw new Error("Data Not found!");
+    }
+  };
+  
