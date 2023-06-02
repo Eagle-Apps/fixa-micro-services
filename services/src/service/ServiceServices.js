@@ -33,7 +33,7 @@ return err;
   async CreateProduct(userInputs){
   const {
     name,
-    image,
+    imageUrl,
     icon,
     price,
     categories,
@@ -43,7 +43,7 @@ return err;
     try{
       const CreateProducts = await this.repository.Createproduct({
         name,
-        image,
+        image:imageUrl,
         icon,
         price,
         categories,
@@ -86,7 +86,7 @@ return err;
       try{
        const data =await this.repository.Getproductr();
         return data;
-        
+
       }
       catch(err){
   
