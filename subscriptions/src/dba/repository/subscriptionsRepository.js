@@ -32,13 +32,13 @@ class SubscriptionsServiceRepository {
     }
   }
 
-  async UpdateSubscriptions(serviceid,
+  async UpdateSubscriptions({serviceid,
     clientid,
     date,
     time,
     schedule,
     status,
-    id) {
+    id}) {
     try {
       const filter = { _id:id };
       const update = {

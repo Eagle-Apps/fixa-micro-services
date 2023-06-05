@@ -13,7 +13,10 @@ const inAppMessaging = mongoose.Schema(
       enum: ["technician", "client"],
     },
     schedule: { type: String },
-    status: { type: String },
+    status:{
+      type: String,
+      enum: ["sent", "not-sent"],
+    },
   }  
 );
 

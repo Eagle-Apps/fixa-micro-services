@@ -55,7 +55,7 @@ class SubscriptionsService {
     id
     ) {
     try {
-      const unit = await this.repository.UpdateSubscriptions(
+      const subscriptionsnew = await this.repository.UpdateSubscriptions(
         serviceid,
         clientid,
         date,
@@ -66,7 +66,7 @@ class SubscriptionsService {
       );
 
       return FormatData({
-        unit,
+        subscriptionsnew,
       });
     } catch (err) {
       throw new APIError(
