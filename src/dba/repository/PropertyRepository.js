@@ -3,7 +3,7 @@ import {
   BadRequestError,
   STATUS_CODES,
 } from "../../utils/app-errors.js";
-import {propertyModel} from "../models/unit.js";
+import {propertyModel} from "../models/property.js";
 
 //Dealing with database operations
 class PropertyServiceRepository {

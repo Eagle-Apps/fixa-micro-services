@@ -4,7 +4,7 @@ import { PublishClientEvent } from "../utils/index.js";
 export const property = (app) => {
   const service = new PropertyService();
 
- app.get("/", async (req, res, next) => {
+ app.get("/property", async (req, res, next) => {
     try {
       res.send({ propertySays: "everything soft here" });
     } catch (err) {
