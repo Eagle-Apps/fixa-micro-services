@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const subscriptionsSchema = mongoose.Schema(
+const subscriptionssSchema = mongoose.Schema(
   {
     serviceid: {
       type: String,
@@ -17,8 +17,9 @@ const subscriptionsSchema = mongoose.Schema(
     schedule: {
       type: String,
     },
-    status: {
+    status:{
       type: String,
+      enum: ["Active", "In-Active"],
     },
     },
 
@@ -33,4 +34,4 @@ const subscriptionsSchema = mongoose.Schema(
 );
 
 
-export const subscriptionsModel = mongoose.model("SubscriptionsModel", subscriptionsSchema);
+export const subscriptionsModel = mongoose.model("SubscriptionsModel", subscriptionssSchema);
