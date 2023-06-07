@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { unit } from "./src/api/unit.js";
+import { property } from "./src/api/property.js";
 import { appEvents } from "./src/api/app-events.js";
 import HandleErrors from "./src/utils/error-handler.js";
 
@@ -14,6 +15,7 @@ export const expressApp = async (app) => {
 
   //api
   unit(app);
+  property(app);
 
   // error handling
   app.use(HandleErrors);
