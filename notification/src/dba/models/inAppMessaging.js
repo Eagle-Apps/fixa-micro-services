@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const inAppMessaging = mongoose.Schema(
+const inAppMessagingSchema = mongoose.Schema(
   {
     id: { type: String },
     images: { type: String },
