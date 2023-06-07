@@ -1,11 +1,7 @@
 import { Servicem } from "../models/service.js";
 import { Categories } from "../models/cartegories.js";
 
-import {
-  APIError,
-  BadRequestError,
-  STATUS_CODES,
-} from "../../utils/app-errors.js";
+import {APIError,BadRequestError,STATUS_CODES} from "../../utils/app-errors.js";
 import service from "../../../../technician/src/dba/models/service.js";
 
 class ServiceRepository {
@@ -17,33 +13,33 @@ class ServiceRepository {
         return categories;
     
     } catch (err) {
-      throw new APIError(
-        "API Error",
-        STATUS_CODES.INTERNAL_ERROR,
-        `Unable to Update product ${err.message}`
-      );
+      // throw new APIError(
+      //   "API Error",
+      //   STATUS_CODES.INTERNAL_ERROR,
+      //   `Unable to Update product ${err.message}`
+      // );
+      return err;
     }
   }
 
   //create categories
-  async Createcategories({categorie}) {
+  async Createcategories(categorie) {
     // const {categorie}= categorie;
 
     try {
-      const product = new Categories({
-        categories: categorie,
-     });
+      const product = new Categories({categories: categorie});
 
       product.save();
       
       return product;
    
     } catch (err) {
-      throw new APIError(
-        "API Error",
-        STATUS_CODES.INTERNAL_ERROR,
-        `Unable to Create categories ${err.message}`
-      );
+      // throw new APIError(
+      //   "API Error",
+      //   STATUS_CODES.INTERNAL_ERROR,
+      //   `Unable to Create categories ${err.message}`
+      // );
+      return err;
     }
   }
 
@@ -53,24 +49,30 @@ class ServiceRepository {
     icon,
     price,
     categories,
-    description}) {
+    description,
+    locationstate,
+    locationlga}) {
     try {
       const product = new Servicem({name,
         image,
         icon,
         price,
         categories,
-      description});
+      description,
+      locationstate,
+      locationlga});
 
       product.save();
       
       return product;
     } catch (err) {
-      throw new APIError(
-        "API Error",
-        STATUS_CODES.INTERNAL_ERROR,
-        `Unable to Create product ${err.message}`
-      );
+      // throw new APIError(
+      //   "API Error",
+      //   STATUS_CODES.INTERNAL_ERROR,
+      //   `Unable to Create product ${err.message}`
+      // );
+
+      return err;
     }
   }
 
@@ -100,11 +102,12 @@ class ServiceRepository {
         });
       });
     } catch (err) {
-      throw new APIError(
-        "API Error",
-        STATUS_CODES.INTERNAL_ERROR,
-        `Unable to Update product ${err.message}`
-      );
+      // throw new APIError(
+      //   "API Error",
+      //   STATUS_CODES.INTERNAL_ERROR,
+      //   `Unable to Update product ${err.message}`
+      // );
+      return err;
     }
   }
 
@@ -116,11 +119,12 @@ class ServiceRepository {
         return products;
     
     } catch (err) {
-      throw new APIError(
-        "API Error",
-        STATUS_CODES.INTERNAL_ERROR,
-        `Unable to Update product ${err.message}`
-      );
+      // throw new APIError(
+      //   "API Error",
+      //   STATUS_CODES.INTERNAL_ERROR,
+      //   `Unable to Update product ${err.message}`
+      // );
+      return err;
     }
   }
 
@@ -137,11 +141,12 @@ class ServiceRepository {
  
 
     } catch (err) {
-      throw new APIError(
-        "API Error",
-        STATUS_CODES.INTERNAL_ERROR,
-        `Unable to Update product ${err.message}`
-      );
+      // throw new APIError(
+      //   "API Error",
+      //   STATUS_CODES.INTERNAL_ERROR,
+      //   `Unable to Update product ${err.message}`
+      // );
+      return err;
     }
   }
 }

@@ -139,6 +139,7 @@ services:
       - /app/notification/node_modules
     env_file:
       - ./notification/.env
+
   # deliveries:
   #   build:
   #     dockerfile: Dockerfile
@@ -155,6 +156,61 @@ services:
   #     - /app/deliveries/node_modules
   #   env_file:
   #     - ./deliveries/.env
+  
+  specials:
+    build:
+      dockerfile: Dockerfile
+      context: ./specials
+    container_name: specials
+    image: "eagleapps/specials:latest"
+    ports:
+      - "6009:6009"
+    restart: always
+    depends_on:
+      - "nosql-db"
+
+    volumes:
+      - .:/app/
+      - /app/specials/node_modules
+    env_file:
+      - ./specials/.env
+
+  subscriptions:
+    build:
+      dockerfile: Dockerfile
+      context: ./subscriptions
+    container_name: subscriptions
+    image: "eagleapps/subscriptions:latest"
+    ports:
+      - "7001:7001"
+    restart: always
+    depends_on:
+      - "nosql-db"
+
+    volumes:
+      - .:/app/
+      - /app/subscriptions/node_modules
+    env_file:
+      - ./subscriptions/.env
+
+  unit:
+    build:
+      dockerfile: Dockerfile
+      context: ./unit
+    container_name: unit
+    image: "eagleapps/unit:latest"
+    ports:
+      - "9005:9005"
+    restart: always
+    depends_on:
+      - "nosql-db"
+
+    volumes:
+      - .:/app/
+      - /app/unit/node_modules
+    env_file:
+      - ./unit/.env
+
   nginx-proxy:
     build:
       dockerfile: Dockerfile
@@ -165,9 +221,11 @@ services:
       - fault
       - utility
       - technician
-      - servicesapi
+      - specials
       # - billing
       - notification
       # - deliveries
+      - subscriptions
+      - unit
     ports:
       - 8081:8081

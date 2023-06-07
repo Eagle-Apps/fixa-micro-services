@@ -5,6 +5,8 @@ const { Schema } = mongoose;
 const categories = new Schema({
    
     categories: { type: String},
+    description: { type: String},
+    image: { type: String},
  
     
     });

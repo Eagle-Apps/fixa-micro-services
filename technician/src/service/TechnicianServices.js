@@ -124,7 +124,7 @@ class TechnicianService {
     } catch (err) {}
   }
 
-  async SignUp({name,
+  async SignUp({ name,
     email,
     password,
     confirmPassword,
@@ -133,6 +133,11 @@ class TechnicianService {
     city,
     state,
     zipCode,
+    technicianid,
+    technciantype,
+    credentialtype,
+    credentialfile,
+    status,
   },res) {
     try {
       //check if user is already registered
@@ -160,6 +165,11 @@ class TechnicianService {
             zipCode,
             salt,
             verificationString,
+            technicianid,
+            technciantype,
+            credentialtype,
+            credentialfile,
+            status,
           });
 
           const token = await GenerateSignature({
@@ -366,7 +376,7 @@ class TechnicianService {
     }
   }
 
-  async GetAllClients({ id }) {
+  async GetAllClients() {
     try {
       const clients = await this.repository.GetClients();
       return FormatData({
@@ -455,7 +465,7 @@ class TechnicianService {
     }
   }
 
-  async addtechnicians(userInputs) {
+  async addtechnicians({userInputs}) {
     const {
       name,
       phone,
@@ -463,16 +473,15 @@ class TechnicianService {
       password,
       address,
       city,
-      stat,
+      state,
       zipCode,
       salt,
-
       technicianid,
       technciantype,
       credentialtype,
       credentialfile,
       status,
-    } = userInputs;
+    } = {userInputs};
     try {
       const addtechnicians = await this.repository.addtechnicians({
         name,
@@ -481,7 +490,7 @@ class TechnicianService {
         password,
         address,
         city,
-        stat,
+        state,
         zipCode,
         salt,
 
@@ -491,7 +500,9 @@ class TechnicianService {
         credentialfile,
         status,
       });
-    } catch (err) {}
+    } catch (err) {
+      return err;
+    }
   }
   async Updatetechnicians(userInputs) {
     const {
@@ -501,7 +512,7 @@ class TechnicianService {
       password,
       address,
       city,
-      stat,
+      state,
       zipCode,
       salt,
 
@@ -519,7 +530,7 @@ class TechnicianService {
         password,
         address,
         city,
-        stat,
+        state,
         zipCode,
         salt,
 
@@ -536,6 +547,8 @@ class TechnicianService {
   async Gettechnicians() {
     try {
       const Gettechnicians = await this.repository.Gettechnicians();
+
+      return Gettechnicians;
     } catch (err) {
       return err;
     }

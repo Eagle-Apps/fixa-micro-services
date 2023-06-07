@@ -2,52 +2,65 @@ import {
   APIError,
   BadRequestError,
   STATUS_CODES,
-} from "../../utils/app-errors.js";
-import { unitModel } from "../models/unit";
+} from '../../utils/app-errors.js'
+import { unitModels } from '../models/unit.js'
 
 //Dealing with database operations
 class UnitServiceRepository {
-  async CreateUnit({ unitName, category, model, modelNum }) {
+  async CreateUnit({ unitName, category, model, modelNum, clientId }) {
     try {
       const unit = {
         unitName,
         category,
         model,
         modelNum,
-      };
-      const newUnit = new unitModel(unit);
-      return newUnit;
+        clientId,
+      }
+      const newUnit = new unitModels(unit)
+      newUnit.save()
+      return newUnit
     } catch (err) {
-      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
+      throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, err.message)
     }
   }
 
-  async UpdateUnit({ _id, unitName, category, model, modelNum }) {
+  async UpdateUnit(unitName, category, model, modelNum, id, clientId) {
     try {
-      const filter = { _id };
+      const filter = { _id: id }
       const update = {
         unitName,
         category,
         model,
         modelNum,
-      };
-      const updatedUnit = await unitModel.findByIdAndUpdate(filter, update, {
+        clientId,
+      }
+      const updatedUnit = await unitModels.findByIdAndUpdate(filter, update, {
         new: true,
-      });
-      return updatedUnit;
+      })
+      return updatedUnit
     } catch (err) {
-      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
+      throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, err.message)
     }
   }
 
   async FetchUnit(id) {
+    const unitid = { _id: id }
     try {
-      const unit = unitModel.findOne(id);
-      return unit;
+      const unit = unitModels.findOne(unitid)
+      return unit
     } catch (err) {
-      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
+      throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, err.message)
+    }
+  }
+
+  async FetchallUnit() {
+    try {
+      const unit = await unitModels.find()
+      return unit
+    } catch (err) {
+      throw new APIError('API Error', STATUS_CODES.INTERNAL_ERROR, err.message)
     }
   }
 }
 
-export default UnitServiceRepository;
+export default UnitServiceRepository

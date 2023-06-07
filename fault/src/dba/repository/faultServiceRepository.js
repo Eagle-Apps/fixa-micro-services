@@ -9,18 +9,21 @@ import {
 
 //Dealing with database operations
 class FaultServiceRepository {
+
   async CreateServiceRequest( userId,
     location,
     description,
     schedule,
-    requestId) {
+    requestId,
+    billingId) {
     try {
       const service = {
         clientId: userId,
-        description: description,
+        faultDescription: description,
         schedule: schedule,
         location: location,
-        requestId: requestId
+        requestId: requestId,
+        billing: billingId
       };
 
       const newRequest = new requestModel(service);
@@ -30,11 +33,12 @@ class FaultServiceRepository {
     }
   }
 
-  async UpdateRequest(requestInfo, statusType) {
-    const query = { _id: requestInfo._id };
+  async UpdateRequest(requestId, technicianId, billingId) {
+    const query = { _id: requestId };
     const update = {
-      ...requestInfo,
-      status: statusType,
+      technician:technicianId, 
+      billing:billingId,
+    
     };
     try {
       const request = await requestModel.findOneAndUpdate(query, update, {
@@ -54,14 +58,27 @@ class FaultServiceRepository {
       throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
     }
   }
+
   async FindRequest(id) {
     try {
-      const request = await requestModel.findOne({ requestId: id });
+      const request = await requestModel.findOne({_id: id });
       return request;
     } catch (err) {
       throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
     }
   }
+
+  async FindUserRequest(id) {
+    
+    try {
+      const request = await requestModel.findOne({clientId:id });
+      console.log(request,id);
+      return request;
+    } catch (err) {
+      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
+    }
+  }
+
 
   async GetTransactionId() {
     try {

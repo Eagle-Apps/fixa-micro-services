@@ -16,7 +16,9 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 - [ ] billing-service-http://localhost:8005
 - [ ] notification-service - http://localhost:8006
 - [ ] deliveries-http://localhost:8007
-- [ ] services-http://localhost:8008
+- [ ] services-http://localhost:6008
+- [ ] specials-http://localhost:6009
+- [ ] units-http://localhost:9005
 
 <!-- - [ ] delivery-service-http://localhost:8007
 

@@ -36,6 +36,7 @@ class APIError extends AppError {
   ) {
     super(name, statusCode, description, isOperational);
   }
+  
 }
 
 //400

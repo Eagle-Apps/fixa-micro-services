@@ -40,7 +40,7 @@ class billingService {
     } catch (err) {}
   }
 
-  async addticket({ userInputs }) {
+  async addticket(userInputs) {
     const {
       invoiceid,
       item1particulars,
@@ -55,12 +55,26 @@ class billingService {
       item5amount,
       discount,
       vat,
-      amount,
+      // amount,
       finalamount,
       option,
       status,
     } = userInputs
     try {
+      const vatRate = 7.5
+
+      const totalAmount =
+        +item1amount + +item2amount + +item3amount + +item4amount + +item5amount
+
+      // Calculate the discounted amount
+      const discountedAmount = totalAmount * (+discount / 100)
+
+      // Calculate the VAT amount
+      const vatAmount = totalAmount * (vatRate / 100)
+
+      // Calculate the final amount
+      const finalAmount = totalAmount - (discountedAmount + vatAmount)
+
       const addticket = await this.repository.addticket({
         invoiceid,
         item1particulars,
@@ -74,16 +88,18 @@ class billingService {
         item5particulars,
         item5amount,
         discount,
-        vat,
-        amount,
-        finalamount,
+        vat: vatRate,
+        amount: totalAmount.toLocaleString(),
+        finalamount: finalAmount.toLocaleString(),
         option,
         status,
       })
+      return addticket
     } catch (err) {}
   }
   async Updateticket(userInputs) {
     const {
+      id,
       invoiceid,
       item1particulars,
       item1amount,
@@ -103,7 +119,22 @@ class billingService {
       status,
     } = userInputs
     try {
+      const vatRate = 7.5
+
+      const totalAmount =
+        +item1amount + +item2amount + +item3amount + +item4amount + +item5amount
+
+      // Calculate the discounted amount
+      const discountedAmount = totalAmount * (+discount / 100)
+
+      // Calculate the VAT amount
+      const vatAmount = totalAmount * (vatRate / 100)
+
+      // Calculate the final amount
+      const finalAmount = totalAmount - (discountedAmount + vatAmount)
+      // console.log('UserInputs: ', userInputs)
       const Updateticket = await this.repository.Updateticket({
+        id,
         invoiceid,
         item1particulars,
         item1amount,
@@ -116,17 +147,21 @@ class billingService {
         item5particulars,
         item5amount,
         discount,
-        vat,
-        amount,
-        finalamount,
+        vat: vatRate,
+        amount: totalAmount.toLocaleString(),
+        finalamount: finalAmount.toLocaleString(),
         option,
         status,
       })
+      console.log('UPdate Ticket', Updateticket)
+      return Updateticket
     } catch (err) {}
   }
   async Getticket() {
     try {
       const Getticket = await this.repository.Getticket()
+
+      return Getticket
     } catch (err) {}
   }
 

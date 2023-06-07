@@ -1,5 +1,13 @@
 import ServiceService from "../service/ServiceServices.js";
 
+import {
+  ValidateSignature,
+  upload,
+  UploadImage,
+  uploadTwo,
+} from "../utils/file-handler.js";
+import { consumeMessage } from "../utils/rabbitmq.js";
+
 export const service = (app) => {
   const service = new ServiceService();
 
@@ -28,7 +36,7 @@ export const service = (app) => {
         categories
       } = req.body;
      
-      const data  = await service.Createcategories({categories});
+      const data  = await service.Createcategories(categories);
        console.log(data);
 
       return res.status(201).send({data});
@@ -66,29 +74,43 @@ export const service = (app) => {
 
   //creating or adding a new product
   app.post("/products/add", async (req, res, next) => {
+    upload(req, res, async (err) => {
+      if (err) {
+        return res.json({ msg: "File Missing " });
+      } else if (req.files === undefined) {
+        return res.status(500).json({ msg: "File Missing..." });
+      } else {
+        if (req.files) {
+          const reqfiles = [];
+          for (let i = 0; i < req.files.length; i++) {
+            var localFilePath = req.files[i].path;
+            var result = await UploadImage(localFilePath);
+            reqfiles.push(result.url);
+          }
+          req.body.imageUrl = reqfiles;
     try {
-      const {
-        name,
-        image,
-        icon,
-        price,
-        categories,
-        description
-      } = req.body;
+      // const {
+      //   name,
+      //   image,
+      //   icon,
+      //   price,
+      //   categories,
+      //   description
+      // } = req.body;
      
-      const data  = await service.CreateProduct({ name,
-        image,
-        icon,
-        price,
-        categories,
-        description});
+      const data  = await service.CreateProduct({ 
+        ...req.body});
         console.log(data);
 
       return res.status(201).send({data});
     } catch (err) {
       next(err);
     }
+  }
+}
+});
   });
+
 
   //updating any of the properties of a particular product
   app.put("/products/update/:productId", async (req, res, next) => {

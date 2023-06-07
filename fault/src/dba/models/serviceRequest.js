@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const requestSchema = mongoose.Schema(
   {
-    requestId: String,
+    requestId: { type: String },
     service: { type: String },
     faultDescription: { type: String },
     schedule: { type: String },
