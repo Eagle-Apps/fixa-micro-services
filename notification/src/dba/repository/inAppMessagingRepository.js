@@ -29,7 +29,7 @@ class InAppMessagingRepository {
 
 
   
-  async Create(  id,
+  async Create( 
     images,
     title,
     description,
@@ -40,7 +40,7 @@ class InAppMessagingRepository {
     status,) {
     try {
       const service = {
-        id,
+        
         images,
         title,
         description,
@@ -51,7 +51,7 @@ class InAppMessagingRepository {
         status
       };
 
-      const newRequest = new inAppMessagingModel(service);
+      const newRequest = new inAppMessagingModel(service).save();
       return newRequest;
     } catch (err) {
       throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
