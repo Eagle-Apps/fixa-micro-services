@@ -4,11 +4,11 @@ dotenv.config();
 export const mailgunConfig = () => {
   const emailConfig = {
     username: "api",
-    // key: process.env.MAILGUN_API_KEY,
-    // domain: process.env.DOMAIN,
+    key: process.env.MAILGUN_API_KEY,
+    domain: process.env.DOMAIN,
     
-    key: "holder",
-    domain:"holder",
+    // key: "holder",
+    // domain:"holder",
   };
   return emailConfig;
 };
