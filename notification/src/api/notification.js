@@ -39,8 +39,23 @@ export const notification = (app, channel) => {
 
  
   app.post("/sendmessage", async (req, res, next) => {
+    const { images,
+      title,
+      description,
+      from,
+      to,
+      type,
+      schedule,
+      status}= req.body
     try {
-      const { data } = await messageingservice.SendMessage()
+      const { data } = await messageingservice.SendMessage(images,
+        title,
+        description,
+        from,
+        to,
+        type,
+        schedule,
+        status)
       return res.json(data)
     } catch (err) {
       next(err);

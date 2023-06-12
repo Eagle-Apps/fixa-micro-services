@@ -62,8 +62,7 @@ class InAppMessagingService {
     status) {
     try {
       
-      const newRequest = await this.repository.CreateMessage({
-        
+      const newRequest = await this.repository.Create(
         images,
         title,
         description,
@@ -71,7 +70,7 @@ class InAppMessagingService {
         to,
         type,
         schedule,
-        status});
+        status);
         newRequest.save();
 
       // if (requestInfo.serviceType === "fixed") {

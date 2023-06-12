@@ -158,6 +158,4 @@ jobs:
           docker push eagleapps/services:latest
           docker push eagleapps/specials:latest
           docker push eagleapps/subscriptions:latest
-
-
-      
+          docker push eagleapps/unit:latest
