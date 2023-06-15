@@ -253,7 +253,7 @@ class ClientService {
     }
   }
 
-  async GetAllClients({ id }) {
+  async GetAllClients() {
     try {
       const clients = await this.repository.GetClients();
       return FormatData({

@@ -1,22 +1,22 @@
-import ClientService from "../service/clientServices.js";
-import { PublishMessage, SubscribeMessage } from "../utils/index.js";
-import { configs } from "../config/index.js";
-const { NOTIFICATION_SERVICE, FAULT_SERVICE } = configs;
+import ClientService from '../service/clientServices.js'
+import { PublishMessage, SubscribeMessage } from '../utils/index.js'
+import { configs } from '../config/index.js'
+const { NOTIFICATION_SERVICE, FAULT_SERVICE } = configs
 
 export const client = (app, channel) => {
-  const service = new ClientService();
+  const service = new ClientService()
 
   // listen to events from other services
   // SubscribeMessage(channel, service);
 
-  app.get("/", async (req, res, next) => {
+  app.get('/', async (req, res, next) => {
     try {
-      res.send({ message: "api working" });
+      res.send({ message: 'api working' })
     } catch (err) {
-      next(err);
+      next(err)
     }
-  });
-  app.post("/register", async (req, res, next) => {
+  })
+  app.post('/register', async (req, res, next) => {
     try {
       const {
         firstName,
@@ -29,7 +29,7 @@ export const client = (app, channel) => {
         city,
         state,
         zipCode,
-      } = req.body;
+      } = req.body
 
       const { data } = await service.SignUp({
         firstName,
@@ -42,24 +42,24 @@ export const client = (app, channel) => {
         city,
         state,
         zipCode,
-      });
+      })
 
       const payload = {
-        event: "SIGN_UP_CLIENT",
+        event: 'SIGN_UP_CLIENT',
         data,
-      };
+      }
 
       // PublishNotificationEvent(payload);
 
       // PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
 
-      return res.json(data);
+      return res.json(data)
     } catch (err) {
-      next(err);
+      next(err)
     }
-  });
+  })
 
-  app.put("/editprofile", async (req, res, next) => {
+  app.put('/editprofile', async (req, res, next) => {
     try {
       const {
         firstName,
@@ -70,7 +70,7 @@ export const client = (app, channel) => {
         city,
         state,
         zipCode,
-      } = req.body;
+      } = req.body
 
       const { data } = await service.UpdateClientProfile({
         firstName,
@@ -81,144 +81,144 @@ export const client = (app, channel) => {
         city,
         state,
         zipCode,
-      });
-      return res.json(data);
+      })
+      return res.json(data)
     } catch (err) {
-      next(err);
+      next(err)
     }
-  });
+  })
 
-  app.post("/login", async (req, res, next) => {
+  app.post('/login', async (req, res, next) => {
     try {
-      const { email, password } = req.body;
+      const { email, password } = req.body
 
-      const { data } = await service.SignIn({ email, password });
+      const { data } = await service.SignIn({ email, password })
 
-      return res.json(data);
+      return res.json(data)
     } catch (err) {
-      next(err);
+      next(err)
     }
-  });
+  })
 
-  app.put("/getverificationemail", async (req, res, next) => {
-    const { userId } = req.user;
+  app.put('/getverificationemail', async (req, res, next) => {
+    const { userId } = req.user
 
     try {
-      const { data } = await service.SendEmailVerifcation({ userId });
+      const { data } = await service.SendEmailVerifcation({ userId })
 
       const payload = {
-        event: "EMAIL_VERIFICATION",
+        event: 'EMAIL_VERIFICATION',
         data,
-      };
+      }
 
       // PublishNotificationEvent(payload);
       // PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
 
-      return res.json({ message: "email have been sent" });
+      return res.json({ message: 'email have been sent' })
     } catch (err) {
-      next(err);
+      next(err)
     }
-  });
+  })
 
-  app.put("/verifyemail", async (req, res, next) => {
-    const { userId } = req.user;
-    const { token } = req.body;
+  app.put('/verifyemail', async (req, res, next) => {
+    const { userId } = req.user
+    const { token } = req.body
 
     try {
-      const { data } = await service.VerifyEmail({ userId, token });
+      const { data } = await service.VerifyEmail({ userId, token })
 
       payload = {
-        event: "EMAIL_VERIFICATION_SUCCESS",
+        event: 'EMAIL_VERIFICATION_SUCCESS',
         data,
-      };
+      }
 
       // PublishNotificationEvent(payload);
       // PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
 
-      return res.json({ message: "email have been sent" });
+      return res.json({ message: 'email have been sent' })
     } catch (err) {
-      next(err);
+      next(err)
     }
-  });
+  })
 
-  app.post("/forgotpassword", async (req, res, next) => {
+  app.post('/forgotpassword', async (req, res, next) => {
     try {
-      const { email } = req.body;
+      const { email } = req.body
 
-      const { data } = await service.ForgotPassword({ email });
+      const { data } = await service.ForgotPassword({ email })
 
       const payload = {
-        event: "FORGOT_PASSWORD",
+        event: 'FORGOT_PASSWORD',
         data,
-      };
+      }
 
       // PublishNotificationEvent(payload);
-      PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
-      return res.json(data);
+      PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload))
+      return res.json(data)
     } catch (err) {
-      next(err);
+      next(err)
     }
-  });
+  })
 
-  app.get("/fetchclient/:id", async (req, res, next) => {
+  app.get('/fetchclient/:id', async (req, res, next) => {
     try {
-      const id = req.params.id;
+      const id = req.params.id
 
-      const { data } = await service.GetProfile(id);
+      const { data } = await service.GetProfile(id)
 
-      return res.json(data);
+      return res.json(data)
     } catch (err) {
-      next(err);
+      next(err)
     }
-  });
+  })
 
-  app.get("/fetchclients", async (req, res, next) => {
+  app.get('/fetchclients', async (req, res, next) => {
     try {
-      const { data } = await service.GetAllClients();
-      return res.json(data);
+      const { data } = await service.GetAllClients()
+      return res.json(data)
     } catch (err) {
-      next(err);
+      next(err)
     }
-  });
+  })
 
-  app.get("/checklink/:token", async (req, res, next) => {
+  app.get('/checklink/:token', async (req, res, next) => {
     try {
-      const tokenstring = req.params.token;
+      const tokenstring = req.params.token
 
-      const { data } = await service.CheckResetLink({ tokenstring });
+      const { data } = await service.CheckResetLink({ tokenstring })
 
-      return res.json(data);
+      return res.json(data)
     } catch (err) {
-      next(err);
+      next(err)
     }
-  });
+  })
 
-  app.put("/resetpassword", async (req, res, next) => {
+  app.put('/resetpassword', async (req, res, next) => {
     try {
-      const { id, password, confirmPassword } = req.body;
+      const { id, password, confirmPassword } = req.body
       const { data } = await service.ResetPassword({
         id,
         password,
         confirmPassword,
-      });
+      })
 
-      return res.json(data);
+      return res.json(data)
     } catch (err) {
-      next(err);
+      next(err)
     }
-  });
-//request service
- 
-app.post("/request-service", async (req, res, next) => {
-    const { description, schedule, serviceCategory, location } = req.body;
+  })
+  //request service
 
-    const { userId } = req.user;
+  app.post('/request-service', async (req, res, next) => {
+    const { description, schedule, serviceCategory, location } = req.body
+
+    const { userId } = req.user
 
     try {
-      const { data } = await service.GetProfile({ userId });
+      const { data } = await service.GetProfile({ userId })
 
       const payload = {
-        event: "REQUEST_SERVICE",
+        event: 'REQUEST_SERVICE',
         data: {
           requestInfo: { description, schedule, serviceCategory },
           userInfo: {
@@ -230,20 +230,20 @@ app.post("/request-service", async (req, res, next) => {
             location,
           },
         },
-      };
+      }
 
       // PublishFaultManagementEvent(payload);
       //inform fault service of the client request
       // PublishMessage(channel, FAULT_SERVICE, JSON.stringify(payload));
 
       const messagePayload = {
-        event: "REQUEST_SERVICE",
+        event: 'REQUEST_SERVICE',
         data: {
           email: data.email,
           clientName: data.name,
           clientPhone: data.phone,
         },
-      };
+      }
 
       // PublishMessage(
       //   channel,
@@ -253,10 +253,10 @@ app.post("/request-service", async (req, res, next) => {
       // PublishNotificationEvent(messagePayload);
 
       return res.json({
-        message: "request dispatched",
-      });
+        message: 'request dispatched',
+      })
     } catch (err) {
-      next(err);
+      next(err)
     }
-  });
-};
+  })
+}
