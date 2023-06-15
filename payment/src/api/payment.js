@@ -13,7 +13,7 @@ export const payment = (app, channel) => {
   const service = new PaymentService();
 
   // listen to events from other services
-  SubscribeMessage(channel, service);
+  // SubscribeMessage(channel, service);
 
   //write functions under here
   app.get("/payment", async (req, res) => {
