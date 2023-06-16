@@ -25,6 +25,15 @@ class PaymentServiceRepository {
       console.log(err.message);
     }
   }
+
+  async getAllPayment(){
+    try {
+      const payment = await paymentModel.find();
+      return payment;
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
   async getPayment({ paymentId }) {
     try {
       const payment = await paymentModel.findOne(paymentId);
