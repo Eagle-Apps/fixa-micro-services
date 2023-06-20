@@ -1,6 +1,8 @@
 import got from "got";
 import PaymentServiceRepository from "../dba/repository/paymentServiceRepository.js";
 import Payment from "../dba/repository/paymentServiceRepository.js";
+import { consumeMessage , createMessage} from "../utils/rabbitmq.js";
+
 import {
   APIError,
   BadRequestError,
@@ -14,11 +16,18 @@ const flw = new flutterwave(
   process.env.FLW_PUBLIC_KEY,
   process.env.FLW_SECRET_KEY
 );
+
+
+
 class PaymentService {
-  constructor() {
+  constructor(channel) {
+    this.channel = channel;
     this.repository = new PaymentServiceRepository();
   }
-  // const payRepo = new PaymentServiceRepository()
+
+  // consumePayment= consumeMessage(channel, "BILLING_SERVICE", "PAYMENT_SERVICE");
+
+
   async paymentService(data) {
     const { name, email, amount, currency, payInterval } = data;
     try {
@@ -123,9 +132,24 @@ class PaymentService {
     }
     console.log(data);
   }
+
+  async getAllPayment(){
+    try {
+      const userPayment = await this.repository.getAllPayment();
+      
+      const payload={events:"getpayment",data:userPayment};
+      createMessage(this.channel, "PAYMENT_SERVICE", JSON.stringify())
+
+      return FormatData({ userPayment });
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
   async getPayment({ id }) {
     try {
       const userPayment = await this.repository.getPayment({ id });
+
+      
       return FormatData({ userPayment });
     } catch (err) {
       console.log(err.message);
@@ -144,6 +168,7 @@ class PaymentService {
         ) {
           // Success! Confirm the customer's payment
           console.log("successful");
+
         } else {
           // Inform the customer their payment was unsuccessful
           console.log("unknown transaction");
@@ -169,6 +194,7 @@ class PaymentService {
       console.log(err);
     }
   }
+  
   async SubscribeEvents(payload) {
     const { event, data } = payload;
 

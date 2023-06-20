@@ -26,23 +26,25 @@ export const createMessage = async (channel, queue, message) => {
   }
 };
 
-export const consumeMessage = async (channel, routingKey, queue, callback) => {
-  try {
-    // const channel = await connect();
+export const consumeMessage = async (channel, routingKey, queue) => {
+  try {  
+    console.log(
+    `Consuming messages from exchange '${EXCHANGE_NAME}' with routing key '${routingKey}'...`
+  );
     await channel.assertExchange(EXCHANGE_NAME, "direct", { durable: true });
     const { queue: queueName } = await channel.assertQueue(queue);
     await channel.bindQueue(queueName, EXCHANGE_NAME, routingKey);
     await channel.consume(queueName, (message) => {
       if (message !== null) {
-        const content = message.content.toString();
-        callback(content); // Process the message
-
         channel.ack(message); // Acknowledge message processing completion
+
+        const content = message.content.toString();
+        
+        return content;
+       
       }
     });
-    console.log(
-      `Consuming messages from exchange '${EXCHANGE_NAME}' with routing key '${routingKey}'...`
-    );
+  
   } catch (error) {
     console.error(
       `Error consuming messages from exchange '${exchange}' with routing key '${routingKey}':`,

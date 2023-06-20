@@ -19,4 +19,5 @@ export const configs = {
   FAULT_SERVICE: "fault_service",
   NOTIFICATION_SERVICE: "notification_service",
   TECHNICIAN_SERVICE: "technician_service",
+  BILLING_SERVICE: "billing_service",
 };
