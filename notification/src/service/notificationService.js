@@ -11,6 +11,7 @@ import {
   STATUS_CODES,
   ValidationError,
 } from "../utils/app-errors.js";
+import { consumeMessage , createMessage} from "../utils/rabbitmq.js";
 
 // All Business logic will be here
 class NotificationService {
@@ -18,6 +19,7 @@ class NotificationService {
     // this.repository = new NotificationServiceRepository();
     this.channel = channel;
   }
+  consumePayment= consumeMessage(this.channel, "payment_service", "NOTIFICATION_SERVICE");
 
   async SignupSuccessMessage({ name, email, password }) {
     try {
