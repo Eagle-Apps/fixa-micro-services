@@ -16,6 +16,7 @@ import {
 } from "../utils/app-errors.js";
 import { configs } from "../config/index.js";
 const { SITE_DOMAIN } = configs;
+import { consumeMessage , createMessage} from "../utils/rabbitmq.js";
 
 // All Business logic will be here
 class ClientService {
@@ -326,20 +327,19 @@ class ClientService {
       );
     }
   }
+//create mesages
+  async createEvents(payload) {
+    createMessage(channel, "ALL_USERS", this.GetAllClients);
+    createMessage(channel, "ALL_USERS_BY_ID", this.GetProfile(payload)) ;
+  }
+//consume messages
+   async consumeEvents(service, events) {
+    const message= consumeMessage(this.channel, "payment_service", service);
 
-  async SubscribeEvents(payload) {
-    const { event, data } = payload;
+    const { event, data } = message;
+    
 
-    const { order } = data;
-
-    switch (event) {
-      case "CREATE_ORDER":
-        this.ManageOrder(userId, order);
-        break;
-
-      default:
-        break;
-    }
+    return data;
   }
 }
 
