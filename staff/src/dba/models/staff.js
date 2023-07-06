@@ -2,43 +2,43 @@ import mongoose from "mongoose";
 
 const staffSchema = mongoose.Schema(
   {
-    FirstName: {
+    firstname: {
       type: String,
     },
-    LastName: {
+    lastname: {
       type: String,
     },
-    Email: {
+    email: {
       type: String,
     },
-    Address: {
+    address: {
       type: String,
     },
-    State: {
+    state: {
       type: String,
     },
-    DOB: {
+    dob: {
       type: String,
     },
-    Gender: {
+    gender: {
       type: String,
     },
-    Position: {
+    position: {
       type: String,
     },
-    EmploymentDate: {
+    employmentDate: {
       type: String,
     },
-    ProfilePicture: {
+    profilepicture: {
       type: String,
     },
-    PhoneNumber: {
+    phonenumber: {
       type: Number,
     },
-    Department: {
+    department: {
       type: String,
     },
-    Roles: {
+    roles: {
       type: String,
       required: true, 
       enum: ["001", "002", "003", "004", "005"] 

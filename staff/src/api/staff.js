@@ -13,36 +13,36 @@ export const staff = (app) => {
   });
 
   app.post("/create", async (req, res, next) => {
-    const {FirstName,
-      LastName,
-      Email,
-      Address,
-      State,
-      DOB,
-      Gender,
-      Position,
-      EmploymentDate,
-      ProfilePic,
-      PhoneNumber,
-      Dpartment,
-      Roles,
+    const {  firstname,
+      lastname,
+      email,
+      address,
+      state,
+      dob,
+      gender,
+      position,
+      employmentdate,
+      profilepic,
+      phonenumber,
+      dpartment,
+      roles,
       } = req.body;
 
     try {
       const { data } = await service.CreateStaff({
-       FirstName,
-      LastName,
-      Email,
-      Address,
-      State,
-      DOB,
-      Gender,
-      Position,
-      EmploymentDate,
-      ProfilePic,
-      PhoneNumber,
-      Dpartment,
-      Roles,
+        firstname,
+        lastname,
+        email,
+        address,
+        state,
+        dob,
+        gender,
+        position,
+        employmentdate,
+        profilepic,
+        phonenumber,
+        dpartment,
+        roles,
       });
 
       // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
@@ -54,19 +54,19 @@ export const staff = (app) => {
   });
 
   app.post("/update/:id", async (req, res, next) => {
-    const {FirstName,
-      LastName,
-      Email,
-      Address,
-      State,
-      DOB,
-      Gender,
-      Position,
-      EmploymentDate,
-      ProfilePic,
-      PhoneNumber,
-      Dpartment,
-      Roles,} = req.body;
+    const {  firstname,
+      lastname,
+      email,
+      address,
+      state,
+      dob,
+      gender,
+      position,
+      employmentdate,
+      profilepic,
+      phonenumber,
+      dpartment,
+      roles,} = req.body;
     const query = {};
     if (req.query.status) {
       query.status = req.query;
@@ -74,19 +74,19 @@ export const staff = (app) => {
     const id= req.params.id;
     try {
       const { data } = await service.UpdateStaff(
-        FirstName,
-        LastName,
-        Email,
-        Address,
-        State,
-        DOB,
-        Gender,
-        Position,
-        EmploymentDate,
-        ProfilePic,
-        PhoneNumber,
-        Dpartment,
-        Roles,
+        firstname,
+        lastname,
+        email,
+        address,
+        state,
+        dob,
+        gender,
+        position,
+        employmentdate,
+        profilepic,
+        phonenumber,
+        dpartment,
+        roles,
         id,
       );
 
