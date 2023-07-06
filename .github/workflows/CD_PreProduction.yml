@@ -159,3 +159,40 @@ jobs:
           docker push eagleapps/specials:latest
           docker push eagleapps/subscriptions:latest
           docker push eagleapps/unit:latest
+          
+      - name: Docker Compose Down
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd fixa-micro-services
+            docker-compose down --remove-orphans
+            docker network prune -f
+      
+      - name: Code Deploy
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+          ARGS: "-rltgoDzvO"
+          TARGET: fixa-micro-services/
+
+
+      - name: Docker Compose Up
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd fixa-micro-services
+            docker-compose up -d --pull always
+
+
+
+
