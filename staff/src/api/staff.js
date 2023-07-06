@@ -13,36 +13,36 @@ export const staff = (app) => {
   });
 
   app.post("/create", async (req, res, next) => {
-    const {Firstname,
-      Lastname,
+    const {FirstName,
+      LastName,
       Email,
       Address,
       State,
       DOB,
       Gender,
       Position,
-      Employment_date,
-      Profile_pic,
-      Phone_number,
+      EmploymentDate,
+      ProfilePic,
+      PhoneNumber,
       Dpartment,
       Roles,
       } = req.body;
 
     try {
       const { data } = await service.CreateStaff({
-        Firstname,
-        Lastname,
-        Email,
-        Address,
-        State,
-        DOB,
-        Gender,
-        Position,
-        Employment_date,
-        Profile_pic,
-        Phone_number,
-        Dpartment,
-        Roles,
+       FirstName,
+      LastName,
+      Email,
+      Address,
+      State,
+      DOB,
+      Gender,
+      Position,
+      EmploymentDate,
+      ProfilePic,
+      PhoneNumber,
+      Dpartment,
+      Roles,
       });
 
       // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
@@ -54,17 +54,17 @@ export const staff = (app) => {
   });
 
   app.post("/update/:id", async (req, res, next) => {
-    const {Firstname,
-      Lastname,
+    const {FirstName,
+      LastName,
       Email,
       Address,
       State,
       DOB,
       Gender,
       Position,
-      Employment_date,
-      Profile_pic,
-      Phone_number,
+      EmploymentDate,
+      ProfilePic,
+      PhoneNumber,
       Dpartment,
       Roles,} = req.body;
     const query = {};
@@ -74,17 +74,17 @@ export const staff = (app) => {
     const id= req.params.id;
     try {
       const { data } = await service.UpdateStaff(
-        Firstname,
-        Lastname,
+        FirstName,
+        LastName,
         Email,
         Address,
         State,
         DOB,
         Gender,
         Position,
-        Employment_date,
-        Profile_pic,
-        Phone_number,
+        EmploymentDate,
+        ProfilePic,
+        PhoneNumber,
         Dpartment,
         Roles,
         id,
