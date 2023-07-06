@@ -94,33 +94,33 @@ services:
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:3-management
-    # environment:
-    # - RABBITMQ_DEFAULT_USER=u8hrtil
-    # - RABBITMQ_DEFAULT_PASS=kiglond85
-    #volumes:
-        #- data/:/var/lib/rabbitmq/
-        #- log:/var/log/rabbitmq
+    environment:
+    - RABBITMQ_DEFAULT_USER=u8hrtil
+    - RABBITMQ_DEFAULT_PASS=kiglond85
+    # volumes:
+        # - data/:/var/lib/rabbitmq/
+        # - log:/var/log/rabbitmq
     ports:
     # AMQP protocol port
     - '5672:5672'
     # HTTP management UI
     - '15672:15672'
-  # billing:
-  #   build:
-  #     dockerfile: Dockerfile
-  #     context: ./billing
-  #   container_name: billing
-  #   ports:
-  #     - "8005:8005"
-  #   restart: always
-  #   depends_on:
-  #     - "nosql-db"
+  billing:
+    build:
+      dockerfile: Dockerfile
+      context: ./billing
+    container_name: billing
+    ports:
+      - "8005:8005"
+    restart: always
+    depends_on:
+      - "nosql-db"
 
-  #   volumes:
-  #     - .:/app/
-  #     - /app/billing/node_modules
-  #   env_file:
-  #     - ./billing/.env
+    volumes:
+      - .:/app/
+      - /app/billing/node_modules
+    env_file:
+      - ./billing/.env
   notification:
     build:
       dockerfile: Dockerfile
@@ -222,7 +222,7 @@ services:
       - utility
       - technician
       - specials
-      # - billing
+      - billing
       - notification
       # - deliveries
       - subscriptions
