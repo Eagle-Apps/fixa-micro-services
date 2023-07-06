@@ -192,3 +192,7 @@ jobs:
           script: |
             cd fixa-micro-services
             docker-compose up -d --pull always
+
+
+
+
