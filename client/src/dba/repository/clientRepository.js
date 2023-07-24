@@ -39,6 +39,7 @@ class ClientRepository {
         existingClient = await clientModel.findOne({
           verificationString: query,
         });
+        
 
       return existingClient;
     } catch (err) {

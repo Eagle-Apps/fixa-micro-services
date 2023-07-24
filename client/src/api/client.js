@@ -99,6 +99,7 @@ export const client = (app, channel) => {
       next(err)
     }
   })
+  
 
   app.put('/getverificationemail', async (req, res, next) => {
     const { userId } = req.user

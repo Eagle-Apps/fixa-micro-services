@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 
 const clientSchema = mongoose.Schema(
   {
@@ -14,36 +14,36 @@ const clientSchema = mongoose.Schema(
     bvn: { type: String },
     emailStatus: {
       type: String,
-      enum: ["Pending", "Verified"],
-      default: "Pending",
+      enum: ['Pending', 'Verified'],
+      default: 'Pending',
     },
     phoneStatus: {
       type: String,
-      enum: ["Pending", "Verified"],
-      default: "Pending",
+      enum: ['Pending', 'Verified'],
+      default: 'Pending',
     },
     bvnVerification: {
       type: String,
-      enum: ["Pending", "Verified"],
-      default: "Pending",
+      enum: ['Pending', 'Verified'],
+      default: 'Pending',
     },
 
     serviceRequests: [{ type: String }],
 
     emailStatus: {
       type: String,
-      enum: ["Pending", "Verified"],
-      default: "Pending",
+      enum: ['Pending', 'Verified'],
+      default: 'Pending',
     },
     phoneStatus: {
       type: String,
-      enum: ["Pending", "Verified"],
-      default: "Pending",
+      enum: ['Pending', 'Verified'],
+      default: 'Pending',
     },
     bvnVerification: {
       type: String,
-      enum: ["Pending", "Verified"],
-      default: "Pending",
+      enum: ['Pending', 'Verified'],
+      default: 'Pending',
     },
     location: {
       coordinates: [],
@@ -53,32 +53,32 @@ const clientSchema = mongoose.Schema(
     clientCategory: {
       type: String,
       enum: [
-        "Single Home",
-        "Single Office",
-        "Estate Manager",
-        "Corporate",
-        "Government",
+        'Single Home',
+        'Single Office',
+        'Estate Manager',
+        'Corporate',
+        'Government',
       ],
     },
     status: {
       type: String,
-      enum: ["Active", "Inactive"],
-      default: "Active",
+      enum: ['Active', 'Inactive'],
+      default: 'Active',
     },
     verificationString: String,
   },
   {
     toJSON: {
       transform(doc, ret) {
-        delete ret.password;
-        delete ret.salt;
-        delete ret.__v;
+        delete ret.password
+        delete ret.salt
+        delete ret.__v
       },
     },
     timestamps: true,
   }
-);
+)
 
-clientSchema.index({ location: "2dsphere" });
+clientSchema.index({ location: '2dsphere' })
 
-export const clientModel = mongoose.model("Client", clientSchema);
+export const clientModel = mongoose.model('Client', clientSchema)

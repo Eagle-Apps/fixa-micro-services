@@ -1,21 +1,84 @@
-import StaffService from "../service/staffService.js";
-import { PublishClientEvent } from "../utils/index.js";
+import StaffService from '../service/staffService.js'
+import { PublishClientEvent, IsAuthenticated } from '../utils/index.js'
 
 export const staff = (app) => {
-  const service = new StaffService();
+  const service = new StaffService()
 
- app.get("/", async (req, res, next) => {
+  app.get('/', async (req, res, next) => {
     try {
-      res.send({ staffSays: "everything soft here" });
+      res.send({ staffSays: 'everything soft here' })
     } catch (err) {
-      next(err);
+      next(err)
     }
-  });
+  })
 
-  app.post("/create", async (req, res, next) => {
-    const {  firstname,
+  app.post('/createStaff', IsAuthenticated, async (req, res, next) => {
+    let admin = req.user.role
+    if (admin === '001') {
+      const {
+        firstname,
+        lastname,
+        email,
+        password,
+        address,
+        state,
+        dob,
+        gender,
+        position,
+        employmentdate,
+        profilepic,
+        phonenumber,
+        dpartment,
+        roles,
+      } = req.body
+
+      try {
+        const { data } = await service.CreateStaff({
+          firstname,
+          lastname,
+          email,
+          password,
+          address,
+          state,
+          dob,
+          gender,
+          position,
+          employmentdate,
+          profilepic,
+          phonenumber,
+          dpartment,
+          roles,
+        })
+
+        // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
+        // PublishClientEvent(payload);
+        return res.json({ message: 'created', data })
+      } catch (err) {
+        next(err)
+      }
+    } else {
+      res.status(401).send({ message: 'You dont have the right Access' })
+    }
+  })
+
+  app.post('/login', async (req, res, next) => {
+    try {
+      const { email, password } = req.body
+
+      const { data } = await service.SignIn({ email, password })
+
+      return res.json(data)
+    } catch (err) {
+      next(err)
+    }
+  })
+
+  app.put('/updateStaff/:id', async (req, res, next) => {
+    const {
+      firstname,
       lastname,
       email,
+      password,
       address,
       state,
       dob,
@@ -26,57 +89,18 @@ export const staff = (app) => {
       phonenumber,
       dpartment,
       roles,
-      } = req.body;
-
-    try {
-      const { data } = await service.CreateStaff({
-        firstname,
-        lastname,
-        email,
-        address,
-        state,
-        dob,
-        gender,
-        position,
-        employmentdate,
-        profilepic,
-        phonenumber,
-        dpartment,
-        roles,
-      });
-
-      // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
-      // PublishClientEvent(payload);
-      return res.json({ message: "created", data });
-    } catch (err) {
-      next(err);
-    }
-  });
-
-  app.post("/update/:id", async (req, res, next) => {
-    const {  firstname,
-      lastname,
-      email,
-      address,
-      state,
-      dob,
-      gender,
-      position,
-      employmentdate,
-      profilepic,
-      phonenumber,
-      dpartment,
-      roles,} = req.body;
-    const query = {};
+    } = req.body
+    const query = {}
     if (req.query.status) {
-      query.status = req.query;
+      query.status = req.query
     }
-    const id= req.params.id;
+    const id = req.params.id
     try {
       const { data } = await service.UpdateStaff(
         firstname,
         lastname,
         email,
+        password,
         address,
         state,
         dob,
@@ -87,34 +111,34 @@ export const staff = (app) => {
         phonenumber,
         dpartment,
         roles,
-        id,
-      );
+        id
+      )
 
       // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
       // PublishClientEvent(payload);
-      return res.json({ message: " created", data });
+      return res.json({ message: ' created', data })
     } catch (err) {
-      next(err);
+      next(err)
     }
-  });
+  })
 
-  app.get("/get/:id", async (req, res, next) => {
-    const id = req.params.id;
-
-    try {
-      const { data } = await service.GetStaff(id);
-      return res.json({ message: " found", data });
-    } catch (err) {
-      next(err);
-    }
-  });
-  app.get("/get", async (req, res, next) => {
+  app.get('/getStaff/:id', async (req, res, next) => {
+    const id = req.params.id
 
     try {
-      const { data } = await service.GetallStaff();
-      return res.json({ message: " staff's found", data });
+      const { data } = await service.GetStaff(id)
+      return res.json({ message: ' found', data })
     } catch (err) {
-      next(err);
+      next(err)
     }
-  });
-};
+  })
+
+  app.get('/getAllStaff', async (req, res, next) => {
+    try {
+      const { data } = await service.GetallStaff()
+      return res.json({ message: " staff's found", data })
+    } catch (err) {
+      next(err)
+    }
+  })
+}

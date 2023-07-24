@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 
 const staffSchema = mongoose.Schema(
   {
@@ -10,6 +10,11 @@ const staffSchema = mongoose.Schema(
     },
     email: {
       type: String,
+      required: [true, 'email required'],
+    },
+    password: {
+      type: String,
+      required: [true, 'Password required'],
     },
     address: {
       type: String,
@@ -38,20 +43,23 @@ const staffSchema = mongoose.Schema(
     department: {
       type: String,
     },
+
     roles: {
       type: String,
-      required: true, 
-      enum: ["001", "002", "003", "004", "005"] 
+      required: true,
+      enum: ['001', '002', '003', '004', '005', '006'],
     },
+    salt: String,
+    verificationString: String,
   },
   {
     toJSON: {
       transform(doc, ret) {
-        delete ret.__v;
+        delete ret.__v
       },
     },
     timestamps: true,
   }
-);
+)
 
-export const staffModel = mongoose.model("StaffModel", staffSchema);
+export const staffModel = mongoose.model('StaffModel', staffSchema)
