@@ -31,7 +31,7 @@ class FaultService {
       );
     }
   }
-
+//single request
   async FetchSingleRequest(id) {
     try {
       const request = await this.repository.FindRequest(id);
@@ -47,9 +47,25 @@ class FaultService {
       );
     }
   }
+  //fetch all request with client id 
  async FetchUserServices(id) {
   try {
     const request = await this.repository.FindUserRequest(id);
+
+    return FormatData({
+      request,
+    });
+  } catch (err) {
+    throw new APIError(
+      err.name ? err.name : "Data Not found",
+      err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
+      err.message
+    );
+  }
+}
+async FetchTechnicianServices(id) {
+  try {
+    const request = await this.repository.FindTechnicianRequest(id);
 
     return FormatData({
       request,
@@ -173,9 +189,10 @@ class FaultService {
     try {
       let currentRequest = await this.repository.FindRequest(id);
 
-      currentRequest.technicianId = technicianId;
+     const billingId = currentRequest.billing;
+     const status = "Active";
 
-      this.UpdateRequest(currentRequest, "Active");
+      this.UpdateRequest(id, technicianId, billingId, status);
     } catch (err) {
       throw new APIError(
         err.name ? err.name : "Data Not found",
@@ -185,8 +202,9 @@ class FaultService {
     }
   }
   async AssignTaskByAdmin({ requestId, TechnicianId, billingId }) {
+    const status = "Active";
     try {
-     const request= this.UpdateRequest(requestId, TechnicianId, billingId)
+     const request= this.UpdateRequest(requestId, TechnicianId, billingId, status)
      return request;
     } catch (err) {
       throw new APIError(
@@ -197,10 +215,10 @@ class FaultService {
     }
   }
 
-  async UpdateRequest(requestId, technicianId, billingId) {
+  async UpdateRequest(requestId, technicianId, billingId, status) {
     try {
       const request = await this.repository.UpdateRequest(
-        requestId, technicianId, billingId
+        requestId, technicianId, billingId, status
         );
 
         return request;

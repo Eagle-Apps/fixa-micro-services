@@ -60,6 +60,16 @@ export const fault = (app, channel) => {
     }
   })
 
+ app.get("/fetchtechnicianservices/:id", async (req, res, next) => {
+   const id = req.params.id;
+   try {
+     const data = await service.FetchTechnicianServices(id);
+     return res.json(data);
+   } catch (err) {
+     next(err);
+   }
+ });
+  
   app.post('/assigntask', async (req, res, next) => {
     const { requestId, technicianId, billingId } = req.body
 
@@ -90,17 +100,22 @@ export const fault = (app, channel) => {
       next(err)
     }
   })
-  // app.post("/accepttask", async (req, res, next) => {
-  //   const { requestId, TechnicianId } = req.body;
+  app.post("/accepttask", async (req, res, next) => {
+    const { requestId, TechnicianId } = req.body;
 
-  //   try {
-  //     const { data } = await service.AcceptTask({
-  //       requestId,
-  //       TechnicianId,
-  //     });
+    try {
+      const { data } = await service.AcceptTask({
+        requestId,
+        TechnicianId,
+      });
 
-  //     return res.json(data);
-  //   }
+      return res.json(data)
+    } catch (err) {
+      next(err)
+    }
+  })
+
+
 
   // app.post("/", async (req, res, next) => {
   //   const { description, schedule, serviceCategory } = req.body;

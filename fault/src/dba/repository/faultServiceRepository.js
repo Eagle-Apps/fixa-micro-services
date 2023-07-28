@@ -9,13 +9,14 @@ import {
 
 //Dealing with database operations
 class FaultServiceRepository {
-
-  async CreateServiceRequest( userId,
+  async CreateServiceRequest(
+    userId,
     location,
     description,
     schedule,
     requestId,
-    billingId) {
+    billingId
+  ) {
     try {
       const service = {
         clientId: userId,
@@ -23,7 +24,7 @@ class FaultServiceRepository {
         schedule: schedule,
         location: location,
         requestId: requestId,
-        billing: billingId
+        billing: billingId,
       };
 
       const newRequest = new requestModel(service);
@@ -36,9 +37,9 @@ class FaultServiceRepository {
   async UpdateRequest(requestId, technicianId, billingId) {
     const query = { _id: requestId };
     const update = {
-      technician:technicianId, 
-      billing:billingId,
-    
+      technician: technicianId,
+      billing: billingId,
+      status: "Active",
     };
     try {
       const request = await requestModel.findOneAndUpdate(query, update, {
@@ -61,7 +62,7 @@ class FaultServiceRepository {
 
   async FindRequest(id) {
     try {
-      const request = await requestModel.findOne({_id: id });
+      const request = await requestModel.findOne({ _id: id });
       return request;
     } catch (err) {
       throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
@@ -69,16 +70,24 @@ class FaultServiceRepository {
   }
 
   async FindUserRequest(id) {
-    
     try {
-      const request = await requestModel.findOne({clientId:id });
-      console.log(request,id);
+      const request = await requestModel.findOne({ clientId: id });
+      console.log(request, id);
       return request;
     } catch (err) {
       throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
     }
   }
 
+  async FindTechnicianRequest(id) {
+    try {
+      const request = await requestModel.findOne({ technician: id });
+      console.log(request, id);
+      return request;
+    } catch (err) {
+      throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
+    }
+  }
 
   async GetTransactionId() {
     try {
