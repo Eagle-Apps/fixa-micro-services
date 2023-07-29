@@ -441,11 +441,12 @@ STATUS_CODES.INTERNAL_ERROR,
 
   async GetClientProfile({ id }) {
     try {
-      const profile = await technicians.findById({ _id: id }).populate({
-        path: "serviceRequests",
-        model: "request",
-        select: { _id: 0 },
-      });
+      const profile = await technicians.findById({ _id: id })
+      // .populate({
+      //   path: "serviceRequests",
+      //   model: "request",
+      //   select: { _id: 0 },
+      // });
 
       return profile;
     } catch (err) {
