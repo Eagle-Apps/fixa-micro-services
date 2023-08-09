@@ -1,7 +1,7 @@
 import ClientService from '../service/clientServices.js'
-import { PublishMessage, SubscribeMessage } from '../utils/index.js'
+import { PublishMessage, SubscribeMessage, sendEmail } from '../utils/index.js'
 import { configs } from '../config/index.js'
-const { NOTIFICATION_SERVICE, FAULT_SERVICE } = configs
+const { NOTIFICATION_SERVICE, FAULT_SERVICE, SITE_DOMAIN, LOGIN } = configs
 
 export const client = (app, channel) => {
   const service = new ClientService()
@@ -43,6 +43,10 @@ export const client = (app, channel) => {
         state,
         zipCode,
       })
+      console.log(data, 'from')
+
+      const message = `${SITE_DOMAIN}/verify/${data.id}/${data.verificationString}`
+      sendEmail(data.email, 'Fixa Client Verification String', message)
 
       const payload = {
         event: 'SIGN_UP_CLIENT',
@@ -53,7 +57,7 @@ export const client = (app, channel) => {
 
       // PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
 
-      return res.json(data)
+      return res.json({ data })
     } catch (err) {
       next(err)
     }
@@ -88,6 +92,19 @@ export const client = (app, channel) => {
     }
   })
 
+  // verify client
+  app.get('/verify/:id/:token', async (req, res, next) => {
+    const id = await req.params.id
+    const confirmation_code = await req.params.token
+    // console.log(confirmation_code, "token as confirmation code");
+    const requiredValues = { id, confirmation_code }
+    const verifyUser = await service.VerifyUserEmail(requiredValues)
+    console.log(verifyUser, 'from verify user')
+    if (!verifyUser)
+      return res.status(400).send('invalid confirmation link', verifyUser)
+    res.status(200).send({ msg: 'Account verified', login: process.env.LOGIN })
+  })
+
   app.post('/login', async (req, res, next) => {
     try {
       const { email, password } = req.body
@@ -99,27 +116,26 @@ export const client = (app, channel) => {
       next(err)
     }
   })
-  
 
-  app.put('/getverificationemail', async (req, res, next) => {
-    const { userId } = req.user
+  // app.put('/getverificationemail', async (req, res, next) => {
+  //   const { userId } = req.user
 
-    try {
-      const { data } = await service.SendEmailVerifcation({ userId })
+  //   try {
+  //     const { data } = await service.SendEmailVerifcation({ userId })
 
-      const payload = {
-        event: 'EMAIL_VERIFICATION',
-        data,
-      }
+  //     const payload = {
+  //       event: 'EMAIL_VERIFICATION',
+  //       data,
+  //     }
 
-      // PublishNotificationEvent(payload);
-      // PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
+  //     // PublishNotificationEvent(payload);
+  //     // PublishMessage(channel, NOTIFICATION_SERVICE, JSON.stringify(payload));
 
-      return res.json({ message: 'email have been sent' })
-    } catch (err) {
-      next(err)
-    }
-  })
+  //     return res.json({ message: 'email have been sent' })
+  //   } catch (err) {
+  //     next(err)
+  //   }
+  // })
 
   app.put('/verifyemail', async (req, res, next) => {
     const { userId } = req.user
@@ -140,6 +156,19 @@ export const client = (app, channel) => {
     } catch (err) {
       next(err)
     }
+  })
+
+  // verify user
+  app.get('/verify/:id/:token', async (req, res, next) => {
+    const id = await req.params.id
+    const confirmation_code = await req.params.token
+    // console.log(confirmation_code, "token as confirmation code");
+    const requiredValues = { id, confirmation_code }
+    const verifyUser = await service.VerifyUserEmail(requiredValues)
+    console.log(verifyUser, 'from verify user')
+    if (!verifyUser)
+      return res.status(400).send('invalid confirmation link', verifyUser)
+    res.status(200).send('Account verified')
   })
 
   app.post('/forgotpassword', async (req, res, next) => {

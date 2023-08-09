@@ -9,8 +9,12 @@ const {
   MSG_QUEUE_URL,
   FAULT_SERVICE,
   NOTIFICATION_SERVICE,
+  APP_PASSWORD,
+  USER_EMAIL,
+  SENDER,
   CLIENT_SERVICE,
 } = configs
+import nodemailer from 'nodemailer'
 // import amqplib from "amqplib";
 import amqplib from 'amqplib'
 
@@ -54,6 +58,31 @@ export const ValidateSignature = async (req) => {
   }
 
   return false
+}
+
+// nodemailer
+export const sendEmail = async (email, subject, text) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: USER_EMAIL,
+        pass: APP_PASSWORD,
+      },
+    })
+
+    const sentMailResponse = await transporter.sendMail({
+      from: SENDER,
+      to: email,
+      subject: subject,
+      text: text,
+    })
+    console.log('email sent sucessfully', sentMailResponse)
+    return
+  } catch (error) {
+    console.log('email not sent')
+    console.log(error)
+  }
 }
 
 export const FormatData = (data) => {

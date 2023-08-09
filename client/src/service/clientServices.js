@@ -63,6 +63,7 @@ class ClientService {
             state,
             zipCode,
             salt,
+            confirmationCode: verificationString,
             verificationString,
           })
 
@@ -76,6 +77,7 @@ class ClientService {
           return FormatData({
             id: createdClient._id,
             email: createdClient.email,
+            verificationString,
             token,
             link,
           })
@@ -104,6 +106,37 @@ class ClientService {
     } catch (err) {
       throw new APIError(
         err.name ? err.name : 'Data Not found',
+        err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
+        err.message
+      )
+    }
+  }
+
+  //verify user
+  async VerifyUserEmail(confirmationValues) {
+    try {
+      let { id, confirmation_code } = confirmationValues
+      // const user = await this.userRepository.GetUserProfile({ id })
+      const user = await this.repository.FindExistingClient(id, 'id')
+      console.log(user, 'userProfile')
+      if (!user) {
+        throw new BadRequestError('Invalid User')
+      }
+      if (user.confirmationCode === confirmation_code) {
+        console.log('same', confirmation_code)
+        await this.repository.VerifyEmail({
+          id,
+          confirmation_code,
+        })
+      }
+
+      // if (!confirmation) {
+      //   throw new BadRequestError("Invalid confirmation link");
+      // }
+      return FormatData('Account Verified')
+    } catch (err) {
+      throw new APIError(
+        err.name ? err.name : 'Data Not Found',
         err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
         err.message
       )

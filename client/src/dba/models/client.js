@@ -1,16 +1,45 @@
 import mongoose from 'mongoose'
+import validator from 'validator'
 
 const clientSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
     phone: { type: String },
-    email: { type: String, required: true },
-    password: { type: String, required: true },
+    email: {
+      type: String,
+      required: [true, 'Please provide your email'],
+      unique: true,
+      lowercase: true,
+      validate: [validator.isEmail],
+    },
+    password: {
+      type: String,
+      required: [true, 'Please provide a password'],
+      minlength: 8,
+      select: false,
+    },
+    // confirmPassword: {
+    //   type: String,
+    //   required: [true, 'Please confirm your password'],
+    //   validate: {
+    //     // This only works on CREATE OR SAVE!!!
+    //     validator: function (el) {
+    //       return el === this.password
+    //     },
+    //     message: 'Password are not the same',
+    //   },
+    // },
     address: { type: String },
     city: { type: String },
     state: { type: String },
     zipCode: { type: String },
     salt: String,
+    confirmationCode: {
+      type: String,
+    },
+    otp: {
+      type: String,
+    },
     bvn: { type: String },
     emailStatus: {
       type: String,
