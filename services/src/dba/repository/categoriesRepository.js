@@ -10,7 +10,7 @@ import service from '../../../../technician/src/dba/models/service.js'
 
 class CategoriesRepository {
   // get all categories
-  async GetAllCategories() {
+  async GetAllCategory() {
     try {
       const allCategories = await Categories.find({})
       // console.log(categories)

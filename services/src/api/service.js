@@ -23,7 +23,7 @@ export const service = (app) => {
   //displaying all the cartegories
   app.get('/categories', async (req, res, next) => {
     try {
-      const data = await service.Getcategories()
+      const data = await service.GetCategories()
 
       return res.send(data)
     } catch (err) {
@@ -221,7 +221,7 @@ export const service = (app) => {
   // })
 
   //creating services
-  app.post('/product/add', uploadTwo.array('images', 1), async (req, res) => {
+  app.post('/product/add', uploadTwo.array('images', 3), async (req, res) => {
     console.log('before try upload')
     // let productOwner = await req.user._id
     if (req.files) {
@@ -239,11 +239,11 @@ export const service = (app) => {
       // console.log(reqfiles);
       // console.log(productOwner)
       try {
-        console.log(req.body.images[0], 'request image')
+        console.log(req.body.images, 'request image')
         console.log(req.body, 'request image body')
         const product = await service.CreateProduct({
           ...req.body,
-          imageUrl: req.body.images[0],
+          imageUrl: req.body.images,
         })
         // console.log(product, "products");
         return res.status(200).json({

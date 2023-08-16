@@ -71,32 +71,38 @@ class ServiceRepository {
     image,
     icon,
     price,
-    categories,
+    category,
+    subCategory,
     description,
     locationstate,
     locationlga,
   }) {
     try {
-      const product = new Servicem({
+      const newProduct = await new Servicem({
         name,
         image,
         icon,
         price,
-        categories,
+        category,
+        subCategory,
         description,
         locationstate,
         locationlga,
       })
 
-      product.save()
+      // await product.save()
+      console.log(newProduct, 'new product')
+      const saveProduct = await newProduct.save()
+      console.log(saveProduct, 'showing saved product')
+      return saveProduct
 
-      return product
+      // return product
     } catch (err) {
       // throw new APIError(
-      //   "API Error",
+      //   'API Error',
       //   STATUS_CODES.INTERNAL_ERROR,
       //   `Unable to Create product ${err.message}`
-      // );
+      // )
 
       return err
     }

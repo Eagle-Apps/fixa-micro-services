@@ -146,22 +146,32 @@ class ServicesService {
     imageUrl,
     icon,
     price,
-    categories,
+    category,
     description,
+    subCategory,
   }) {
     // const { name, imageUrl, icon, price, categories, description } = userInputs
-
+    console.log('creating product')
     try {
       const CreateProducts = await this.repository.Createproduct({
         name,
         image: imageUrl,
         icon,
-        price,
-        categories,
+        price: Number(price),
+        category,
         description,
+        subCategory,
       })
+      console.log(CreateProducts, 'checking create product')
       return CreateProducts
-    } catch (err) {}
+    } catch (err) {
+      return err
+      // throw new APIError(
+      //   err.name ? err.name : 'Product Not Created',
+      //   err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
+      //   err.message
+      // )
+    }
   }
 
   async Updateproduct({ userInputs }) {
