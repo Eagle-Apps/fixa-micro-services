@@ -4,7 +4,7 @@ const STATUS_CODES = {
   UN_AUTHORISED: 403,
   NOT_FOUND: 404,
   INTERNAL_ERROR: 500,
-};
+}
 
 class AppError extends Error {
   constructor(
@@ -15,14 +15,14 @@ class AppError extends Error {
     errorStack,
     logingErrorResponse
   ) {
-    super(description);
-    Object.setPrototypeOf(this, new.target.prototype);
-    this.name = name;
-    this.statusCode = statusCode;
-    this.isOperational = isOperational;
-    this.errorStack = errorStack;
-    this.logError = logingErrorResponse;
-    Error.captureStackTrace(this);
+    super(description)
+    Object.setPrototypeOf(this, new.target.prototype)
+    this.name = name
+    this.statusCode = statusCode
+    this.isOperational = isOperational
+    this.errorStack = errorStack
+    this.logError = logingErrorResponse
+    Error.captureStackTrace(this)
   }
 }
 
@@ -31,38 +31,38 @@ class APIError extends AppError {
   constructor(
     name,
     statusCode = STATUS_CODES.INTERNAL_ERROR,
-    description = "Internal Server Error",
+    description = 'Internal Server Error',
     isOperational = true
   ) {
-    super(name, statusCode, description, isOperational);
+    super(name, statusCode, description, isOperational)
   }
 }
 
 //400
 class BadRequestError extends AppError {
-  constructor(description = "Bad request", logingErrorResponse) {
+  constructor(description = 'Bad request', logingErrorResponse) {
     super(
-      "NOT FOUND",
+      'NOT FOUND',
       STATUS_CODES.BAD_REQUEST,
       description,
       true,
       false,
       logingErrorResponse
-    );
+    )
   }
 }
 
 //400
 class ValidationError extends AppError {
-  constructor(description = "Validation Error", errorStack) {
+  constructor(description = 'Validation Error', errorStack) {
     super(
-      "BAD REQUEST",
+      'BAD REQUEST',
       STATUS_CODES.BAD_REQUEST,
       description,
       true,
       errorStack
-    );
+    )
   }
 }
 
-export { AppError, APIError, BadRequestError, ValidationError, STATUS_CODES };
+export { AppError, APIError, BadRequestError, ValidationError, STATUS_CODES }
