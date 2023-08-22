@@ -1,5 +1,5 @@
-import dotEnv from "dotenv";
-dotEnv.config();
+import dotEnv from 'dotenv'
+dotEnv.config()
 
 // if (process.env.NODE_ENV !== "prod") {
 //   const configFile = `./.env.${process.env.NODE_ENV}`;
@@ -13,4 +13,5 @@ export const configs = {
   PORT: process.env.PORT,
   DB_URL: process.env.MONGODB_URI,
   APP_SECRET: process.env.APP_SECRET,
-};
+  SITE_DOMAIN: process.env.SITE_DOMAIN,
+}

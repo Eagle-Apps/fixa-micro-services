@@ -1,76 +1,101 @@
-import bcrypt from "bcryptjs";
-import crypto from "crypto";
-import {
-  APIError,
-  BadRequestError,
-  STATUS_CODES,
-} from "../utils/app-errors.js";
-import jwt from "jsonwebtoken";
-import { configs } from "../config/index.js";
+import bcrypt from 'bcryptjs'
+import crypto from 'crypto'
+import { APIError, BadRequestError, STATUS_CODES } from '../utils/app-errors.js'
+import jwt from 'jsonwebtoken'
+import { configs } from '../config/index.js'
 const {
   APP_SECRET,
   EXCHANGE_NAME,
   MSG_QUEUE_URL,
   FAULT_SERVICE,
   NOTIFICATION_SERVICE,
+  APP_PASSWORD,
+  USER_EMAIL,
+  SENDER,
   CLIENT_SERVICE,
-} = configs;
+} = configs
+import nodemailer from 'nodemailer'
 // import amqplib from "amqplib";
-import amqplib from "amqplib";
+import amqplib from 'amqplib'
 
 //Utility functions
 export const CreateVerificationString = async () => {
-  return crypto.randomBytes(20).toString("hex");
-};
+  return crypto.randomBytes(20).toString('hex')
+}
 
 export const GenerateSalt = async () => {
-  return await bcrypt.genSalt();
-};
+  return await bcrypt.genSalt()
+}
 
 export const HashPassword = async (password, salt) => {
-  return await bcrypt.hash(password, salt);
-};
+  return await bcrypt.hash(password, salt)
+}
 
 export const CheckPassword = async (password, confirmPassword) => {
   if (password === confirmPassword) {
-    return password === confirmPassword;
+    return password === confirmPassword
   }
-};
+}
 export const ValidatePassword = async (
   enteredPassword,
   savedPassword,
   salt
 ) => {
-  return await bcrypt.compare(enteredPassword, savedPassword);
-};
+  return await bcrypt.compare(enteredPassword, savedPassword)
+}
 
 export const GenerateSignature = async (payload) => {
-  return jwt.sign(payload, APP_SECRET, { expiresIn: "1d" });
-};
+  return jwt.sign(payload, APP_SECRET, { expiresIn: '1d' })
+}
 
 export const ValidateSignature = async (req) => {
-  const signature = req.get("Authorization");
+  const signature = req.get('Authorization')
 
   if (signature) {
-    const payload = await jwt.verify(signature.split(" ")[1], APP_SECRET);
-    req.user = payload;
-    return true;
+    const payload = await jwt.verify(signature.split(' ')[1], APP_SECRET)
+    req.user = payload
+    return true
   }
 
-  return false;
-};
+  return false
+}
+
+// nodemailer
+export const sendEmail = async (email, subject, text) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: USER_EMAIL,
+        pass: APP_PASSWORD,
+      },
+    })
+
+    const sentMailResponse = await transporter.sendMail({
+      from: SENDER,
+      to: email,
+      subject: subject,
+      text: text,
+    })
+    console.log('email sent sucessfully', sentMailResponse)
+    return
+  } catch (error) {
+    console.log('email not sent')
+    console.log(error)
+  }
+}
 
 export const FormatData = (data) => {
-  console.log("-----here_---", data);
+  console.log('-----here_---', data)
   if (data) {
-    return { data };
+    return { data }
   } else {
-    throw new Error("Data Not found!");
+    throw new Error('Data Not found!')
   }
-};
+}
 
 //Message Broker
-import amqp from 'amqplib';
+import amqp from 'amqplib'
 
 export const CreateChannel = async () => {
   try {
@@ -80,52 +105,52 @@ export const CreateChannel = async () => {
     // // await channel.assertQueue(EXCHANGE_NAME, "direct", { durable: false });
     // return channel;
 
-    const connection = await amqp.connect('amqp://localhost');
+    const connection = await amqp.connect('amqp://localhost')
 
     // Open a channel within the connection
-    const channel = await connection.createChannel();
-  
+    const channel = await connection.createChannel()
+
     // Declare an exchange
-    await channel.assertExchange('example_exchange', 'direct');
-  
+    await channel.assertExchange('example_exchange', 'direct')
+
     // Declare a queue
-    await channel.assertQueue('example_queue');
-  
+    await channel.assertQueue('example_queue')
+
     // Bind the queue to the exchange
-    await channel.bindQueue('example_queue', 'example_exchange', '');
-  
-    return channel;
-    console.log('hekk');
+    await channel.bindQueue('example_queue', 'example_exchange', '')
+
+    return channel
+    console.log('hekk')
   } catch (err) {
-    console.log('hekkk');
-    console.error(err);
-    throw err;
+    console.log('hekkk')
+    console.error(err)
+    throw err
   }
-};
+}
 
 export const PublishMessage = (channel, service, msg) => {
-  channel.publish(EXCHANGE_NAME, service, Buffer.from(msg));
-  console.log("Sent: ", msg);
-};
+  channel.publish(EXCHANGE_NAME, service, Buffer.from(msg))
+  console.log('Sent: ', msg)
+}
 
 export const SubscribeMessage = async (channel, service) => {
-  await channel.assertExchange(EXCHANGE_NAME, "direct", { durable: true });
-  const q = await channel.assertQueue("", { exclusive: true });
-  console.log(` Waiting for messages in queue: ${q.queue}`);
+  await channel.assertExchange(EXCHANGE_NAME, 'direct', { durable: true })
+  const q = await channel.assertQueue('', { exclusive: true })
+  console.log(` Waiting for messages in queue: ${q.queue}`)
 
-  channel.bindQueue(q.queue, EXCHANGE_NAME, CLIENT_SERVICE);
+  channel.bindQueue(q.queue, EXCHANGE_NAME, CLIENT_SERVICE)
 
   channel.consume(
     q.queue,
     (msg) => {
       if (msg.content) {
-        console.log("the message is:", msg.content.toString());
-        service.SubscribeEvents(msg.content.toString());
+        console.log('the message is:', msg.content.toString())
+        service.SubscribeEvents(msg.content.toString())
       }
-      console.log("[X] received");
+      console.log('[X] received')
     },
     {
       noAck: true,
     }
-  );
-};
+  )
+}
