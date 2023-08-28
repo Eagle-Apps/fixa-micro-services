@@ -1,4 +1,4 @@
-import { Servicem } from '../models/service.js'
+// import { Servicem } from '../models/service.js'
 import { Categories } from '../models/categories.js'
 
 import {
@@ -6,7 +6,6 @@ import {
   BadRequestError,
   STATUS_CODES,
 } from '../../utils/app-errors.js'
-import service from '../../../../technician/src/dba/models/service.js'
 
 class CategoriesRepository {
   // get all categories

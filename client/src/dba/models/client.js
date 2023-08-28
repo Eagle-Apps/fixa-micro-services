@@ -64,16 +64,16 @@ const clientSchema = mongoose.Schema(
       enum: ['Pending', 'Verified'],
       default: 'Pending',
     },
-    phoneStatus: {
-      type: String,
-      enum: ['Pending', 'Verified'],
-      default: 'Pending',
-    },
-    bvnVerification: {
-      type: String,
-      enum: ['Pending', 'Verified'],
-      default: 'Pending',
-    },
+    // phoneStatus: {
+    //   type: String,
+    //   enum: ['Pending', 'Verified'],
+    //   default: 'Pending',
+    // },
+    // bvnVerification: {
+    //   type: String,
+    //   enum: ['Pending', 'Verified'],
+    //   default: 'Pending',
+    // },
     location: {
       coordinates: [],
       type: { type: String },
