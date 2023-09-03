@@ -172,13 +172,13 @@ jobs:
           # Now we have got the access of EC2 and we will start the deploy .
 
           # Stop all running containers:
-          docker stop $(docker ps -q) || true
+          docker stop \$(docker ps -q) || true
 
           # Remove all containers (both stopped and running)
-          docker rm -f $(docker ps -aq) || true
+          docker rm -f \$(docker ps -aq) || true
           
           # Delete all Docker images
-          docker rmi -f $(docker images -q) || true
+          docker rmi -f \$(docker images -q) || true
           EOF
       - name: Pull Docker Images
         env:
