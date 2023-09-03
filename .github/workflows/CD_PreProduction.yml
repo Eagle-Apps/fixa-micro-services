@@ -160,29 +160,37 @@ jobs:
           docker push eagleapps/subscriptions:latest
           docker push eagleapps/unit:latest
           
-      - name: Docker Compose Down
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            cd fixa-micro-services
-            docker-compose down --remove-orphans
-            docker network prune -f
+      # - name: Remove Image
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.SSH_HOST }}
+      #     username: ${{ secrets.SSH_USERNAME }}
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     port: 22
+      #     script: |
+      #       docker-compose down --remove-orphans
+      #       docker network prune -f
       
-      - name: Code Deploy
+      - name: Pull Docker Images
         uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
-          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
-          ARGS: "-rltgoDzvO"
-          TARGET: fixa-micro-services/
-
-
-      - name: Docker Compose Up
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            docker pull eagleapps/client:latest
+            docker pull eagleapps/nginx-proxy:latest
+            docker pull eagleapps/utility:latest
+            docker pull eagleapps/technician:latest
+            docker pull eagleapps/fault:latest
+            docker pull eagleapps/notification:latest
+            docker pull eagleapps/services:latest
+            docker pull eagleapps/specials:latest
+            docker pull eagleapps/subscriptions:latest
+            docker pull eagleapps/unit:latest
+            
+      - name: Run Docker Services
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -190,8 +198,17 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            cd fixa-micro-services
-            docker-compose up -d --pull always
+            docker run eagleapps/client:latest
+            docker run eagleapps/nginx-proxy:latest
+            docker run eagleapps/utility:latest
+            docker run eagleapps/technician:latest
+            docker run eagleapps/fault:latest
+            docker run eagleapps/notification:latest
+            docker run eagleapps/services:latest
+            docker run eagleapps/specials:latest
+            docker run eagleapps/subscriptions:latest
+            docker run eagleapps/unit:latest
+            
 
 
 
