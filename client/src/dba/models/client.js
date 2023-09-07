@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import validator from 'validator'
+// import validator from 'validator'
 
 const clientSchema = mongoose.Schema(
   {
@@ -10,7 +10,6 @@ const clientSchema = mongoose.Schema(
       required: [true, 'Please provide your email'],
       unique: true,
       lowercase: true,
-      validate: [validator.isEmail],
     },
     password: {
       type: String,
