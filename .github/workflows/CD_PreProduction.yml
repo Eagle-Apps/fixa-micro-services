@@ -160,39 +160,68 @@ jobs:
           docker push eagleapps/subscriptions:latest
           docker push eagleapps/unit:latest
           
-      - name: Docker Compose Down
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            cd fixa-micro-services
-            docker-compose down --remove-orphans
-            docker network prune -f
-      
-      - name: Code Deploy
-        uses: easingthemes/ssh-deploy@main
+      - name: Remove Images And Container
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
-          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
-          ARGS: "-rltgoDzvO"
-          TARGET: fixa-micro-services/
+          DOCKERHUB_USERNAME: ${{secrets.DOCKERHUB_USERNAME}}
+          DOCKERHUB_TOKEN: ${{secrets.DOCKERHUB_TOKEN}}
+        run: |
+          echo "${{secrets.SSH_PRIVATE_KEY}}" > private_key && chmod 600 private_key
+          
+          ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}<<EOF
+          
+          # Now we have got the access of EC2 and we will start the deploy .
 
+          # Stop all running containers:
+          docker stop \$(docker ps -q) || true
 
-      - name: Docker Compose Up
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
-            cd fixa-micro-services
-            docker-compose up -d --pull always
-
-
-
-
+          # Remove all containers (both stopped and running)
+          docker rm -f \$(docker ps -aq) || true
+          
+          # Delete all Docker images
+          docker rmi -f \$(docker images -q) || true
+          EOF
+      - name: Pull Docker Images
+        env:
+          DOCKERHUB_USERNAME: ${{secrets.DOCKERHUB_USERNAME}}
+          DOCKERHUB_TOKEN: ${{secrets.DOCKERHUB_TOKEN}}
+        run: |
+          echo "${{secrets.SSH_PRIVATE_KEY}}" > private_key && chmod 600 private_key
+          
+          ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}<<EOF
+          
+          #Now we have got the access of EC2 and we will start the deploy .
+         
+          docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
+          docker pull eagleapps/client:latest
+          docker pull eagleapps/nginx-proxy:latest
+          docker pull eagleapps/utility:latest
+          docker pull eagleapps/technician:latest
+          docker pull eagleapps/fault:latest
+          docker pull eagleapps/notification:latest
+          docker pull eagleapps/services:latest
+          docker pull eagleapps/specials:latest
+          docker pull eagleapps/subscriptions:latest
+          docker pull eagleapps/unit:latest
+          EOF
+      - name: Run Docker Services
+        env:
+          DOCKERHUB_USERNAME: ${{secrets.DOCKERHUB_USERNAME}}
+          DOCKERHUB_TOKEN: ${{secrets.DOCKERHUB_TOKEN}}
+        run: |
+          echo "${{secrets.SSH_PRIVATE_KEY}}" > private_key && chmod 600 private_key
+          
+          ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}<<EOF
+          
+          #Now we have got the access of EC2 and we will start the deploy .
+          docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
+          docker run -d -p 8001:8001 eagleapps/client:latest
+          docker run -d -p 8081:8081 eagleapps/nginx-proxy:latest
+          docker run -d -p 8003:8003 eagleapps/utility:latest
+          docker run -d -p 4004:4004 eagleapps/technician:latest
+          docker run -d -p 8002:8002 eagleapps/fault:latest
+          docker run -d -p 8006:8006 eagleapps/notification:latest
+          docker run -d -p 6008:6008 eagleapps/services:latest
+          docker run -d -p 6009:6009 eagleapps/specials:latest
+          docker run -d -p 7001:7001 eagleapps/subscriptions:latest
+          docker run -d -p 9005:9005 eagleapps/unit:latest
+          EOF
