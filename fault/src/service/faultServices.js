@@ -172,27 +172,33 @@ async FetchTechnicianServices(id) {
       );
     }
   }
-  async DeclineTask({ id, TechnicianId }) {
+  async DeclineTask(id, technicianId) {
+    try {
+     const currentRequest = await this.repository.FindRequest(id);
+     console.log(currentRequest, id);
+     const billingId = currentRequest.billing;
+     const status = "Pending";
+     const technicianId="";
+
+     await this.UpdateRequest(id, technicianId, billingId, status);
+   } catch (err) {
+      throw new APIError(
+        err.name ? err.name : "Data Not found",
+        err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
+        err.message
+      );
+    }
+  }
+
+  async AcceptTask( id, technicianId ) {
     try {
       const currentRequest = await this.repository.FindRequest(id);
-      this.FetchTechnician(currentRequest);
-    } catch (err) {
-      throw new APIError(
-        err.name ? err.name : "Data Not found",
-        err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
-        err.message
-      );
-    }
-  }
-
-  async AcceptTask({ id, technicianId }) {
-    try {
-      let currentRequest = await this.repository.FindRequest(id);
-
+console.log(currentRequest, id)
      const billingId = currentRequest.billing;
      const status = "Active";
+     
 
-      this.UpdateRequest(id, technicianId, billingId, status);
+      await this.UpdateRequest(id, technicianId, billingId, status);
     } catch (err) {
       throw new APIError(
         err.name ? err.name : "Data Not found",
@@ -201,10 +207,10 @@ async FetchTechnicianServices(id) {
       );
     }
   }
-  async AssignTaskByAdmin({ requestId, TechnicianId, billingId }) {
-    const status = "Active";
+  async AssignTaskByAdmin( requestId, TechnicianId, billingId) {
+    const status = "Assigned";
     try {
-     const request= this.UpdateRequest(requestId, TechnicianId, billingId, status)
+     const request= this.repository.UpdateRequest(requestId, TechnicianId, billingId, status)
      return request;
     } catch (err) {
       throw new APIError(

@@ -43,7 +43,9 @@ class FaultServiceRepository {
     };
     try {
       const request = await requestModel.findOneAndUpdate(query, update, {
+        rawResult:true,
         new: true,
+        upsert: true
       });
 
       return request;
@@ -62,7 +64,7 @@ class FaultServiceRepository {
 
   async FindRequest(id) {
     try {
-      const request = await requestModel.findOne({ _id: id });
+      const request = await requestModel.find({_id:id});
       return request;
     } catch (err) {
       throw new APIError("API Error", STATUS_CODES.INTERNAL_ERROR, err.message);
@@ -81,7 +83,7 @@ class FaultServiceRepository {
 
   async FindTechnicianRequest(id) {
     try {
-      const request = await requestModel.findOne({ technician: id });
+      const request = await requestModel.find({ technician: id });
       console.log(request, id);
       return request;
     } catch (err) {

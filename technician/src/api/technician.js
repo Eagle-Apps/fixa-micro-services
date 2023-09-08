@@ -345,6 +345,25 @@ export const technician = (app, channel) => {
     }
   });
 
+
+  app.put("/addservice", async (req, res, next) => {
+    try {
+      const { jobtype,jobcategory,pricerangestart,pricerangeend,image, id} = req.body;
+      const { data } = await service.updateservice({
+        jobtype,
+        jobcategory,
+        pricerangestart,
+        pricerangeend,
+        image,
+        id,
+      });
+
+      return res.json(data);
+    } catch (err) {
+      next(err);
+    }
+  });
+
   app.post("/request-service", async (req, res, next) => {
     const { description, schedule, serviceCategory } = req.body;
 

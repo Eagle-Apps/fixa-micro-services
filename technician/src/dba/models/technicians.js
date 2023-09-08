@@ -29,16 +29,19 @@ const techniciansSchema = new mongoose.Schema(
     },
     organisationName: { type: String },
     numberOfStaffs: { type: String },
-
     techniciantype: { type: String },
     credentialtype: { type: String },
     credentialfile: { type: String },
 
     services: {
       type: String,
+      image: { type: String },
       jobtype: { type: String },
       jobcategory: { type: String },
-      pricerange: { type: String },
+      pricerange: { type: String,
+        start:{type: String},
+        end:{type: String}
+       },
     },
 
     rating: {

@@ -74,11 +74,11 @@ export const fault = (app, channel) => {
     const { requestId, technicianId, billingId } = req.body
 
     try {
-      const data = await service.AssignTaskByAdmin({
+      const data = await service.AssignTaskByAdmin(
         requestId,
         technicianId,
         billingId,
-      })
+      )
 
       return res.json(data)
     } catch (err) {
@@ -87,13 +87,13 @@ export const fault = (app, channel) => {
   })
 
   app.post('/declinetask', async (req, res, next) => {
-    const { requestId, TechnicianId } = req.body
+    const { requestId, technicianId } = req.body;
 
     try {
-      const { data } = await service.DeclineTask({
+      const data = await service.DeclineTask(
         requestId,
-        TechnicianId,
-      })
+        technicianId
+      );
 
       return res.json(data)
     } catch (err) {
@@ -101,13 +101,13 @@ export const fault = (app, channel) => {
     }
   })
   app.post("/accepttask", async (req, res, next) => {
-    const { requestId, TechnicianId } = req.body;
+    const { requestId, technicianId } = req.body;
 
     try {
-      const { data } = await service.AcceptTask({
+      const data  = await service.AcceptTask(
         requestId,
-        TechnicianId,
-      });
+        technicianId,
+      );
 
       return res.json(data)
     } catch (err) {
