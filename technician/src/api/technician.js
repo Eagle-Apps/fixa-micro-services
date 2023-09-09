@@ -192,25 +192,31 @@ export const technician = (app, channel) => {
   app.post("/editprofile", async (req, res, next) => {
     try {
       const {
-        firstName,
-        lastName,
-        email,
-        phone,
-        address,
-        city,
-        state,
-        zipCode,
+        userId,
+      name,
+      email,
+      phone,
+      address,
+      city,
+      state,
+      zipCode,
+      bankname,
+      accountname,
+      accountnumber,
       } = req.body;
 
       const { data } = await service.UpdateClientProfile({
-        firstName,
-        lastName,
-        email,
-        phone,
-        address,
-        city,
-        state,
-        zipCode,
+        userId,
+      name,
+      email,
+      phone,
+      address,
+      city,
+      state,
+      zipCode,
+      bankname,
+      accountname,
+      accountnumber,
       });
       return res.json(data);
     } catch (err) {

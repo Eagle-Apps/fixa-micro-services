@@ -282,27 +282,32 @@ class TechnicianService {
 
   async UpdateClientProfile(userInputs) {
     const {
-      firstName,
-      lastName,
+      userId,
+      name,
       email,
       phone,
       address,
       city,
       state,
       zipCode,
-      userId,
+      bankname,
+      accountname,
+      accountnumber,
     } = userInputs;
 
     try {
       const updatedProfile = await this.repository.UpdateClientProfile({
-        name: `${lastName} ${firstName}`,
-        email,
-        phone,
-        address,
-        city,
-        state,
-        zipCode,
-        userId,
+       userId,
+      name,
+      email,
+      phone,
+      address,
+      city,
+      state,
+      zipCode,
+      bankname,
+      accountname,
+      accountnumber,
       });
 
       return FormatData({ updatedProfile, message: "update successful" });

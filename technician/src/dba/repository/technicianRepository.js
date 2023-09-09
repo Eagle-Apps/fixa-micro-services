@@ -312,26 +312,32 @@ class TechnicianRepository {
 
   async UpdateClientProfile({
     userId,
-    name,
-    email,
-    phone,
-    address,
-    city,
-    state,
-    zipCode,
-    salt,
+      name,
+      email,
+      phone,
+      address,
+      city,
+      state,
+      zipCode,
+      bankname,
+      accountname,
+      accountnumber,
   }) {
     try {
       const filter = { _id: userId };
       const update = {
-        name,
-        email,
-        phone,
-        address,
-        city,
-        state,
-        zipCode,
-        salt,
+      userId,
+      name,
+      email,
+      phone,
+      address,
+      city,
+      state,
+      zipCode,
+      wallet:{
+      bankname,
+      accountname,
+      accountnumber},
       };
       const profile = technicians.findByIdAndUpdate(filter, update, {
         new: true,
