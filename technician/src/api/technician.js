@@ -153,7 +153,7 @@ export const technician = (app, channel) => {
         status,
       } = req.body;
 
-      const {data} = await service.SignUp({
+      const { data } = await service.SignUp({
         name,
         email,
         password,
@@ -182,8 +182,7 @@ export const technician = (app, channel) => {
       //   JSON.stringify(payload)
       // );
 
-      return res.json({"message" : "sucessfully signed up", data } );
-
+      return res.json({ message: "sucessfully signed up", data });
     } catch (err) {
       next(err);
     }
@@ -193,30 +192,30 @@ export const technician = (app, channel) => {
     try {
       const {
         userId,
-      name,
-      email,
-      phone,
-      address,
-      city,
-      state,
-      zipCode,
-      bankname,
-      accountname,
-      accountnumber,
+        name,
+        email,
+        phone,
+        address,
+        city,
+        state,
+        zipCode,
+        bankname,
+        accountname,
+        accountnumber,
       } = req.body;
 
       const { data } = await service.UpdateClientProfile({
         userId,
-      name,
-      email,
-      phone,
-      address,
-      city,
-      state,
-      zipCode,
-      bankname,
-      accountname,
-      accountnumber,
+        name,
+        email,
+        phone,
+        address,
+        city,
+        state,
+        zipCode,
+        bankname,
+        accountname,
+        accountnumber,
       });
       return res.json(data);
     } catch (err) {
@@ -317,7 +316,7 @@ export const technician = (app, channel) => {
 
   app.get("/fetchclients", async (req, res, next) => {
     try {
-      const {data} = await service.GetAllClients();
+      const { data } = await service.GetAllClients();
       return res.json(data);
     } catch (err) {
       next(err);
@@ -351,10 +350,16 @@ export const technician = (app, channel) => {
     }
   });
 
-
   app.put("/addservice", async (req, res, next) => {
     try {
-      const { jobtype,jobcategory,pricerangestart,pricerangeend,image, id} = req.body;
+      const {
+        jobtype,
+        jobcategory,
+        pricerangestart,
+        pricerangeend,
+        image,
+        id,
+      } = req.body;
       const { data } = await service.updateservice({
         jobtype,
         jobcategory,
@@ -416,7 +421,7 @@ export const technician = (app, channel) => {
   app.get("/technicians", async (req, res, next) => {
     try {
       const data = await service.Gettechnicians();
-      console.log('data', data)
+      console.log("data", data);
       return res.status(200).json(data);
     } catch (err) {
       next(err);
@@ -507,9 +512,21 @@ export const technician = (app, channel) => {
   //training
 
   //displaying of fetching
+  app.get("/trainingbyid", async (req, res, next) => {
+    try {
+      const { id } = req.body;
+      const data = service.Gettrainingbyid({ technicianid: id });
+      return res.status(201).json(data);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  //displaying of fetching
   app.get("/training", async (req, res, next) => {
     try {
-      const { data } = service.Gettraining();
+    
+      const data = service.Gettraining();
       return res.status(201).json(data);
     } catch (err) {
       next(err);

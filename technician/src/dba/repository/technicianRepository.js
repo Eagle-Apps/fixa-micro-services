@@ -312,32 +312,33 @@ class TechnicianRepository {
 
   async UpdateClientProfile({
     userId,
-      name,
-      email,
-      phone,
-      address,
-      city,
-      state,
-      zipCode,
-      bankname,
-      accountname,
-      accountnumber,
+    name,
+    email,
+    phone,
+    address,
+    city,
+    state,
+    zipCode,
+    bankname,
+    accountname,
+    accountnumber,
   }) {
     try {
       const filter = { _id: userId };
       const update = {
-      userId,
-      name,
-      email,
-      phone,
-      address,
-      city,
-      state,
-      zipCode,
-      wallet:{
-      bankname,
-      accountname,
-      accountnumber},
+        userId,
+        name,
+        email,
+        phone,
+        address,
+        city,
+        state,
+        zipCode,
+        wallet: {
+          bankname,
+          accountname,
+          accountnumber,
+        },
       };
       const profile = technicians.findByIdAndUpdate(filter, update, {
         new: true,
@@ -578,11 +579,28 @@ class TechnicianRepository {
     }
   }
 
+  // display by id
+  async Gettrainingbyid(data) {
+    try {
+      await training.find(data, (err, products) => {
+        if (err) {
+          return res.send(err);
+        }
+        return res.json(products);
+      });
+    } catch (err) {
+      throw new APIError(
+        "API Error",
+        STATUS_CODES.INTERNAL_ERROR,
+        `Unable to Update product ${err.message}`
+      );
+    }
+  }
   //to display
 
-  async Gettraining({ data }) {
+  async Gettraining() {
     try {
-      training.find({ data }, (err, products) => {
+      const training = await training.find((err, products) => {
         if (err) {
           return res.send(err);
         }

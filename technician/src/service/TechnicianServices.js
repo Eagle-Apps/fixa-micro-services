@@ -297,17 +297,17 @@ class TechnicianService {
 
     try {
       const updatedProfile = await this.repository.UpdateClientProfile({
-       userId,
-      name,
-      email,
-      phone,
-      address,
-      city,
-      state,
-      zipCode,
-      bankname,
-      accountname,
-      accountnumber,
+        userId,
+        name,
+        email,
+        phone,
+        address,
+        city,
+        state,
+        zipCode,
+        bankname,
+        accountname,
+        accountnumber,
       });
 
       return FormatData({ updatedProfile, message: "update successful" });
@@ -573,12 +573,21 @@ class TechnicianService {
       });
     } catch (err) {}
   }
-  async Gettraining() {
+
+  async Gettrainingbyid(data) {
     try {
-      const Gettraining = await this.repository.Gettraining();
+      const Get = await this.repository.Gettrainingbyid(data);
+    
     } catch (err) {}
   }
 
+
+  async Gettraining(data) {
+    try {
+      const Get = await this.repository.Gettraining(data);
+     
+    } catch (err) {}
+  }
   // paymenthistory
 
   async addpaymenthistory(userInputs) {
