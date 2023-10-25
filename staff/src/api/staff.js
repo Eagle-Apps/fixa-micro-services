@@ -12,10 +12,30 @@ export const staff = (app) => {
     }
   })
 
-  app.post('/createStaff', IsAuthenticated, async (req, res, next) => {
-    let admin = req.user.role
-    if (admin === '001') {
-      const {
+  // app.post('/createStaff', IsAuthenticated, async (req, res, next) => {
+  //   let admin = req.user.role
+
+  app.post('/createStaff', async (req, res, next) => {
+    // if (admin === '001') {
+    const {
+      firstname,
+      lastname,
+      email,
+      password,
+      address,
+      state,
+      dob,
+      gender,
+      position,
+      employmentdate,
+      profilepic,
+      phonenumber,
+      dpartment,
+      roles,
+    } = req.body
+
+    try {
+      const { data } = await service.CreateStaff({
         firstname,
         lastname,
         email,
@@ -30,35 +50,17 @@ export const staff = (app) => {
         phonenumber,
         dpartment,
         roles,
-      } = req.body
+      })
 
-      try {
-        const { data } = await service.CreateStaff({
-          firstname,
-          lastname,
-          email,
-          password,
-          address,
-          state,
-          dob,
-          gender,
-          position,
-          employmentdate,
-          profilepic,
-          phonenumber,
-          dpartment,
-          roles,
-        })
-
-        // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
-        // PublishClientEvent(payload);
-        return res.json({ message: 'created', data })
-      } catch (err) {
-        next(err)
-      }
-    } else {
-      res.status(401).send({ message: 'You dont have the right Access' })
+      // const payload = await service.CreatePayload("NEW_UNIT", data, clientId);
+      // PublishClientEvent(payload);
+      return res.json({ message: 'created', data })
+    } catch (err) {
+      next(err)
     }
+    // } else {
+    //   res.status(401).send({ message: 'You dont have the right Access' })
+    // }
   })
 
   app.post('/login', async (req, res, next) => {
