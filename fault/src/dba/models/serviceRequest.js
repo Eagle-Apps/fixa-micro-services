@@ -29,7 +29,7 @@ const requestSchema = mongoose.Schema(
     billing: { type: String },
     status: {
       type: String,
-      enum: ["Pending", "Active", "Cancelled", "Completed"],
+      enum: ["Pending", "Assigned", "Active", "Cancelled", "Completed"],
       default: "Pending",
     },
   },

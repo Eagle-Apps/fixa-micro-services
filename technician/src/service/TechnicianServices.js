@@ -61,7 +61,7 @@ class TechnicianService {
         serviceimage,
         technicianid,
       });
-      res.json(msg)
+      res.json(msg);
     } catch (err) {}
   }
 
@@ -124,21 +124,25 @@ class TechnicianService {
     } catch (err) {}
   }
 
-  async SignUp({ name,
-    email,
-    password,
-    confirmPassword,
-    phone,
-    address,
-    city,
-    state,
-    zipCode,
-    technicianid,
-    technciantype,
-    credentialtype,
-    credentialfile,
-    status,
-  },res) {
+  async SignUp(
+    {
+      name,
+      email,
+      password,
+      confirmPassword,
+      phone,
+      address,
+      city,
+      state,
+      zipCode,
+      technicianid,
+      technciantype,
+      credentialtype,
+      credentialfile,
+      status,
+    },
+    res
+  ) {
     try {
       //check if user is already registered
       const existingClient = await this.repository.FindExistingClient(
@@ -155,7 +159,8 @@ class TechnicianService {
           let hashedPassword = await HashPassword(password, salt);
           let verificationString = await CreateVerificationString();
 
-          const createdClient = await this.repository.CreateClient({name,
+          const createdClient = await this.repository.CreateClient({
+            name,
             email,
             password: hashedPassword,
             phone,
@@ -179,14 +184,12 @@ class TechnicianService {
 
           const link = `${SITE_DOMAIN}/verifyemail/?token=${createdClient.verificationString}`;
 
-         
-          return  FormatData({
+          return FormatData({
             id: createdClient._id,
             email: createdClient.email,
             token,
             link,
           });
-;
         } else {
           throw new BadRequestError("passwords does not match", true);
         }
@@ -201,11 +204,6 @@ class TechnicianService {
       );
     }
   }
-
-
-
-
-
 
   async SendEmailVerifcation({ id }) {
     try {
@@ -244,14 +242,6 @@ class TechnicianService {
       );
     }
   }
-
-
-
-
-
-
-
-
 
   async SignIn(userInputs) {
     const { email, password } = userInputs;
@@ -292,27 +282,32 @@ class TechnicianService {
 
   async UpdateClientProfile(userInputs) {
     const {
-      firstName,
-      lastName,
+      userId,
+      name,
       email,
       phone,
       address,
       city,
       state,
       zipCode,
-      userId,
+      bankname,
+      accountname,
+      accountnumber,
     } = userInputs;
 
     try {
       const updatedProfile = await this.repository.UpdateClientProfile({
-        name: `${lastName} ${firstName}`,
+        userId,
+        name,
         email,
         phone,
         address,
         city,
         state,
         zipCode,
-        userId,
+        bankname,
+        accountname,
+        accountnumber,
       });
 
       return FormatData({ updatedProfile, message: "update successful" });
@@ -465,7 +460,7 @@ class TechnicianService {
     }
   }
 
-  async addtechnicians({userInputs}) {
+  async addtechnicians({ userInputs }) {
     const {
       name,
       phone,
@@ -481,7 +476,7 @@ class TechnicianService {
       credentialtype,
       credentialfile,
       status,
-    } = {userInputs};
+    } = { userInputs };
     try {
       const addtechnicians = await this.repository.addtechnicians({
         name,
@@ -578,12 +573,21 @@ class TechnicianService {
       });
     } catch (err) {}
   }
-  async Gettraining() {
+
+  async Gettrainingbyid(data) {
     try {
-      const Gettraining = await this.repository.Gettraining();
+      const Get = await this.repository.Gettrainingbyid(data);
+    
     } catch (err) {}
   }
 
+
+  async Gettraining(data) {
+    try {
+      const Get = await this.repository.Gettraining(data);
+     
+    } catch (err) {}
+  }
   // paymenthistory
 
   async addpaymenthistory(userInputs) {

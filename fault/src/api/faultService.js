@@ -60,15 +60,25 @@ export const fault = (app, channel) => {
     }
   })
 
+ app.get("/fetchtechnicianservices/:id", async (req, res, next) => {
+   const id = req.params.id;
+   try {
+     const data = await service.FetchTechnicianServices(id);
+     return res.json(data);
+   } catch (err) {
+     next(err);
+   }
+ });
+  
   app.post('/assigntask', async (req, res, next) => {
     const { requestId, technicianId, billingId } = req.body
 
     try {
-      const data = await service.AssignTaskByAdmin({
+      const data = await service.AssignTaskByAdmin(
         requestId,
         technicianId,
         billingId,
-      })
+      )
 
       return res.json(data)
     } catch (err) {
@@ -77,30 +87,35 @@ export const fault = (app, channel) => {
   })
 
   app.post('/declinetask', async (req, res, next) => {
-    const { requestId, TechnicianId } = req.body
+    const { requestId, technicianId } = req.body;
 
     try {
-      const { data } = await service.DeclineTask({
+      const data = await service.DeclineTask(
         requestId,
-        TechnicianId,
-      })
+        technicianId
+      );
 
       return res.json(data)
     } catch (err) {
       next(err)
     }
   })
-  // app.post("/accepttask", async (req, res, next) => {
-  //   const { requestId, TechnicianId } = req.body;
+  app.post("/accepttask", async (req, res, next) => {
+    const { requestId, technicianId } = req.body;
 
-  //   try {
-  //     const { data } = await service.AcceptTask({
-  //       requestId,
-  //       TechnicianId,
-  //     });
+    try {
+      const data  = await service.AcceptTask(
+        requestId,
+        technicianId,
+      );
 
-  //     return res.json(data);
-  //   }
+      return res.json(data)
+    } catch (err) {
+      next(err)
+    }
+  })
+
+
 
   // app.post("/", async (req, res, next) => {
   //   const { description, schedule, serviceCategory } = req.body;

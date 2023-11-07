@@ -31,7 +31,7 @@ class FaultService {
       );
     }
   }
-
+//single request
   async FetchSingleRequest(id) {
     try {
       const request = await this.repository.FindRequest(id);
@@ -47,9 +47,25 @@ class FaultService {
       );
     }
   }
+  //fetch all request with client id 
  async FetchUserServices(id) {
   try {
     const request = await this.repository.FindUserRequest(id);
+
+    return FormatData({
+      request,
+    });
+  } catch (err) {
+    throw new APIError(
+      err.name ? err.name : "Data Not found",
+      err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
+      err.message
+    );
+  }
+}
+async FetchTechnicianServices(id) {
+  try {
+    const request = await this.repository.FindTechnicianRequest(id);
 
     return FormatData({
       request,
@@ -156,10 +172,33 @@ class FaultService {
       );
     }
   }
-  async DeclineTask({ id, TechnicianId }) {
+  async DeclineTask(id, technicianId) {
+    try {
+     const currentRequest = await this.repository.FindRequest(id);
+     console.log(currentRequest, id);
+     const billingId = currentRequest.billing;
+     const status = "Pending";
+     const technicianId="";
+
+     await this.UpdateRequest(id, technicianId, billingId, status);
+   } catch (err) {
+      throw new APIError(
+        err.name ? err.name : "Data Not found",
+        err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
+        err.message
+      );
+    }
+  }
+
+  async AcceptTask( id, technicianId ) {
     try {
       const currentRequest = await this.repository.FindRequest(id);
-      this.FetchTechnician(currentRequest);
+console.log(currentRequest, id)
+     const billingId = currentRequest.billing;
+     const status = "Active";
+     
+
+      await this.UpdateRequest(id, technicianId, billingId, status);
     } catch (err) {
       throw new APIError(
         err.name ? err.name : "Data Not found",
@@ -168,25 +207,10 @@ class FaultService {
       );
     }
   }
-
-  async AcceptTask({ id, technicianId }) {
+  async AssignTaskByAdmin( requestId, TechnicianId, billingId) {
+    const status = "Assigned";
     try {
-      let currentRequest = await this.repository.FindRequest(id);
-
-      currentRequest.technicianId = technicianId;
-
-      this.UpdateRequest(currentRequest, "Active");
-    } catch (err) {
-      throw new APIError(
-        err.name ? err.name : "Data Not found",
-        err.statusCode ? err.statusCode : STATUS_CODES.INTERNAL_ERROR,
-        err.message
-      );
-    }
-  }
-  async AssignTaskByAdmin({ requestId, TechnicianId, billingId }) {
-    try {
-     const request= this.UpdateRequest(requestId, TechnicianId, billingId)
+     const request= this.repository.UpdateRequest(requestId, TechnicianId, billingId, status)
      return request;
     } catch (err) {
       throw new APIError(
@@ -197,10 +221,10 @@ class FaultService {
     }
   }
 
-  async UpdateRequest(requestId, technicianId, billingId) {
+  async UpdateRequest(requestId, technicianId, billingId, status) {
     try {
       const request = await this.repository.UpdateRequest(
-        requestId, technicianId, billingId
+        requestId, technicianId, billingId, status
         );
 
         return request;
