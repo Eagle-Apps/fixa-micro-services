@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { client } from "./src/api/client.js";
+import { recycling } from "./src/api/recycling.js";
 import { appEvents } from "./src/api/app-events.js";
 import HandleErrors from "./src/utils/error-handler.js";
 
@@ -13,7 +13,7 @@ export const expressApp = async (app) => {
   appEvents(app);
 
   //api
-  client(app);
+  recycling(app);
 
   // error handling
   app.use(HandleErrors);

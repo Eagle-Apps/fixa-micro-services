@@ -8,7 +8,7 @@ import {
 } from "../utils/app-errors.js";
 
 // All Business logic will be here
-class RecylingService {
+class RecyclingService{
   constructor() {
     this.repository = new RecyclingServiceRepository();
   }
@@ -27,4 +27,4 @@ class RecylingService {
   }
 }
 
-export default NotificationService;
+export default RecyclingService;

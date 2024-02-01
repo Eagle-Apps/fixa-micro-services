@@ -1,7 +1,8 @@
-import NotificationServices from "../service/notificationServices.js";
+// import NotificationServices from "../service/notificationServices.js";
+import RecyclingService from "../service/recyclingService.js";
 
 export const appEvents = (app) => {
-  const service = new FaultServices();
+  const service = new RecyclingService();
 
   app.use("/app-events", async (req, res, next) => {
     const { payload } = req.body;
